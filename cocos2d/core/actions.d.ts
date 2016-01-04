@@ -3603,6 +3603,7 @@ declare namespace cc {
          * @return {Boolean}
          */
         public initWithDuration(duration:number, deltaAngleX:number, deltaAngleY:number):boolean;
+        public initWithDuration(duration:number):boolean;
 
         /**
          * returns a new clone of the action
@@ -3660,6 +3661,7 @@ declare namespace cc {
          * @return {Boolean}
          */
         public initWithDuration(duration:number, deltaAngleX:number, deltaAngleY:number):boolean;
+        public initWithDuration(duration:number):boolean;
 
         /**
          * returns a new clone of the action
@@ -3721,6 +3723,7 @@ declare namespace cc {
          * @return {Boolean}
          */
         public initWithDuration(duration:number, position:number|cc.Point, y?:number):boolean;
+        public initWithDuration(duration:number):boolean;
 
         /**
          * returns a new clone of the action
@@ -3779,6 +3782,7 @@ declare namespace cc {
          * @return {Boolean}
          */
         public initWithDuration(duration:number, position:number|cc.Point, y:number):boolean;
+        public initWithDuration(duration:number):boolean;
 
         /**
          * returns a new clone of the action
@@ -3829,6 +3833,7 @@ declare namespace cc {
          * @return {Boolean}
          */
         public initWithDuration(t:number, sx:number, sy:number):boolean;
+        public initWithDuration(duration:number):boolean;
 
         /**
          * returns a new clone of the action
@@ -3880,6 +3885,7 @@ declare namespace cc {
          * @return {Boolean}
          */
         public initWithDuration(t:number, sx:number, sy:number):boolean;
+        public initWithDuration(duration:number):boolean;
 
         /**
          * returns a new clone of the action
@@ -3951,6 +3957,7 @@ declare namespace cc {
                                 y?:number,
                                 height?:number,
                                 jumps?:number):boolean;
+        public initWithDuration(duration:number):boolean;
 
         /**
          * returns a new clone of the action
@@ -4026,6 +4033,7 @@ declare namespace cc {
                                 y?:number,
                                 height?:number,
                                 jumps?:number):boolean;
+        public initWithDuration(duration:number):boolean;
 
         /**
          * returns a new clone of the action
@@ -4088,6 +4096,7 @@ declare namespace cc {
          * @return {Boolean}
          */
         public initWithDuration(duration:number, c:cc.Point[]):boolean;
+        public initWithDuration(duration:number):boolean;
 
         /**
          * returns a new clone of the action
@@ -4142,6 +4151,7 @@ declare namespace cc {
          * @return {Boolean}
          */
         public initWithDuration(duration:number, c:cc.Point[]):boolean;
+        public initWithDuration(duration:number):boolean;
 
         /**
          * returns a new clone of the action
@@ -4195,6 +4205,7 @@ declare namespace cc {
          * @return {Boolean}
          */
         public initWithDuration(duration:number, sx:number, sy?:number):boolean;
+        public initWithDuration(duration:number):boolean;
 
         /**
          * returns a new clone of the action
@@ -4280,6 +4291,7 @@ declare namespace cc {
          * @return {Boolean}
          */
         public initWithDuration(duration:number, blinks:number):boolean;
+        public initWithDuration(duration:number):boolean;
 
         /**
          * returns a new clone of the action
@@ -4331,6 +4343,7 @@ declare namespace cc {
          * @return {Boolean}
          */
         public initWithDuration(duration:number, opacity:number):boolean;
+        public initWithDuration(duration:number):boolean;
 
         /**
          * returns a new clone of the action
@@ -4458,6 +4471,7 @@ declare namespace cc {
          * @return {Boolean}
          */
         public initWithDuration(duration:number, red:number, green:number, blue:number):boolean;
+        public initWithDuration(duration:number):boolean;
 
         /**
          * returns a new clone of the action
@@ -4511,6 +4525,7 @@ declare namespace cc {
          * @return {Boolean}
          */
         public initWithDuration(duration:number, deltaRed:number, deltaGreen:number, deltaBlue:number):boolean;
+        public initWithDuration(duration:number):boolean;
 
         /**
          * returns a new clone of the action
@@ -4799,12 +4814,13 @@ declare namespace cc {
          * @return {Boolean}
          */
         public initWithDuration(duration:number, key:string, from:number, to:number):boolean;
+        public initWithDuration(duration:number):boolean;
 
         /**
          * Start this tween with target.
          * @param {cc.ActionTweenDelegate} target
          */
-        public startWithTarget(target:ActionTweenDelegate):void;
+        public startWithTarget(target:ActionTweenDelegate|Node):void;
 
         /**
          * returns a reversed action.

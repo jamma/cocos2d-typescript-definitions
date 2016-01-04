@@ -98,7 +98,7 @@ declare namespace cc {
          * return the text of this label
          * @return {String}
          */
-        public getString():String;
+        public getString():string;
 
         /**
          * set the display string

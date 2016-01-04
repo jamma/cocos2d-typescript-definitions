@@ -49,8 +49,6 @@ declare namespace cc {
     /* Managed JavaScript Inheritance
      * Based on John Resig's Simple JavaScript Inheritance http://ejohn.org/blog/simple-javascript-inheritance/
      * MIT Licensed.
-     *
-     * Personal Note: I fucking hate this hack. Please please please let cocos2d-js be re-written in TypeScript :) /rant
      */
     export class Class {
         public ctor():void;
