@@ -1067,7 +1067,7 @@ declare module cc {
          * @param {Number} delay  The amount of time that the first tick will wait before execution.
          * @param {String} key The only string identifying the callback
          */
-        public scheduleOnce(callback:(arg?:any) => void, delay:number, key:string):void;
+        public scheduleOnce(callback:(arg?:any) => void, delay:number, key?:string):void;
 
         /**
          * schedules the "update" method.

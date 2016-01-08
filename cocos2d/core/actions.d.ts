@@ -3803,7 +3803,7 @@ declare namespace cc {
      * // example
      * var actionBy = cc.moveTo(2, cc.p(80, 80));
      */
-    export function moveTo(duration:number, position:number|cc.Point, y:number):MoveTo;
+    export function moveTo(duration:number, position:number|cc.Point, y?:number):MoveTo;
 
     /**
      * Skews a cc.Node object to given angles by modifying it's skewX and skewY attributes
