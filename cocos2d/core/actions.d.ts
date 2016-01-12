@@ -4229,7 +4229,7 @@ declare namespace cc {
      * // It scales to 0.5 in x and 2 in Y
      * var actionTo = cc.scaleTo(2, 0.5, 2);
      */
-    export function scaleTo(duration:number, sx:number, sy?:number):ScaleTo;
+    export function scaleTo(duration:number, sx:Point|number, sy?:number):ScaleTo;
 
     /** Scales a cc.Node object a zoom factor by modifying it's scale attribute.
      * Relative to its changes.
@@ -4265,7 +4265,7 @@ declare namespace cc {
      * //example with sy, it scales by 0.25 in X and 4.5 in Y
      * var actionBy2 = cc.scaleBy(2, 0.25, 4.5);
      */
-    export function scaleBy(duration:number, sx:number, sy?:number):ScaleBy;
+    export function scaleBy(duration:number, sx:Point|number, sy?:number):ScaleBy;
 
     /** Blinks a cc.Node object by modifying it's visible attribute
      * @class
