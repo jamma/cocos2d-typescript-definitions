@@ -1,6 +1,3 @@
-// Company: Zanzo Studios - http://zanzostudios.com
-// Author: Michael McClenney at 15:37 on 15/12/2015.
-
 /// <reference path="cocos2d-lib.d.ts" />
 
 

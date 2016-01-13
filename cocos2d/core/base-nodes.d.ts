@@ -1,7 +1,3 @@
-/**
- * Created by mmcclenney on 11/7/15.
- */
-
 /// <reference path="../cocos2d-lib.d.ts" />
 
 declare module cc {

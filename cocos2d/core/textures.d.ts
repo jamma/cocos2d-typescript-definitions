@@ -1,6 +1,3 @@
-// Company: Zanzo Studios - http://zanzostudios.com
-// Author: Michael McClenney at 03:26 on 06/12/2015.
-
 /// <reference path="../cocos2d-lib.d.ts" />
 
 // TODO: Figure out what's going on here. In lib.d.ts, this declaration exists:

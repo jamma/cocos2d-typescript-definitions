@@ -1,7 +1,3 @@
-// Company: Zanzo Studios - http://zanzostudios.com
-// Author: Michael McClenney at 02:08 on 18/12/2015.
-
-
 /// <reference path="core/actions.d.ts" />
 /// <reference path="core/base-nodes.d.ts" />
 /// <reference path="core/boot.d.ts" />

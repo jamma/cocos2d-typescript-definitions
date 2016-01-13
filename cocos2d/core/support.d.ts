@@ -1,7 +1,3 @@
-// Company: Zanzo Studios - http://zanzostudios.com
-// Author: Michael McClenney at 12:56 on 02/12/2015.
-
-
 /// <reference path="../cocos2d-lib.d.ts" />
 
 // +--------------------  CCPointExtension.js  --------------------+

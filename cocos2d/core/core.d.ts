@@ -1,7 +1,3 @@
-// Company: Zanzo Studios - http://zanzostudios.com
-// Author: Michael McClenney at 17:07 on 18/12/2015.
-
-
 /// <reference path="../cocos2d-lib.d.ts" />
 
 declare namespace cc {

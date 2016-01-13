@@ -1,6 +1,3 @@
-// Company: Zanzo Studios - http://zanzostudios.com
-// Author: Michael McClenney at 17:09 on 18/12/2015.
-
 
 declare module cc {
     ////////////////////////////////////////////////////////////////////////////////

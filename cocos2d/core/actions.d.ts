@@ -1,6 +1,3 @@
-// Company: Zanzo Studios - http://zanzostudios.com
-// Author: Michael McClenney at 15:13 on 12/31/2015.
-
 /// <reference path="../cocos2d-lib.d.ts" />
 
 declare type CallFuncCallback = (data?:any)=>any;
