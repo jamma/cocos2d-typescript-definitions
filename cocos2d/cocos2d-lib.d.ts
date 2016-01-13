@@ -12,6 +12,8 @@
 /// <reference path="core/support.d.ts" />
 /// <reference path="core/textures.d.ts" />
 
+/// <reference path="extensions/gui/scrollview.d.ts" />
+
 /// <reference path="kazmath.d.ts" />
 /// <reference path="labels.d.ts" />
 /// <reference path="menus.d.ts" />
