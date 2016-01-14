@@ -23,15 +23,9 @@ declare namespace cc {
 
     export function convertDistanceFromPointToInch(pointDis:number):number;
 
-    //cc.ScrollViewDelegate = cc.Class.extend({
-    //    scrollViewDidScroll: function (view) {
-    //    },
-    //    scrollViewDidZoom: function (view) {
-    //    }
-    //});
     export interface ScrollViewDelegate extends Class {
-        scrollViewDidScroll(view:cc.Node):void;
-        scrollViewDidZoom(view:cc.Node):void;
+        scrollViewDidScroll(view:ScrollView):void;
+        scrollViewDidZoom(view:ScrollView):void;
     }
 
     /**
@@ -47,11 +41,11 @@ declare namespace cc {
      * @property {cc.Layer}                 container   - The inside container of the scroll view
      * @property {Number}                   direction   - The direction allowed to scroll: cc.SCROLLVIEW_DIRECTION_BOTH by default, or cc.SCROLLVIEW_DIRECTION_NONE | cc.SCROLLVIEW_DIRECTION_HORIZONTAL | cc.SCROLLVIEW_DIRECTION_VERTICAL
      * @property {cc.ScrollViewDelegate}    delegate    - The inside container of the scroll view
-     * @property {Boolean}           clippingToBounds   - Indicate whether the scroll view clips its children
+     * @property {Boolean}                  clippingToBounds   - Indicate whether the scroll view clips its children
      */
     export class ScrollView extends Layer {
-        public minOffset:cc.Point;
-        public maxOffset:cc.Point;
+        public minOffset:Point;
+        public maxOffset:Point;
         public bounceable:boolean;
         public viewSize:Size;
         public container:Node;
@@ -87,7 +81,7 @@ declare namespace cc {
          */
         public setContentOffset(offset:Point, animated:number):void;
 
-        public getContentOffset():cc.Point;
+        public getContentOffset():Point;
 
         /**
          * Sets a new content offset. It ignores max/min offset. It just sets what's given. (just like UIKit's UIScrollView) 
