@@ -583,6 +583,7 @@ declare namespace cc {
         //public constructor(...args:MenuItem[]);
         public constructor();
         public ctor(...args:MenuItem[]);
+        public ctor();
 
         /**
          * initializes a cc.MenuItemToggle with items
