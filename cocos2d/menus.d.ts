@@ -141,6 +141,7 @@ declare namespace cc {
          * @param {cc.Node} target
          */
         public constructor(callback:string|ccMenuItemCallback, target:Node);
+        public ctor(callback?:string|ccMenuItemCallback, target?:Node);
 
         /**
          * return whether MenuItem is selected

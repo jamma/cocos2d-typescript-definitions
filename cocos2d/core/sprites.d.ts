@@ -650,7 +650,7 @@ declare namespace cc {
          * @param {Number|cc.BlendFunc} src
          * @param {Number} dst
          */
-        public setBlendFunc(src:BlendFunc|number, dst:number):void;
+        public setBlendFunc(src:BlendFunc|number, dst?:number):void;
 
         /**
          *
