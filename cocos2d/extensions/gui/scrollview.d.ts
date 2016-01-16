@@ -79,7 +79,7 @@ declare namespace cc {
          * @param {cc.Point} offset new offset
          * @param {Number} [animated=] If true, the view will scroll to the new offset
          */
-        public setContentOffset(offset:Point, animated:number):void;
+        public setContentOffset(offset:Point, animated?:number):void;
 
         public getContentOffset():Point;
 
