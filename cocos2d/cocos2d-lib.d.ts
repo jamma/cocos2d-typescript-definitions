@@ -17,3 +17,4 @@
 /// <reference path="kazmath.d.ts" />
 /// <reference path="labels.d.ts" />
 /// <reference path="menus.d.ts" />
+/// <reference path="render-texture.d.ts" />
