@@ -14,7 +14,9 @@
 
 /// <reference path="extensions/gui/scrollview.d.ts" />
 
+/// <reference path="clipping-nodes.d.ts" />
 /// <reference path="kazmath.d.ts" />
 /// <reference path="labels.d.ts" />
 /// <reference path="menus.d.ts" />
 /// <reference path="render-texture.d.ts" />
+/// <reference path="shape-nodes.d.ts" />
