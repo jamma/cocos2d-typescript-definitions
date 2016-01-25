@@ -11,28 +11,28 @@ declare namespace cc {
    * @constant
    * @type Number
    */
-  const IMAGE_FORMAT_JPEG: number;
+  export const IMAGE_FORMAT_JPEG: number;
 
   /**
    * enum for png
    * @constant
    * @type Number
    */
-  const IMAGE_FORMAT_PNG: number;
+  export const IMAGE_FORMAT_PNG: number;
 
   /**
    * enum for raw
    * @constant
    * @type Number
    */
-  const IMAGE_FORMAT_RAWDATA: number;
+  export const IMAGE_FORMAT_RAWDATA: number;
 
   /**
    * @param {Number} x
    * @return {Number}
    * Constructor
    */
-  function NextPOT(x: number): number;
+  export function NextPOT(x: number): number;
   
   /**
    * cc.RenderTexture is a generic rendering target. To render things into it,<br/>
@@ -51,7 +51,7 @@ declare namespace cc {
   * @property {Number}       clearStencilVal - Clear stencil value.
   * @property {cc.Color}     clearColorVal   - Clear color value, valid only when "autoDraw" is true.
   */
-  class RenderTexture extends Node {
+  export class RenderTexture extends Node {
     public sprite: Sprite;
     public clearFlags: number;
     public clearDepthVal: number;
@@ -64,14 +64,14 @@ declare namespace cc {
      * Constructor of cc.RenderTexture for Canvas
      * @param {Number} width
      * @param {Number} height
-     * @param {cc.IMAGE_FORMAT_JPEG|cc.IMAGE_FORMAT_PNG|cc.IMAGE_FORMAT_RAWDATA} format
-     * @param {Number} depthStencilFormat
+     * @param {cc.IMAGE_FORMAT_JPEG|cc.IMAGE_FORMAT_PNG|cc.IMAGE_FORMAT_RAWDATA} [format=cc.Texture2D.PIXEL_FORMAT_RGBA8888]
+     * @param {Number} [depthStencilFormat=0]
      * @example
      * // Example
      * var rt = new cc.RenderTexture(width, height, format, depthStencilFormat)
      * @function
      */
-    public constructor(width: number, height: number, format: number, depthStencilFormat: number);
+    public constructor(width: number, height: number, format?: number, depthStencilFormat?: number);
     
     /**
      * Clear RenderTexture.
@@ -126,7 +126,7 @@ declare namespace cc {
      * @param {Number} [depthValue=]
      * @param {Number} [stencilValue=]
      */
-    public beginWithClear(r: number, g: number, b: number, a: number, depthValue: number, stencilValue: number): void;
+    public beginWithClear(r: number, g: number, b: number, a: number, depthValue?: number, stencilValue?: number): void;
 
     /**
      * ends grabbing
@@ -136,7 +136,7 @@ declare namespace cc {
 
     /**
      * clears the texture with a color
-     * @param {Number|cc.Rect} r red 0-1
+     * @param {Number} r red 0-1
      * @param {Number} g green 0-1
      * @param {Number} b blue 0-1
      * @param {Number} a alpha 0-1

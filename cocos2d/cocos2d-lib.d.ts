@@ -12,6 +12,8 @@
 /// <reference path="core/support.d.ts" />
 /// <reference path="core/textures.d.ts" />
 
+/// <reference path="extensions/ccpool/pool.d.ts" />
+/// <reference path="extensions/cocosstudio/load.d.ts" />
 /// <reference path="extensions/gui/scrollview.d.ts" />
 
 /// <reference path="clipping-nodes.d.ts" />
