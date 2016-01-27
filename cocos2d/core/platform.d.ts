@@ -10,7 +10,7 @@ declare namespace cc {
     /**
      * Common getter setter configuration function
      * @function
-     * @param {Object}   proto      A class prototype or an object to config<br/>
+     * @param {Object}   proto      A class prototype or an object to config
      * @param {String}   prop       Property name
      * @param {function} getter     Getter function for the property
      * @param {function} setter     Setter function for the property
@@ -102,15 +102,15 @@ declare namespace cc {
     export const UINT_MAX:number;
 
     /**
-     * <p>
+     * 
      *     Linear interpolation between 2 numbers, the ratio sets how much it is biased to each end
-     * </p>
+     * 
      * @param {Number} a number A
      * @param {Number} b number B
      * @param {Number} r ratio between 0 and 1
      * @function
      * @example
-     * cc.lerp(2,10,0.5)//returns 6<br/>
+     * cc.lerp(2,10,0.5)//returns 6
      * cc.lerp(2,10,0.2)//returns 3.6
      */
     export function lerp(a:number, b:number, r:number):number;
@@ -174,33 +174,33 @@ declare namespace cc {
     export function nodeDrawSetup(node:Node):void;
 
     /**
-     * <p>
-     *     GL states that are enabled:<br/>
-     *       - GL_TEXTURE_2D<br/>
-     *       - GL_VERTEX_ARRAY<br/>
-     *       - GL_TEXTURE_COORD_ARRAY<br/>
-     *       - GL_COLOR_ARRAY<br/>
-     * </p>
+     * 
+     *     GL states that are enabled:
+     *       - GL_TEXTURE_2D
+     *       - GL_VERTEX_ARRAY
+     *       - GL_TEXTURE_COORD_ARRAY
+     *       - GL_COLOR_ARRAY
+     * 
      * @function
      */
     export function enableDefaultGLStates():void;
 
     /**
-     * <p>
-     *   Disable default GL states:<br/>
-     *     - GL_TEXTURE_2D<br/>
-     *     - GL_TEXTURE_COORD_ARRAY<br/>
-     *     - GL_COLOR_ARRAY<br/>
-     * </p>
+     * 
+     *   Disable default GL states:
+     *     - GL_TEXTURE_2D
+     *     - GL_TEXTURE_COORD_ARRAY
+     *     - GL_COLOR_ARRAY
+     * 
      * @function
      */
     export function disableDefaultGLStates();
 
     /**
-     * <p>
-     *  Increments the GL Draws counts by one.<br/>
-     *  The number of calls per frame are displayed on the screen when the CCDirector's stats are enabled.<br/>
-     * </p>
+     * 
+     *  Increments the GL Draws counts by one.
+     *  The number of calls per frame are displayed on the screen when the CCDirector's stats are enabled.
+     * 
      * @param {Number} addNumber
      * @function
      */
@@ -213,10 +213,10 @@ declare namespace cc {
     export const FLT_EPSILON:number;
 
     /**
-     * <p>
-     *     On Mac it returns 1;<br/>
+     * 
+     *     On Mac it returns 1;
      *     On iPhone it returns 2 if RetinaDisplay is On. Otherwise it returns 1
-     * </p>
+     * 
      * @return {Number}
      * @function
      */
@@ -1303,16 +1303,16 @@ declare namespace cc {
     export const DENSITYDPI_LOW:string;
 
     /**
-     * cc.view is the singleton object which represents the game window.<br/>
-     * It's main task include: <br/>
-     *  - Apply the design resolution policy<br/>
-     *  - Provide interaction with the window, like resize event on web, retina display support, etc...<br/>
-     *  - Manage the game view port which can be different with the window<br/>
-     *  - Manage the content scale and translation<br/>
-     * <br/>
-     * Since the cc.view is a singleton, you don't need to call any constructor or create functions,<br/>
-     * the standard way to use it is by calling:<br/>
-     *  - cc.view.methodName(); <br/>
+     * cc.view is the singleton object which represents the game window.
+     * It's main task include: 
+     *  - Apply the design resolution policy
+     *  - Provide interaction with the window, like resize event on web, retina display support, etc...
+     *  - Manage the game view port which can be different with the window
+     *  - Manage the content scale and translation
+     * 
+     * Since the cc.view is a singleton, you don't need to call any constructor or create functions,
+     * the standard way to use it is by calling:
+     *  - cc.view.methodName(); 
      * @class
      * @name cc.view
      * @extend cc.Class
@@ -1325,14 +1325,14 @@ declare namespace cc {
         //public constructor();
 
         /**
-         * <p>
-         * Sets view's target-densitydpi for android mobile browser. it can be set to:           <br/>
-         *   1. cc.DENSITYDPI_DEVICE, value is "device-dpi"                                      <br/>
-         *   2. cc.DENSITYDPI_HIGH, value is "high-dpi"  (default value)                         <br/>
-         *   3. cc.DENSITYDPI_MEDIUM, value is "medium-dpi" (browser's default value)            <br/>
-         *   4. cc.DENSITYDPI_LOW, value is "low-dpi"                                            <br/>
-         *   5. Custom value, e.g: "480"                                                         <br/>
-         * </p>
+         * 
+         * Sets view's target-densitydpi for android mobile browser. it can be set to:           
+         *   1. cc.DENSITYDPI_DEVICE, value is "device-dpi"                                      
+         *   2. cc.DENSITYDPI_HIGH, value is "high-dpi"  (default value)                         
+         *   3. cc.DENSITYDPI_MEDIUM, value is "medium-dpi" (browser's default value)            
+         *   4. cc.DENSITYDPI_LOW, value is "low-dpi"                                            
+         *   5. Custom value, e.g: "480"                                                         
+         * 
          * @param {String} densityDPI
          */
         public setTargetDensityDPI(densityDPI:string):void;
@@ -1344,16 +1344,16 @@ declare namespace cc {
         public getTargetDensityDPI():string;
 
         /**
-         * Sets whether resize canvas automatically when browser's size changed.<br/>
+         * Sets whether resize canvas automatically when browser's size changed.
          * Useful only on web.
          * @param {Boolean} enabled Whether enable automatic resize with browser's resize event
          */
         public resizeWithBrowserSize(enabled:boolean):void;
 
         /**
-         * Sets the callback function for cc.view's resize action,<br/>
-         * this callback will be invoked before applying resolution policy, <br/>
-         * so you can do any additional modifications within the callback.<br/>
+         * Sets the callback function for cc.view's resize action,
+         * this callback will be invoked before applying resolution policy, 
+         * so you can do any additional modifications within the callback.
          * Useful only on web.
          * @param {Function|null} callback The callback function
          */
@@ -1363,39 +1363,39 @@ declare namespace cc {
         public initialize():void;
 
         /**
-         * Sets whether the engine modify the "viewport" meta in your web page.<br/>
-         * It's enabled by default, we strongly suggest you not to disable it.<br/>
-         * And even when it's enabled, you can still set your own "viewport" meta, it won't be overridden<br/>
+         * Sets whether the engine modify the "viewport" meta in your web page.
+         * It's enabled by default, we strongly suggest you not to disable it.
+         * And even when it's enabled, you can still set your own "viewport" meta, it won't be overridden
          * Only useful on web
          * @param {Boolean} enabled Enable automatic modification to "viewport" meta
          */
         public adjustViewPort(enabled:boolean):void;
 
         /**
-         * Retina support is enabled by default for Apple device but disabled for other devices,<br/>
-         * it takes effect only when you called setDesignResolutionPolicy<br/>
+         * Retina support is enabled by default for Apple device but disabled for other devices,
+         * it takes effect only when you called setDesignResolutionPolicy
          * Only useful on web
          * @param {Boolean} enabled  Enable or disable retina display
          */
         public enableRetina(enabled:boolean):void;
 
         /**
-         * Check whether retina display is enabled.<br/>
+         * Check whether retina display is enabled.
          * Only useful on web
          * @return {Boolean}
          */
         public isRetinaEnabled():boolean;
 
         /**
-         * If enabled, the application will try automatically to enter full screen mode on mobile devices<br/>
-         * You can pass true as parameter to enable it and disable it by passing false.<br/>
+         * If enabled, the application will try automatically to enter full screen mode on mobile devices
+         * You can pass true as parameter to enable it and disable it by passing false.
          * Only useful on web
          * @param {Boolean} enabled  Enable or disable auto full screen on mobile devices
          */
         public enableAutoFullScreen(enabled:boolean):void;
 
         /**
-         * Check whether auto full screen is enabled.<br/>
+         * Check whether auto full screen is enabled.
          * Only useful on web
          * @return {Boolean} Auto full screen enabled or not
          */
@@ -1407,7 +1407,7 @@ declare namespace cc {
         public end();
 
         /**
-         * Get whether render system is ready(no matter opengl or canvas),<br/>
+         * Get whether render system is ready(no matter opengl or canvas),
          * this name is for the compatibility with cocos2d-x, subclass must implement this method.
          * @return {Boolean}
          */
@@ -1445,23 +1445,23 @@ declare namespace cc {
         public getContentTranslateLeftTop():Size;
 
         /**
-         * Returns the canvas size of the view.<br/>
-         * On native platforms, it returns the screen size since the view is a fullscreen view.<br/>
+         * Returns the canvas size of the view.
+         * On native platforms, it returns the screen size since the view is a fullscreen view.
          * On web, it returns the size of the canvas element.
          * @return {cc.Size}
          */
         public getCanvasSize():Size;
 
         /**
-         * Returns the frame size of the view.<br/>
-         * On native platforms, it returns the screen size since the view is a fullscreen view.<br/>
+         * Returns the frame size of the view.
+         * On native platforms, it returns the screen size since the view is a fullscreen view.
          * On web, it returns the size of the canvas's outer DOM element.
          * @return {cc.Size}
          */
         public getFrameSize():Size;
 
         /**
-         * On native, it sets the frame size of view.<br/>
+         * On native, it sets the frame size of view.
          * On web, it sets the size of the canvas's outer DOM element.
          * @param {Number} width
          * @param {Number} height
@@ -1515,17 +1515,17 @@ declare namespace cc {
          * @see cc.ResolutionPolicy
          * @param {cc.ResolutionPolicy|Number} resolutionPolicy
          */
-        public setResolutionPolicy(resolutionPolicy:ResolutionPolicy):void;
+        public setResolutionPolicy(resolutionPolicy:number|ResolutionPolicy):void;
 
         /**
-         * Sets the resolution policy with designed view size in points.<br/>
-         * The resolution policy include: <br/>
-         * [1] ResolutionExactFit       Fill screen by stretch-to-fit: if the design resolution ratio of width to height is different from the screen resolution ratio, your game view will be stretched.<br/>
-         * [2] ResolutionNoBorder       Full screen without black border: if the design resolution ratio of width to height is different from the screen resolution ratio, two areas of your game view will be cut.<br/>
-         * [3] ResolutionShowAll        Full screen with black border: if the design resolution ratio of width to height is different from the screen resolution ratio, two black borders will be shown.<br/>
-         * [4] ResolutionFixedHeight    Scale the content's height to screen's height and proportionally scale its width<br/>
-         * [5] ResolutionFixedWidth     Scale the content's width to screen's width and proportionally scale its height<br/>
-         * [cc.ResolutionPolicy]        [Web only feature] Custom resolution policy, constructed by cc.ResolutionPolicy<br/>
+         * Sets the resolution policy with designed view size in points.
+         * The resolution policy include: 
+         * [1] ResolutionExactFit       Fill screen by stretch-to-fit: if the design resolution ratio of width to height is different from the screen resolution ratio, your game view will be stretched.
+         * [2] ResolutionNoBorder       Full screen without black border: if the design resolution ratio of width to height is different from the screen resolution ratio, two areas of your game view will be cut.
+         * [3] ResolutionShowAll        Full screen with black border: if the design resolution ratio of width to height is different from the screen resolution ratio, two black borders will be shown.
+         * [4] ResolutionFixedHeight    Scale the content's height to screen's height and proportionally scale its width
+         * [5] ResolutionFixedWidth     Scale the content's width to screen's width and proportionally scale its height
+         * [cc.ResolutionPolicy]        [Web only feature] Custom resolution policy, constructed by cc.ResolutionPolicy
          * @param {Number} width Design resolution width.
          * @param {Number} height Design resolution height.
          * @param {cc.ResolutionPolicy|Number} resolutionPolicy The resolution policy desired
@@ -1553,7 +1553,7 @@ declare namespace cc {
          * @param {Number} height Design resolution height.
          * @param {cc.ResolutionPolicy|Number} resolutionPolicy The resolution policy desired
          */
-        public setRealPixelResolution(width:number, height:number, resolutionPolicy:ResolutionPolicy):void;
+        public setRealPixelResolution(width:number, height:number, resolutionPolicy:number|ResolutionPolicy):void;
 
         /**
          * Sets view port rectangle with points.
@@ -1633,8 +1633,8 @@ declare namespace cc {
     }
 
     /**
-     * <p>cc.ContainerStrategy class is the root strategy class of container's scale strategy,
-     * it controls the behavior of how to scale the cc.container and cc._canvas object</p>
+     * cc.ContainerStrategy class is the root strategy class of container's scale strategy,
+     * it controls the behavior of how to scale the cc.container and cc._canvas object
      *
      * @class
      * @extends cc.Class
@@ -1661,8 +1661,8 @@ declare namespace cc {
     }
 
     /**
-     * <p>cc.ContentStrategy class is the root strategy class of content's scale strategy,
-     * it controls the behavior of how to scale the scene and setup the viewport for the game</p>
+     * cc.ContentStrategy class is the root strategy class of content's scale strategy,
+     * it controls the behavior of how to scale the scene and setup the viewport for the game
      *
      * @class
      * @extends cc.Class
@@ -1749,7 +1749,7 @@ declare namespace cc {
 //        cc.ContainerStrategy.ORIGINAL_CONTAINER = new OriginalContainer();
 //
 
-// Content scale strategyies
+// Content scale strategies
     export class ExactFit extends ContainerStrategy {
         public apply(view:View, designedResolution:Size):any;
     }
@@ -1786,8 +1786,8 @@ declare namespace cc {
 //    })();
 //
     /**
-     * <p>cc.ResolutionPolicy class is the root strategy class of scale strategy,
-     * its main task is to maintain the compatibility with Cocos2d-x</p>
+     * cc.ResolutionPolicy class is the root strategy class of scale strategy,
+     * its main task is to maintain the compatibility with Cocos2d-x
      *
      * @class
      * @extends cc.Class
@@ -1801,7 +1801,7 @@ declare namespace cc {
          * @constant
          * @type Number
          * @static
-         * The entire application is visible in the specified area without trying to preserve the original aspect ratio.<br/>
+         * The entire application is visible in the specified area without trying to preserve the original aspect ratio.
          * Distortion can occur, and the application may appear stretched or compressed.
          */
         public static EXACT_FIT:number;
@@ -1812,7 +1812,7 @@ declare namespace cc {
          * @constant
          * @type Number
          * @static
-         * The entire application fills the specified area, without distortion but possibly with some cropping,<br/>
+         * The entire application fills the specified area, without distortion but possibly with some cropping,
          * while maintaining the original aspect ratio of the application.
          */
         public static NO_BORDER:number;
@@ -1823,7 +1823,7 @@ declare namespace cc {
          * @constant
          * @type Number
          * @static
-         * The entire application is visible in the specified area without distortion while maintaining the original<br/>
+         * The entire application is visible in the specified area without distortion while maintaining the original
          * aspect ratio of the application. Borders can appear on two sides of the application.
          */
         public static SHOW_ALL:number;
@@ -1834,9 +1834,9 @@ declare namespace cc {
          * @constant
          * @type Number
          * @static
-         * The application takes the height of the design resolution size and modifies the width of the internal<br/>
-         * canvas so that it fits the aspect ratio of the device<br/>
-         * no distortion will occur however you must make sure your application works on different<br/>
+         * The application takes the height of the design resolution size and modifies the width of the internal
+         * canvas so that it fits the aspect ratio of the device
+         * no distortion will occur however you must make sure your application works on different
          * aspect ratios
          */
         public static FIXED_HEIGHT:number;
@@ -1847,9 +1847,9 @@ declare namespace cc {
          * @constant
          * @type Number
          * @static
-         * The application takes the width of the design resolution size and modifies the height of the internal<br/>
-         * canvas so that it fits the aspect ratio of the device<br/>
-         * no distortion will occur however you must make sure your application works on different<br/>
+         * The application takes the width of the design resolution size and modifies the height of the internal
+         * canvas so that it fits the aspect ratio of the device
+         * no distortion will occur however you must make sure your application works on different
          * aspect ratios
          */
         public static FIXED_WIDTH:number;
