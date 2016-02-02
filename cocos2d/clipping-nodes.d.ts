@@ -33,7 +33,7 @@ declare namespace cc {
         public inverted:boolean;
         public stencil:Node;
 
-        public constructor(stencil?:Node):void;
+        public constructor(stencil?:Node);
         /**
          * Constructor function, override it to extend the construction behavior, remember to call "this._super()" in the extended "ctor" function.
          * @param {cc.Node} [stencil=null]
