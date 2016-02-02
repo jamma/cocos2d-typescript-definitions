@@ -3627,7 +3627,7 @@ declare namespace cc {
      * // example
      * var rotateTo = cc.rotateTo(2, 61.0);
      */
-    export function rotateTo(duration:number, deltaAngleX:number, deltaAngleY:number):RotateTo;
+    export function rotateTo(duration:number, deltaAngleX:number, deltaAngleY?:number):RotateTo;
 
     /**
      * Rotates a cc.Node object clockwise a number of degrees by modifying it's rotation attribute.
