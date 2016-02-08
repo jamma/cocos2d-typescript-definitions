@@ -1,6 +1,6 @@
 /// <reference path="../cocos2d-lib.d.ts" />
 
-declare type CallFuncCallback = (data?:any)=>any;
+declare type CallFuncCallback = (targetOrData?:any, data?:any)=>any;
 
 declare namespace cc {
     // +--------------------------------------------------------------------------------

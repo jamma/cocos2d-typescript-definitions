@@ -1,4 +1,5 @@
 /// <reference path="core/actions.d.ts" />
+/// <reference path="core/audio.d.ts" />
 /// <reference path="core/base-nodes.d.ts" />
 /// <reference path="core/boot.d.ts" />
 /// <reference path="core/cocoa.d.ts" />
