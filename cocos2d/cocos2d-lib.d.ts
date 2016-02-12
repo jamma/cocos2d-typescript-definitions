@@ -17,6 +17,11 @@
 /// <reference path="extensions/cocosstudio/load.d.ts" />
 /// <reference path="extensions/gui/scrollview.d.ts" />
 
+/// <reference path="tilemap/layer.d.ts" />
+/// <reference path="tilemap/object-group.d.ts" />
+/// <reference path="tilemap/tiled-map.d.ts" />
+/// <reference path="tilemap/xml-parser.d.ts" />
+
 /// <reference path="clipping-nodes.d.ts" />
 /// <reference path="jsb.d.ts" />
 /// <reference path="kazmath.d.ts" />
