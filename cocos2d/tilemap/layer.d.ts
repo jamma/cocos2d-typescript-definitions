@@ -41,61 +41,61 @@ declare namespace cc {
      * Pointer to the map of tiles
      * @member {cc.Sprite[]} tiles
      */
-    tiles: Sprite[]
+    tiles: Sprite[];
 
     /**
      * Tile set information for the layer
      * @member {cc.TMXTilesetInfo} tileset
      */
-    tileset: TMXTilesetInfo
+    tileset: TMXTilesetInfo;
         
     /**
      * Layer orientation, which is the same as the map orientation
      * @member {number} layerOrientation
      */
-    layerOrientation: number
+    layerOrientation: number;
     
     /**
      * properties from the layer. They can be added using Tiled
      * @member {any[]} properties
      */
-    properties: any[]
+    properties: any[];
 
     /**
      * The layer name
      * @member {string} layerName
      */
-    layerName: string
+    layerName: string;
     
     /**
      * Texture of cc.SpriteBatchNode
      * @member {cc.Texture2D} texture
      */
-    texture: Texture2D
+    texture: Texture2D;
 
     /**
      * Width of the layer
      * @member {number} layerWidth
      */
-    layerWidth: number
+    layerWidth: number;
 
     /**
      * Height of the layer
      * @member {number} layerHeight
      */
-    layerHeight: number
+    layerHeight: number;
 
     /**
      * Width of a tile
      * @member {number} tileWidth
      */
-    tileWidth: number
+    tileWidth: number;
 
     /**
      * Height of a tile
      * @member {number} tileHeight
      */
-    tileHeight: number    
+    tileHeight: number;
 
     /**
      * Creates a cc.TMXLayer with an tile set info, a layer info and a map info   <br/>
@@ -104,7 +104,7 @@ declare namespace cc {
      * @param {cc.TMXLayerInfo} layerInfo
      * @param {cc.TMXMapInfo} mapInfo
      */
-    constructor(tilesetInfo: TMXTilesetInfo, layerInfo: TMXLayerInfo, mapInfo: TMXMapInfo): void
+    constructor(tilesetInfo: TMXTilesetInfo, layerInfo: TMXLayerInfo, mapInfo: TMXMapInfo);
     
     /**
      * Sets the untransformed size of the TMXLayer.
@@ -112,31 +112,31 @@ declare namespace cc {
      * @param {cc.Size|number} size The untransformed size of the TMXLayer or The untransformed size's width of the TMXLayer.
      * @param {number} [height] The untransformed size's height of the TMXLayer.
      */
-    setContentSize(size: Size|number, height: number): void
+    setContentSize(size: Size|number, height: number): void;
 
     /**
      * Gets layer size.
      * @return {cc.Size}
      */
-    getLayerSize(): Size
+    getLayerSize(): Size;
 
     /**
      * Set layer size
      * @param {cc.Size} Var
      */
-    setLayerSize(Var: Size): void
+    setLayerSize(Var: Size): void;
 
     /**
      * Size of the map's tile (could be different from the tile's size)
      * @return {cc.Size}
      */
-    getMapTileSize(): Size
+    getMapTileSize(): Size;
 
     /**
      * Set the map tile size.
      * @param {cc.Size} Var
      */
-    setMapTileSize(Var: Size): void
+    setMapTileSize(Var: Size): void;
 
     /**
      * Initializes a cc.TMXLayer with a tileset info, a layer info and a map info
@@ -145,14 +145,14 @@ declare namespace cc {
      * @param {cc.TMXMapInfo} mapInfo
      * @return {boolean}
      */
-    initWithTilesetInfo(tilesetInfo: TMXTilesetInfo, layerInfo: TMXLayerInfo, mapInfo: TMXMapInfo): boolean
+    initWithTilesetInfo(tilesetInfo: TMXTilesetInfo, layerInfo: TMXLayerInfo, mapInfo: TMXMapInfo): boolean;
 
     /**
      * <p>Dealloc the map that contains the tile position from memory. <br />
      * Unless you want to know at runtime the tiles positions, you can safely call this method. <br />
      * If you are going to call layer.getTileGIDAt() then, don't release the map</p>
      */
-    releaseMap(): void
+    releaseMap(): void;
 
     /**
      * <p>Returns the tile (cc.Sprite) at a given a tile coordinate. <br/>
@@ -165,7 +165,7 @@ declare namespace cc {
      * @param {number} [y]
      * @return {cc.Sprite}
      */
-    getTileAt(pos: Point|number, y: number): Sprite
+    getTileAt(pos: Point|number, y: number): Sprite;
 
     /**
      * Returns the tile gid at a given tile coordinate. <br />
@@ -175,7 +175,7 @@ declare namespace cc {
      * @param {number} [y]
      * @return {number}
      */
-    getTileGIDAt(pos: Point|number, y: number): number
+    getTileGIDAt(pos: Point|number, y: number): number;
 
     /**
      *  lipped tiles can be changed dynamically
@@ -183,7 +183,7 @@ declare namespace cc {
      * @param {number} [y]
      * @return {number}
      */
-    getTileFlagsAt(pos: Point|number, y: number): number
+    getTileFlagsAt(pos: Point|number, y: number): number;
 
     /**
      * <p>Sets the tile gid (gid = tile global id) at a given tile coordinate.<br />
@@ -194,14 +194,14 @@ declare namespace cc {
      * @param {number} flagsOrY flags or y
      * @param {number} [flags]
      */
-    setTileGID(gid: number, posOrX: Point|number, flagsOrY: number, flags: number): void
+    setTileGID(gid: number, posOrX: Point|number, flagsOrY: number, flags: number): void;
 
     /**
      * Removes a tile at given tile coordinate
      * @param {cc.Point|number} pos position or x
      * @param {number} [y]
      */
-    removeTileAt(pos: Point|number, y: number): void
+    removeTileAt(pos: Point|number, y: number): void;
 
     /**
      * Returns the position in pixels of a given tile coordinate
@@ -209,25 +209,25 @@ declare namespace cc {
      * @param {number} [y]
      * @return {cc.Point}
      */
-    getPositionAt(pos: Point|number, y: number): Point
+    getPositionAt(pos: Point|number, y: number): Point;
 
     /**
      * Return the value for the specific property name
      * @param {string} propertyName
      * @return {any}
      */
-    getProperty(propertyName: string): any
+    getProperty(propertyName: string): any;
 
     /**
      * Creates the tiles
      */
-    setupTiles(): void
+    setupTiles(): void;
     
     /**
      * Remove child
      * @param  {cc.Sprite} sprite
      * @param  {boolean} cleanup
      */
-    removeChild(sprite: Sprite, cleanup: boolean): void
+    removeChild(sprite: Sprite, cleanup: boolean): void;
   }
 }

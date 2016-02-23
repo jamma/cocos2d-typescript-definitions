@@ -576,6 +576,7 @@ declare namespace cc {
      */
     export class MenuItemToggle extends MenuItem {
         public selectedIndex:number;
+        public subItems:MenuItem[];
 
         /**
          * Constructor of cc.MenuItemToggle
