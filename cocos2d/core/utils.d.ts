@@ -2,7 +2,7 @@
 
 declare namespace cc {
     //+--------------------------------------------------------------------------------
-    //  File: cocos2d/core/util/base-node.js
+    // File: cocos2d/core/util/base-node.js
     //+--------------------------------------------------------------------------------
     /**
      * A base node for CCNode and CCEScene, it will:
@@ -1048,4 +1048,139 @@ declare namespace cc {
 
         // public onRestore():void <-- Doesn't look like this should be exposed, so leave it commented out for now
     }
+
+    //+--------------------------------------------------------------------------------
+    // File: cocos2d/core/util/CCPath.js
+    //+--------------------------------------------------------------------------------
+    export const EXTNAME_RE:RegExp;
+    export const NORMALIZE_RE:RegExp;
+
+    /**
+     * @class path
+     * @static
+     */
+    // cc.path = /** @lends cc.path# */{
+    export module path {
+        /**
+         * Join strings to be a path.
+         * @method join
+         * @example {@link utils/api/engine/docs/cocos2d/core/utils/CCPath/join.js}
+         * @returns {String}
+         */
+        export function join(...strings:string[]):string;
+
+        /**
+         * Get the ext name of a path including '.', like '.png'.
+         * @method extname
+         * @example {@link utils/api/engine/docs/cocos2d/core/utils/CCPath/extname.js}
+         * @param {String} path
+         * @returns {string}
+         */
+        export function extname(path:string):string;
+
+        /**
+         * Get the main name of a file name
+         * @method mainFileName
+         * @param {String} fileName
+         * @returns {String}
+         */
+        export function mainFileName(fileName:string):string;
+
+        /**
+         * Get the file name of a file path.
+         * @method basename
+         * @example {@link utils/api/engine/docs/cocos2d/core/utils/CCPath/basename.js}
+         * @param {String} path
+         * @param {String} [extname]
+         * @returns {string}
+         */
+        export function basename(path:string, extname?:string):string;
+
+        /**
+         * Get dirname of a file path.
+         * @method dirname
+         * @example {@link utils/api/engine/docs/cocos2d/core/utils/CCPath/dirname.js}
+         * @param {String} path
+         * @returns {String}
+         */
+        export function dirname(path:string):string;
+
+        /**
+         * Change extname of a file path.
+         * @method changeExtname
+         * @example {@link utils/api/engine/docs/cocos2d/core/utils/CCPath/changeExtname.js}
+         * @param {String} path
+         * @param {String} [extname]
+         * @returns {String}
+         */
+        export function changeExtname(path:string, extname:string):string;
+
+        /**
+         * Change file name of a file path.
+         * @example {@link utils/api/engine/docs/cocos2d/core/utils/CCPath/changeBasename.js}
+         * @param {String} path
+         * @param {String} basename
+         * @param {Boolean} [isSameExt]
+         * @returns {String}
+         */
+        export function changeBasename(path:string, basename:string, isSameExt?:boolean):string;
+
+        // The platform-specific file separator. '\\' or '/'.
+        export const sep:string;
+    }
+
+    //+--------------------------------------------------------------------------------
+    // File: cocos2d/core/util/CCPath.js
+    //+--------------------------------------------------------------------------------
+
+    /**
+     * @class profiler
+     */
+    export module profiler {
+    // cc.profiler = (function () {
+        export function analyzeFPS(fps:number);
+        export function afterVisit():void;
+        export static const profiler:Profiler;
+
+        // TODO: Need to figure out how this method (onFrameRateChange) should be exposed, it looks like it should be writable and what args/return?
+        export interface FrameRateChangeFunc { ():void; }
+
+        export class Profiler {
+            public onFrameRateChange:FrameRateChangeFunc;
+            public getSecondsPerFrame():number;
+            public getFrameRate():number;
+            public setProfileDuration(duration:number):void;
+            public resumeProfiling():void;
+            public stopProfiling():void;
+            public isShowingStats():boolean;
+            public showStats():void;
+            public hideStats():void;
+            public init():void;
+        }
+    }
+
+    //+--------------------------------------------------------------------------------
+    // File: cocos2d/core/util/find.js
+    // NOTE: Skipping this file, I don't notice anything worth including.
+    //+--------------------------------------------------------------------------------
+
+    //+--------------------------------------------------------------------------------
+    // File: cocos2d/core/util/misc.js
+    // NOTE: Skipping this file, I don't notice anything worth including.
+    //+--------------------------------------------------------------------------------
+
+    //+--------------------------------------------------------------------------------
+    // File: cocos2d/core/util/misc.js
+    // NOTE: Skipping this file, I don't notice anything worth including.
+    //+--------------------------------------------------------------------------------
+
+    //+--------------------------------------------------------------------------------
+    // File: cocos2d/core/util/prefab-helper.js
+    // NOTE: Skipping this file, looks like stuff to help with serialization?
+    //+--------------------------------------------------------------------------------
+
+    //+--------------------------------------------------------------------------------
+    // File: cocos2d/core/util/scene-graph-helper.js
+    // NOTE: Skipping this file, looks like stuff to help with entity component maintenance?
+    //+--------------------------------------------------------------------------------
 }
