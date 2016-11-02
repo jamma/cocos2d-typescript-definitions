@@ -1,2043 +1,138 @@
 /// <reference path="../cocos2d-lib.d.ts" />
 
 declare namespace cc {
-    //+--------------------------------------------------------------------------------
-    // File: cocos2d/core/platform/_CCClass.js
-    // NOTE: Skipping this file.
-    //+--------------------------------------------------------------------------------
-
-    //+--------------------------------------------------------------------------------
-    // File: cocos2d/core/platform/attribute.js
-    // NOTE: Skipping this file.
-    //+--------------------------------------------------------------------------------
-
-    //+--------------------------------------------------------------------------------
-    // File: cocos2d/core/platform/callbacks-invoker.js
-    // NOTE: Skipping this file.
-    //+--------------------------------------------------------------------------------
-
-    //+--------------------------------------------------------------------------------
-    // File: cocos2d/core/platform/CCAssetLibrary.js
-    // NOTE: Skipping this file.
-    //+--------------------------------------------------------------------------------
-    // var Asset = require('../assets/CCAsset');
-    // var callInNextTick = require('./utils').callInNextTick;
-    // var Loader = require('../load-pipeline/CCLoader');
-    // var PackDownloader = require('../load-pipeline/pack-downloader');
-    // var AutoReleaseUtils = require('../load-pipeline/auto-release-utils');
-
-    /**
-     * The asset library which managing loading/unloading assets in project.
-     *
-     * @class AssetLibrary
-     * @static
-     */
-
-    // configs
-
-    // var _libraryBase = '';
-    // var _rawAssetsBase = '';     // The base dir for raw assets in runtime
-    // var _uuidToRawAsset = {};
-
-    // function isScene (asset) {
-    //     return asset && (asset.constructor === cc.SceneAsset || asset instanceof cc.Scene);
-    // }
-    export function isScene(asset:Asset):boolean;
-    export interface LoadAssetCallback { (error:Error, asset:Asset):void; }
-    export interface LoadAssetOptions {
-        readMainCache:boolean;
-        writeMainCache:boolean;
-        existingAsset:Asset;
-        deserializeInfo:Details;
-    }
-
-    export interface QueryAssetCallback { (error:Error, url:string, raw:boolean):void; }
-    export interface LoadJsonCallback { (error:Error, asset:Asset):void; }
-
-    export interface MountPaths {
-        assets:string;
-        internal:string;
-    }
-
-    export interface RawAssets {
-        [key:string]:string;
-    }
-
-    export interface InitOptions {
-        libraryPath:string;
-        mountPaths:MountPaths;
-        rawAssets?:RawAssets;
-        rawAssetsBase?:string;
-        packedAssets?:string;
-    }
-
-    /**
-     * @callback loadCallback
-     * @param {String} error - null or the error info
-     * @param {Asset} data - the loaded asset or null
-     */
-    export class AssetLibrary {
-
-        /**
-         * @method loadAsset
-         * @param {String} uuid
-         * @param {loadCallback} [callback] - the callback function once load finished
-         * @param {Object} [options]
-         * @param {Boolean} options.readMainCache - Default is true. If false, the asset and all its depends assets will reload and create new instances from library.
-         * @param {Boolean} options.writeMainCache - Default is true. If true, the result will cache to AssetLibrary, and MUST be unload by user manually.
-         * @param {Asset} options.existingAsset - load to existing asset, this argument is only available in editor
-         * @param {deserialize.Details} options.deserializeInfo - specified a DeserializeInfo object if you want,
-         *                                                        this parameter is only available in editor.
-         * @private
-         */
-        public loadAsset(uuid:string, callback?:LoadAssetCallback, options?:LoadAssetOptions);
-
-        public getImportedDir(uuid:string):string;
-
-
-        /**
-         * @method queryAssetInfo
-         * @param {String} uuid
-         * @param {Function} callback
-         * @param {Error} callback.error
-         * @param {String} callback.url - the url of raw asset or imported asset
-         * @param {Boolean} callback.raw - indicates whether the asset is raw asset
-         * @param {Function} callback.ctorInEditor - the actual type of asset, used in editor only
-         */
-        public queryAssetInfo(uuid:string, callback:QueryAssetCallback):void;
-
-        // parse uuid out of url
-        public parseUuidInEditor(url:string):string;
-
-        /**
-         * @method loadJson
-         * @param {String} json
-         * @param {loadCallback} callback
-         * @return {LoadingHandle}
-         * @private
-         */
-        public loadJson(json:string, callback?:LoadJsonCallback):LoadingHandle;
-
-        /**
-         * Get the exists asset by uuid.
-         *
-         * @method getAssetByUuid
-         * @param {String} uuid
-         * @return {Asset} - the existing asset, if not loaded, just returns null.
-         * @private
-         */
-        public getAssetByUuid(uuid:string):Asset;
-
-        /**
-         * init the asset library
-         *
-         * @method init
-         * @param {Object} options
-         * @param {String} options.libraryPath - 能接收的任意类型的路径，通常在编辑器里使用绝对的，在网页里使用相对的。
-         * @param {Object} options.mountPaths - mount point of actual urls for raw assets (only used in editor)
-         * @param {Object} [options.rawAssets] - uuid to raw asset's urls (only used in runtime)
-         * @param {String} [options.rawAssetsBase] - base of raw asset's urls (only used in runtime)
-         * @param {String} [options.packedAssets] - packed assets (only used in runtime)
-         */
-        public init(options:InitOptions):void;
-    }
-
-    //+--------------------------------------------------------------------------------
+    ////////////////////////////////////////////////////////////////////////////////
     // File: cocos2d/core/platform/CCClass.js
-    // NOTE: Most of the functionality in this file is to add typical object-oriented
-    //       behavior on top of JS objects. I've purposely kept those details out of
-    //       this public interface, they shouldn't be added unless absolutely necessary
-    //       and widely useful.
-    //       If people need some of this functionality in their specific projects,
-    //       they can add it themselves.
-    //+--------------------------------------------------------------------------------
-    export class Class {}
+    ////////////////////////////////////////////////////////////////////////////////
 
-    //+--------------------------------------------------------------------------------
-    // Files: cocos2d/core/platform/CCInputManager.js and CCInputExtension.js
-    //+--------------------------------------------------------------------------------
-    export const inputManager:InputManager;
-
-    export interface HTMLElementPosition {
-        left: number;
-        top: number;
-        width: number;
-        height: number;
-    }
+    //+---------- Function definitions ----------+//
 
     /**
-     * <p>
-     *  This class manages all events of input. include: touch, mouse, accelerometer, keyboard                                       <br/>
-     * </p>
-     * @class inputManager
+     * Common getter setter configuration function
+     * @function
+     * @param {Object}   proto      A class prototype or an object to config
+     * @param {String}   prop       Property name
+     * @param {function} getter     Getter function for the property
+     * @param {function} setter     Setter function for the property
+     * @param {String}   getterName Name of getter function for the property
+     * @param {String}   setterName Name of setter function for the property
      */
-    export class InputManager {
-        /**
-         * @method handleTouchesBegin
-         * @param {Array} touches
-         */
-        public handleTouchesBegin(touches:Touch[]):void;
+    export function defineGetterSetter(proto, prop, getter, setter, getterName, setterName): void;
 
-        /**
-         * @method handleTouchesMove
-         * @param {Array} touches
-         */
-        public handleTouchesMove(touches:Touch[]):void;
+    // TODO: Can restrict clone() to overloaded declarations that take a cc.Class and and Array, instead of an Any?
+    /**
+     * Create a new object and copy all properties in an exist object to the new object
+     * @function
+     * @param {object|Array} obj The source object
+     * @return {Array|object} The created object
+     */
+    export function clone(obj: any): any;
 
-        /**
-         * @method handleTouchesEnd
-         * @param {Array} touches
-         */
-        public handleTouchesEnd(touches:Touch[]):void;
+    // TODO: Can restrict inject() to overloaded declarations that take a cc.Class and and Array, instead of an Any?
+    // TODO: Fill these comments in with a descrition of what the function does
+    /**
+     * Fill in this description later, I believe the methods just injects the prototype of the source object into the
+     * destination object (all properties in src => dest).
+     *
+     * @function
+     * @param {object|Array} srcPrototype The source object
+     * @param {object|Array} destPrototype The destination object
+     * @return {Array|object} The modified object
+     */
+    export function inject(srcPrototype: any, destPrototype: any): any;
 
-        /**
-         * @method handleTouchesCancel
-         * @param {Array} touches
-         */
-        public handleTouchesCancel(touches:Touch[]):void;
+    //+---------- Class definitions ----------+//
 
-        /**
-         * @method getSetOfTouchesEndOrCancel
-         * @param {Array} touches
-         * @returns {Array}
-         */
-        public getSetOfTouchesEndOrCancel(touches:Touch[]):Touch[];
-
-        /**
-         * @method getHTMLElementPosition
-         * @param {HTMLElement} element
-         * @return {Object}
-         */
-        public getHTMLElementPosition(element:HTMLElement):HTMLElementPosition;
-
-        /**
-         * @method getPreTouch
-         * @param {Touch} touch
-         * @return {Touch}
-         */
-        public getPreTouch(touch:Touch):Touch;
-
-        /**
-         * @method setPreTouch
-         * @param {Touch} touch
-         */
-        public setPreTouch(touch:Touch):void;
-
-        /**
-         * @method getTouchByXY
-         * @param {Number} tx
-         * @param {Number} ty
-         * @param {Vec2} pos
-         * @return {Touch}
-         */
-        public getTouchByXY(tx:number, ty:number, pos:Vec2):Touch;
-
-        /**
-         * @method getTouchByXY
-         * @param {Vec2} location
-         * @param {Vec2} pos
-         * @param {Number} eventType
-         * @returns {Event.EventMouse}
-         */
-        public getMouseEvent(location:Vec2, pos:Vec2, eventType:number):EventMouse;
-
-        /**
-         * @method getPointByEvent
-         * @param {Touch} event
-         * @param {Vec2} pos
-         * @return {Vec2}
-         */
-        public getPointByEvent(event:Touch, pos:Vec2):Vec2;
-
-        /**
-         * @method getTouchesByEvent
-         * @param {Touch} event
-         * @param {Vec2} pos
-         * @returns {Array}
-         */
-        public getTouchesByEvent(event:Touch, pos:Vec2):Touch[];
-
-        /**
-         * @method registerSystemEvent
-         * @param {HTMLElement} element
-         */
-        public registerSystemEvent(element:HTMLElement):void;
-
-        /**
-         * @method update
-         * @param {Number} dt
-         */
-        public update(dt:number):void;
-
-
-        ////////////////////////////////////////////////////////////////////////////////
-        // CCInputManager class extensions from CCInputExtension.js below
-        ////////////////////////////////////////////////////////////////////////////////
-
-        /**
-         * whether enable accelerometer event
-         * @method setAccelerometerEnabled
-         * @param {Boolean} isEnable
-         */
-        public setAccelerometerEnabled(isEnable:boolean):void;
-
-        /**
-         * set accelerometer interval value
-         * @method setAccelerometerInterval
-         * @param {Number} interval
-         */
-        public setAccelerometerInterval(interval:number):void;
-
-        // I'm not entirely sure this should be made public, but whatever ...
-        public didAccelerate(eventData:EventData):void;
+    /* Managed JavaScript Inheritance
+     * Based on John Resig's Simple JavaScript Inheritance http://ejohn.org/blog/simple-javascript-inheritance/
+     * MIT Licensed.
+     */
+    export class Class {
+        public ctor():void;
+        public description():string;
     }
 
-
-    //+--------------------------------------------------------------------------------
+    // +---------------------------------------------------------------------------
     // File: cocos2d/core/platform/CCMacro.js
-    //+--------------------------------------------------------------------------------
+    // +---------------------------------------------------------------------------
 
+    // Variables / Constants
     /**
-     * Key map for keyboard event
-     * @enum KEY
-     * @readonly
-     * @type {Object}
-     * @example {@link utils/api/engine/docs/cocos2d/core/platform/CCCommon/KEY.js}
+     * @constant
+     * @type Number
      */
-    export class Key extends Enum {
-        /**
-         * @property none
-         * @type {Number}
-         * @readonly
-         */
-        public static readonly none:Key;
-
-        // android
-        /**
-         * @property back
-         * @type {Number}
-         * @readonly
-         */
-        public static readonly back:Key;
-
-        /**
-         * @property menu
-         * @type {Number}
-         * @readonly
-         */
-        public static readonly menu:Key;
-
-        /**
-         * @property backspace
-         * @type {Number}
-         * @readonly
-         */
-        public static readonly backspace:Key;
-
-        /**
-         * @property tab
-         * @type {Number}
-         * @readonly
-         */
-        public static readonly tab:Key;
-
-        /**
-         * @property enter
-         * @type {Number}
-         * @readonly
-         */
-        public static readonly enter:Key;
-
-        /**
-         * NOTE: should use shiftkey instead
-         * @property shift
-         * @type {Number}
-         * @readonly
-         */
-        public static readonly shift:Key;
-
-        /**
-         * NOTE: should use ctrlkey instead
-         * @property ctrl
-         * @type {Number}
-         * @readonly
-         */
-        public static readonly ctrl:Key;
-
-        /**
-         * NOTE: should use altkey instead
-         * @property alt
-         * @type {Number}
-         * @readonly
-         */
-        public static readonly alt:Key;
-
-        /**
-         * @property pause
-         * @type {Number}
-         * @readonly
-         */
-        public static readonly pause:Key;
-
-        /**
-         * @property capslock
-         * @type {Number}
-         * @readonly
-         */
-        public static readonly capslock:Key;
-
-        /**
-         * @property escape
-         * @type {Number}
-         * @readonly
-         */
-        public static readonly escape:Key;
-
-        /**
-         * @property space
-         * @type {Number}
-         * @readonly
-         */
-        public static readonly space:Key;
-
-        /**
-         * @property pageup
-         * @type {Number}
-         * @readonly
-         */
-        public static readonly pageup:Key;
-
-        /**
-         * @property pagedown
-         * @type {Number}
-         * @readonly
-         */
-        public static readonly pagedown:Key;
-
-        /**
-         * @property end
-         * @type {Number}
-         * @readonly
-         */
-        public static readonly end:Key;
-
-        /**
-         * @property home
-         * @type {Number}
-         * @readonly
-         */
-        public static readonly home:Key;
-
-        /**
-         * @property left
-         * @type {Number}
-         * @readonly
-         */
-        public static readonly left:Key;
-
-        /**
-         * @property up
-         * @type {Number}
-         * @readonly
-         */
-        public static readonly up:Key;
-
-        /**
-         * @property right
-         * @type {Number}
-         * @readonly
-         */
-        public static readonly right:Key;
-
-        /**
-         * @property down
-         * @type {Number}
-         * @readonly
-         */
-        public static readonly down:Key;
-
-        /**
-         * @property select
-         * @type {Number}
-         * @readonly
-         */
-        public static readonly select:Key;
-
-        /**
-         * @property insert
-         * @type {Number}
-         * @readonly
-         */
-        public static readonly insert:Key;
-
-        /**
-         * @property Delete
-         * @type {Number}
-         * @readonly
-         */
-        public static readonly Delete:Key;
-
-        /**
-         * @property 0
-         * @type {Number}
-         * @readonly
-         */
-        public static readonly 0:Key;
-
-        /**
-         * @property 1
-         * @type {Number}
-         * @readonly
-         */
-        public static readonly 1:Key;
-
-        /**
-         * @property 2
-         * @type {Number}
-         * @readonly
-         */
-        public static readonly 2:Key;
-
-        /**
-         * @property 3
-         * @type {Number}
-         * @readonly
-         */
-        public static readonly 3:Key;
-
-        /**
-         * @property 4
-         * @type {Number}
-         * @readonly
-         */
-        public static readonly 4:Key;
-
-        /**
-         * @property 5
-         * @type {Number}
-         * @readonly
-         */
-        public static readonly 5:Key;
-
-        /**
-         * @property 6
-         * @type {Number}
-         * @readonly
-         */
-        public static readonly 6:Key;
-
-        /**
-         * @property 7
-         * @type {Number}
-         * @readonly
-         */
-        public static readonly 7:Key;
-
-        /**
-         * @property 8
-         * @type {Number}
-         * @readonly
-         */
-        public static readonly 8:Key;
-
-        /**
-         * @property 9
-         * @type {Number}
-         * @readonly
-         */
-        public static readonly 9:Key;
-
-        /**
-         * @property a
-         * @type {Number}
-         * @readonly
-         */
-        public static readonly a:Key;
-
-        /**
-         * @property b
-         * @type {Number}
-         * @readonly
-         */
-        public static readonly b:Key;
-        /**
-         * @property c
-         * @type {Number}
-         * @readonly
-         */
-        public static readonly c:Key;
-
-        /**
-         * @property d
-         * @type {Number}
-         * @readonly
-         */
-        public static readonly d:Key;
-
-        /**
-         * @property e
-         * @type {Number}
-         * @readonly
-         */
-        public static readonly e:Key;
-
-        /**
-         * @property f
-         * @type {Number}
-         * @readonly
-         */
-        public static readonly f:Key;
-
-        /**
-         * @property g
-         * @type {Number}
-         * @readonly
-         */
-        public static readonly g:Key;
-
-        /**
-         * @property h
-         * @type {Number}
-         * @readonly
-         */
-        public static readonly h:Key;
-
-        /**
-         * @property i
-         * @type {Number}
-         * @readonly
-         */
-        public static readonly i:Key;
-
-        /**
-         * @property j
-         * @type {Number}
-         * @readonly
-         */
-        public static readonly j:Key;
-
-        /**
-         * @property k
-         * @type {Number}
-         * @readonly
-         */
-        public static readonly k:Key;
-
-        /**
-         * @property l
-         * @type {Number}
-         * @readonly
-         */
-        public static readonly l:Key;
-
-        /**
-         * @property m
-         * @type {Number}
-         * @readonly
-         */
-        public static readonly m:Key;
-
-        /**
-         * @property n
-         * @type {Number}
-         * @readonly
-         */
-        public static readonly n:Key;
-
-        /**
-         * @property o
-         * @type {Number}
-         * @readonly
-         */
-        public static readonly o:Key;
-
-        /**
-         * @property p
-         * @type {Number}
-         * @readonly
-         */
-        public static readonly p:Key;
-
-        /**
-         * @property q
-         * @type {Number}
-         * @readonly
-         */
-        public static readonly q:Key;
-
-        /**
-         * @property r
-         * @type {Number}
-         * @readonly
-         */
-        public static readonly r:Key;
-
-        /**
-         * @property s
-         * @type {Number}
-         * @readonly
-         */
-        public static readonly s:Key;
-
-        /**
-         * @property t
-         * @type {Number}
-         * @readonly
-         */
-        public static readonly t:Key;
-
-        /**
-         * @property u
-         * @type {Number}
-         * @readonly
-         */
-        public static readonly u:Key;
-
-        /**
-         * @property v
-         * @type {Number}
-         * @readonly
-         */
-        public static readonly v:Key;
-
-        /**
-         * @property w
-         * @type {Number}
-         * @readonly
-         */
-        public static readonly w:Key;
-
-        /**
-         * @property x
-         * @type {Number}
-         * @readonly
-         */
-        public static readonly x:Key;
-
-        /**
-         * @property y
-         * @type {Number}
-         * @readonly
-         */
-        public static readonly y:Key;
-
-        /**
-         * @property z
-         * @type {Number}
-         * @readonly
-         */
-        public static readonly z:Key;
-
-        /**
-         * @property num0
-         * @type {Number}
-         * @readonly
-         */
-        public static readonly num0:Key;
-
-        /**
-         * @property num1
-         * @type {Number}
-         * @readonly
-         */
-        public static readonly num1:Key;
-
-        /**
-         * @property num2
-         * @type {Number}
-         * @readonly
-         */
-        public static readonly num2:Key;
-
-        /**
-         * @property num3
-         * @type {Number}
-         * @readonly
-         */
-        public static readonly num3:Key;
-
-        /**
-         * @property num4
-         * @type {Number}
-         * @readonly
-         */
-        public static readonly num4:Key;
-
-        /**
-         * @property num5
-         * @type {Number}
-         * @readonly
-         */
-        public static readonly num5:Key;
-
-        /**
-         * @property num6
-         * @type {Number}
-         * @readonly
-         */
-        public static readonly num6:Key;
-
-        /**
-         * @property num7
-         * @type {Number}
-         * @readonly
-         */
-        public static readonly num7:Key;
-
-        /**
-         * @property num8
-         * @type {Number}
-         * @readonly
-         */
-        public static readonly num8:Key;
-
-        /**
-         * @property num9
-         * @type {Number}
-         * @readonly
-         */
-        public static readonly num9:Key;
-
-        /**
-         * @property {Number} *
-         * @readonly
-         */
-        public static readonly '*':Key;
-
-        /**
-         * @property {Number} +
-         * @readonly
-         */
-        public static readonly '+':Key;
-
-        /**
-         * @property {Number} -
-         * @readonly
-         */
-        public static readonly '-':Key;
-
-        /**
-         * @property numdel
-         * @type {Number}
-         * @readonly
-         */
-        public static readonly 'numdel':Key;
-
-        /**
-         * @property {Number} /
-         * @readonly
-         */
-        public static readonly '/':Key;
-
-        /**
-         * NOTE: F1-F12 don't work on IE
-         * @property f1
-         * @type {Number}
-         * @readonly
-         */
-        public static readonly f1:Key;
-
-        /**
-         * @property f2
-         * @type {Number}
-         * @readonly
-         */
-        public static readonly f2:Key;
-
-        /**
-         * @property f3
-         * @type {Number}
-         * @readonly
-         */
-        public static readonly f3:Key;
-
-        /**
-         * @property f4
-         * @type {Number}
-         * @readonly
-         */
-        public static readonly f4:Key;
-
-        /**
-         * @property f5
-         * @type {Number}
-         * @readonly
-         */
-        public static readonly f5:Key;
-
-        /**
-         * @property f6
-         * @type {Number}
-         * @readonly
-         */
-        public static readonly f6:Key;
-
-        /**
-         * @property f7
-         * @type {Number}
-         * @readonly
-         */
-        public static readonly f7:Key;
-
-        /**
-         * @property f8
-         * @type {Number}
-         * @readonly
-         */
-        public static readonly f8:Key;
-
-        /**
-         * @property f9
-         * @type {Number}
-         * @readonly
-         */
-        public static readonly f9:Key;
-
-        /**
-         * @property f10
-         * @type {Number}
-         * @readonly
-         */
-        public static readonly f10:Key;
-
-        /**
-         * @property f11
-         * @type {Number}
-         * @readonly
-         */
-        public static readonly f11:Key;
-
-        /**
-         * @property f12
-         * @type {Number}
-         * @readonly
-         */
-        public static readonly f12:Key;
-
-        /**
-         * @property numlock
-         * @type {Number}
-         * @readonly
-         */
-        public static readonly numlock:Key;
-        /**
-         * @property scrolllock
-         * @type {Number}
-         * @readonly
-         */
-        public static readonly scrolllock:Key;
-
-        /**
-         * @property {Number} ;
-         * @readonly
-         */
-        public static readonly ';':Key;
-
-        /**
-         * @property semicolon
-         * @type {Number}
-         * @readonly
-         */
-        public static readonly semicolon:Key;
-
-        /**
-         * @property equal
-         * @type {Number}
-         * @readonly
-         */
-        public static readonly equal:Key;
-
-        /**
-         * @property {Number} =
-         * @readonly
-         */
-        public static readonly '=':Key;
-
-        /**
-         * @property {Number} ,
-         * @readonly
-         */
-        public static readonly ',':Key;
-
-        /**
-         * @property comma
-         * @type {Number}
-         * @readonly
-         */
-        public static readonly comma:Key;
-
-        /**
-         * @property dash
-         * @type {Number}
-         * @readonly
-         */
-        public static readonly dash:Key;
-
-        /**
-         * @property {Number} .
-         * @readonly
-         */
-        public static readonly '.':Key;
-
-        /**
-         * @property period
-         * @type {Number}
-         * @readonly
-         */
-        public static readonly period:Key;
-
-        /**
-         * @property forwardslash
-         * @type {Number}
-         * @readonly
-         */
-        public static readonly forwardslash:Key;
-
-        /**
-         * @property grave
-         * @type {Number}
-         * @readonly
-         */
-        public static readonly grave:Key;
-
-        /**
-         * @property {Number} [
-         * @readonly
-         */
-        public static readonly '[':Key;
-
-        /**
-         * @property openbracket
-         * @type {Number}
-         * @readonly
-         */
-        public static readonly openbracket:Key;
-
-        /**
-         * @property backslash
-         * @type {Number}
-         * @readonly
-         */
-        public static readonly backslash:Key;
-
-        /**
-         * @property {Number} ]
-         * @readonly
-         */
-        public static readonly ']':Key;
-
-        /**
-         * @property closebracket
-         * @type {Number}
-         * @readonly
-         */
-        public static readonly closebracket:Key;
-
-        /**
-         * @property quote
-         * @type {Number}
-         * @readonly
-         */
-        public static readonly quote:Key;
-
-        // gamepad controll
-        /**
-         * @property dpadLeft
-         * @type {Number}
-         * @readonly
-         */
-        public static readonly dpadLeft:Key;
-
-        /**
-         * @property dpadRight
-         * @type {Number}
-         * @readonly
-         */
-        public static readonly dpadRight:Key;
-
-        /**
-         * @property dpadUp
-         * @type {Number}
-         * @readonly
-         */
-        public static readonly dpadUp:Key;
-
-        /**
-         * @property dpadDown
-         * @type {Number}
-         * @readonly
-         */
-        public static readonly dpadDown:Key;
-
-        /**
-         * @property dpadCenter
-         * @type {Number}
-         * @readonly
-         */
-        public static readonly dpadCenter:Key;
-    }
+    export const INVALID_INDEX:number;
 
     /**
-     * @module cc
+     * PI is the ratio of a circle's circumference to its diameter.
+     * @constant
+     * @type Number
      */
+    export const PI:number;
 
     /**
-     * Image formats
-     * @enum ImageFormat
-     * @static
-     * @namespace cc
+     * @constant
+     * @type Number
      */
-    export class ImageFormat extends Enum {
-        /**
-         * Image Format:JPG
-         * @property JPG
-         * @type {Number}
-         * @static
-         */
-        public static readonly JPG:ImageFormat;
-
-        /**
-         * Image Format:PNG
-         * @property PNG
-         * @type {Number}
-         * @static
-         */
-        public static readonly PNG:ImageFormat;
-
-        /**
-         * Image Format:TIFF
-         * @property TIFF
-         * @type {Number}
-         * @static
-         */
-        public static readonly TIFF:ImageFormat;
-
-        /**
-         * Image Format:WEBP
-         * @property WEBP
-         * @type {Number}
-         * @static
-         */
-        public static readonly WEBP:ImageFormat;
-
-        /**
-         * Image Format:PVR
-         * @property PVR
-         * @type {Number}
-         * @static
-         */
-        public static readonly PVR:ImageFormat;
-
-        /**
-         * Image Format:ETC
-         * @property ETC
-         * @type {Number}
-         * @static
-         */
-        public static readonly ETC:ImageFormat;
-
-        /**
-         * Image Format:S3TC
-         * @property S3TC
-         * @type {Number}
-         * @static
-         */
-        public static readonly S3TC:ImageFormat;
-
-        /**
-         * Image Format:ATITC
-         * @property ATITC
-         * @type {Number}
-         * @static
-         */
-        public static readonly ATITC:ImageFormat;
-
-        /**
-         * Image Format:TGA
-         * @property TGA
-         * @type {Number}
-         * @static
-         */
-        public static readonly TGA:ImageFormat;
-
-        /**
-         * Image Format:RAWDATA
-         * @property RAWDATA
-         * @type {Number}
-         * @static
-         */
-        public static readonly RAWDATA:ImageFormat;
-
-        /**
-         * Image Format:UNKNOWN
-         * @property UNKNOWN
-         * @type {Number}
-         * @static
-         */
-        public static readonly UNKNOWN:ImageFormat;
-    }
+    export const FLT_MAX:number;
 
     /**
-     * get image format by image data
-     * @method getImageFormatByData
-     * @param {Array} imgData
-     * @returns {ImageFormat}
+     * @constant
+     * @type Number
      */
-    export function getImageFormatByData(imgData:GLByte[]):ImageFormat;
+    export const FLT_MIN:number;
 
     /**
-     * Predefined constants
-     * @enum Macro
-     * @static
-     * @type {Object}
-     * @namespace cc
+     * @constant
+     * @type Number
      */
-    // cc.macro = {
-    declare namespace macro {
-        /**
-         * @property INVALID_INDEX
-         * @type {Number}
-         * @readonly
-         */
-        // INVALID_INDEX: -1,
-        export const INVALID_INDEX:number;
-
-        /**
-         * Default Node tag
-         * @property NODE_TAG_INVALID
-         * @type {Number}
-         * @readonly
-         */
-        export const NODE_TAG_INVALID:number;
-
-        /**
-         * PI is the ratio of a circle's circumference to its diameter.
-         * @property PI
-         * @type {Number}
-         * @readonly
-         */
-        export const PI:number;
-
-        /**
-         * PI * 2
-         * @property PI2
-         * @type {Number}
-         * @readonly
-         */
-        export const PI2:number;
-
-        /**
-         * Maximum float value
-         * @property FLT_MAX
-         * @type {Number}
-         * @readonly
-         */
-        export const FLT_MAX:number;
-
-        /**
-         * Minimum float value
-         * @property FLT_MIN
-         * @type {Number}
-         * @readonly
-         */
-        export const FLT_MIN:number;
-
-        /**
-         * PI / 180
-         * @property RAD
-         * @type {Number}
-         * @readonly
-         */
-        export const RAD:number;
-
-        /**
-         * One degree
-         * @property DEG
-         * @type {Number}
-         * @readonly
-         */
-        export const DEG:number;
-
-        /**
-         * Maximum unsigned int value
-         * @property UINT_MAX
-         * @type {Number}
-         * @readonly
-         */
-        export const UINT_MAX:number;
-
-        /**
-         * @property REPEAT_FOREVER
-         * @type {Number}
-         * @readonly
-         */
-        export const REPEAT_FOREVER:number;
-
-        /**
-         * @property FLT_EPSILON
-         * @type {Number}
-         * @readonly
-         */
-        export const FLT_EPSILON:number;
-
-        //some gl constant variable
-        /**
-         * @property ONE
-         * @type {Number}
-         * @readonly
-         */
-        export const ONE:number;
-
-        /**
-         * @property ZERO
-         * @type {Number}
-         * @readonly
-         */
-        export const ZERO:number;
-
-        /**
-         * @property SRC_ALPHA
-         * @type {Number}
-         * @readonly
-         */
-        export const SRC_ALPHA:number;
-
-        /**
-         * @property SRC_ALPHA_SATURATE
-         * @type {Number}
-         * @readonly
-         */
-        export const SRC_ALPHA_SATURATE:number;
-
-        /**
-         * @property SRC_COLOR
-         * @type {Number}
-         * @readonly
-         */
-        export const SRC_COLOR:number;
-
-        /**
-         * @property DST_ALPHA
-         * @type {Number}
-         * @readonly
-         */
-        export const DST_ALPHA:number;
-
-        /**
-         * @property DST_COLOR
-         * @type {Number}
-         * @readonly
-         */
-        export const DST_COLOR:number;
-
-        /**
-         * @property ONE_MINUS_SRC_ALPHA
-         * @type {Number}
-         * @readonly
-         */
-        export const ONE_MINUS_SRC_ALPHA:number;
-
-        /**
-         * @property ONE_MINUS_SRC_COLOR
-         * @type {Number}
-         * @readonly
-         */
-        export const ONE_MINUS_SRC_COLOR:number;
-
-        /**
-         * @property ONE_MINUS_DST_ALPHA
-         * @type {Number}
-         * @readonly
-         */
-        export const ONE_MINUS_DST_ALPHA:number;
-
-        /**
-         * @property ONE_MINUS_DST_COLOR
-         * @type {Number}
-         * @readonly
-         */
-        export const ONE_MINUS_DST_COLOR:number;
-
-        /**
-         * @property ONE_MINUS_CONSTANT_ALPHA
-         * @type {Number}
-         * @readonly
-         */
-        export const ONE_MINUS_CONSTANT_ALPHA:number;
-
-        /**
-         * @property ONE_MINUS_CONSTANT_COLOR
-         * @type {Number}
-         * @readonly
-         */
-        export const ONE_MINUS_CONSTANT_COLOR:number;
-
-        /**
-         * the constant variable equals gl.LINEAR for texture
-         * @property LINEAR
-         * @type {Number}
-         * @readonly
-         */
-        export const LINEAR:number;
-
-        /**
-         * default gl blend dst function. Compatible with premultiplied alpha images.
-         * @property BLEND_DST
-         * @type {Number}
-         * @readonly
-         */
-        export const BLEND_DST:number;
-
-
-        //Possible device orientations
-
-        /**
-         * Device oriented vertically, home button on the bottom (UIDeviceOrientationPortrait)
-         * @property WEB_ORIENTATION_PORTRAIT
-         * @type {Number}
-         * @readonly
-         */
-        export const WEB_ORIENTATION_PORTRAIT:number;
-
-        /**
-         * Device oriented horizontally, home button on the right (UIDeviceOrientationLandscapeLeft)
-         * @property WEB_ORIENTATION_LANDSCAPE_LEFT
-         * @type {Number}
-         * @readonly
-         */
-        export const WEB_ORIENTATION_LANDSCAPE_LEFT:number;
-
-        /**
-         * Device oriented vertically, home button on the top (UIDeviceOrientationPortraitUpsideDown)
-         * @property WEB_ORIENTATION_PORTRAIT_UPSIDE_DOWN
-         * @type {Number}
-         * @readonly
-         */
-        export const WEB_ORIENTATION_PORTRAIT_UPSIDE_DOWN:number;
-
-        /**
-         * Device oriented horizontally, home button on the left (UIDeviceOrientationLandscapeRight)
-         * @property WEB_ORIENTATION_LANDSCAPE_RIGHT
-         * @type {Number}
-         * @readonly
-         */
-        export const WEB_ORIENTATION_LANDSCAPE_RIGHT:number;
-
-        /**
-         * Oriented vertically
-         * @property ORIENTATION_PORTRAIT
-         * @type {Number}
-         * @readonly
-         */
-        export const ORIENTATION_PORTRAIT:number;
-
-        /**
-         * Oriented horizontally
-         * @property ORIENTATION_LANDSCAPE
-         * @type {Number}
-         * @readonly
-         */
-        export const ORIENTATION_LANDSCAPE:number;
-
-        /**
-         * Oriented automatically
-         * @property ORIENTATION_AUTO
-         * @type {Number}
-         * @readonly
-         */
-        export const ORIENTATION_AUTO:number;
-
-
-        export const DENSITYDPI_DEVICE:string;
-        export const DENSITYDPI_HIGH:string;
-        export const DENSITYDPI_MEDIUM:string;
-        export const DENSITYDPI_LOW:string;
-
-
-        // ------------------- vertex attrib flags -----------------------------
-        /**
-         * @property VERTEX_ATTRIB_FLAG_NONE
-         * @type {Number}
-         * @readonly
-         */
-        export const VERTEX_ATTRIB_FLAG_NONE:number;
-        /**
-         * @property VERTEX_ATTRIB_FLAG_POSITION
-         * @type {Number}
-         * @readonly
-         */
-        export const VERTEX_ATTRIB_FLAG_POSITION:number;
-        /**
-         * @property VERTEX_ATTRIB_FLAG_COLOR
-         * @type {Number}
-         * @readonly
-         */
-        export const VERTEX_ATTRIB_FLAG_COLOR:number;
-        /**
-         * @property VERTEX_ATTRIB_FLAG_TEX_COORDS
-         * @type {Number}
-         * @readonly
-         */
-        export const VERTEX_ATTRIB_FLAG_TEX_COORDS:number;
-        /**
-         * @property VERTEX_ATTRIB_FLAG_POS_COLOR_TEX
-         * @type {Number}
-         * @readonly
-         */
-        export const VERTEX_ATTRIB_FLAG_POS_COLOR_TEX:number;
-
-        /**
-         * GL server side states
-         * @property GL_ALL
-         * @type {Number}
-         * @readonly
-         */
-        export const GL_ALL:number;
-
-        //-------------Vertex Attributes-----------
-        /**
-         * @property VERTEX_ATTRIB_POSITION
-         * @type {Number}
-         * @readonly
-         */
-        export const VERTEX_ATTRIB_POSITION:number;
-        /**
-         * @property VERTEX_ATTRIB_COLOR
-         * @type {Number}
-         * @readonly
-         */
-        export const VERTEX_ATTRIB_COLOR:number;
-        /**
-         * @property VERTEX_ATTRIB_TEX_COORDS
-         * @type {Number}
-         * @readonly
-         */
-        export const VERTEX_ATTRIB_TEX_COORDS:number;
-        /**
-         * @property VERTEX_ATTRIB_MAX
-         * @type {Number}
-         * @readonly
-         */
-        export const VERTEX_ATTRIB_MAX:number;
-
-        //------------Uniforms------------------
-        /**
-         * @property UNIFORM_PMATRIX
-         * @type {Number}
-         * @readonly
-         */
-        export const UNIFORM_PMATRIX:number;
-        /**
-         * @property UNIFORM_MVMATRIX
-         * @type {Number}
-         * @readonly
-         */
-        export const UNIFORM_MVMATRIX:number;
-        /**
-         * @property UNIFORM_MVPMATRIX
-         * @type {Number}
-         * @readonly
-         */
-        export const UNIFORM_MVPMATRIX:number;
-        /**
-         * @property UNIFORM_TIME
-         * @type {Number}
-         * @readonly
-         */
-        export const UNIFORM_TIME:number;
-        /**
-         * @property UNIFORM_SINTIME
-         * @type {Number}
-         * @readonly
-         */
-        export const UNIFORM_SINTIME:number;
-        /**
-         * @property UNIFORM_COSTIME
-         * @type {Number}
-         * @readonly
-         */
-        export const UNIFORM_COSTIME:number;
-        /**
-         * @property UNIFORM_RANDOM01
-         * @type {Number}
-         * @readonly
-         */
-        export const UNIFORM_RANDOM01:number;
-        /**
-         * @property UNIFORM_SAMPLER
-         * @type {Number}
-         * @readonly
-         */
-        export const UNIFORM_SAMPLER:number;
-        /**
-         * @property UNIFORM_MAX
-         * @type {Number}
-         * @readonly
-         */
-        export const UNIFORM_MAX:number;
-
-        //------------Shader Name---------------
-        /**
-         * @property SHADER_POSITION_TEXTURECOLOR
-         * @type {String}
-         * @readonly
-         */
-        export const SHADER_POSITION_TEXTURECOLOR:string;
-        /**
-         * @property SHADER_SPRITE_POSITION_TEXTURECOLOR
-         * @type {String}
-         * @readonly
-         */
-        export const SHADER_SPRITE_POSITION_TEXTURECOLOR:string;
-        /**
-         * @property SHADER_POSITION_TEXTURECOLORALPHATEST
-         * @type {String}
-         * @readonly
-         */
-        export const SHADER_POSITION_TEXTURECOLORALPHATEST:string;
-        /**
-         * @property SHADER_SPRITE_POSITION_TEXTURECOLORALPHATEST
-         * @type {String}
-         * @readonly
-         */
-        export const SHADER_SPRITE_POSITION_TEXTURECOLORALPHATEST:string;
-        /**
-         * @property SHADER_POSITION_COLOR
-         * @type {String}
-         * @readonly
-         */
-        export const SHADER_POSITION_COLOR:string;
-        /**
-         * @property SHADER_SPRITE_POSITION_COLOR
-         * @type {String}
-         * @readonly
-         */
-        export const SHADER_SPRITE_POSITION_COLOR:string;
-        /**
-         * @property SHADER_POSITION_TEXTURE
-         * @type {String}
-         * @readonly
-         */
-        export const SHADER_POSITION_TEXTURE:string;
-        /**
-         * @property SHADER_POSITION_TEXTURE_UCOLOR
-         * @type {String}
-         * @readonly
-         */
-        export const SHADER_POSITION_TEXTURE_UCOLOR:string;
-        /**
-         * @property SHADER_POSITION_TEXTUREA8COLOR
-         * @type {String}
-         * @readonly
-         */
-        export const SHADER_POSITION_TEXTUREA8COLOR:string;
-        /**
-         * @property SHADER_POSITION_UCOLOR
-         * @type {String}
-         * @readonly
-         */
-        export const SHADER_POSITION_UCOLOR:string;
-        /**
-         * @property SHADER_POSITION_LENGTHTEXTURECOLOR
-         * @type {String}
-         * @readonly
-         */
-        export const SHADER_POSITION_LENGTHTEXTURECOLOR:string;
-
-        //------------uniform names----------------
-        /**
-         * @property UNIFORM_PMATRIX_S
-         * @type {String}
-         * @readonly
-         */
-        export const UNIFORM_PMATRIX_S:string;
-        /**
-         * @property UNIFORM_MVMATRIX_S
-         * @type {String}
-         * @readonly
-         */
-        export const UNIFORM_MVMATRIX_S:string;
-        /**
-         * @property UNIFORM_MVPMATRIX_S
-         * @type {String}
-         * @readonly
-         */
-        export const UNIFORM_MVPMATRIX_S:string;
-        /**
-         * @property UNIFORM_TIME_S
-         * @type {String}
-         * @readonly
-         */
-        export const UNIFORM_TIME_S:string;
-        /**
-         * @property UNIFORM_SINTIME_S
-         * @type {String}
-         * @readonly
-         */
-        export const UNIFORM_SINTIME_S:string;
-        /**
-         * @property UNIFORM_COSTIME_S
-         * @type {String}
-         * @readonly
-         */
-        export const UNIFORM_COSTIME_S:string;
-        /**
-         * @property UNIFORM_RANDOM01_S
-         * @type {String}
-         * @readonly
-         */
-        export const UNIFORM_RANDOM01_S:string;
-        /**
-         * @property UNIFORM_SAMPLER_S
-         * @type {String}
-         * @readonly
-         */
-        export const UNIFORM_SAMPLER_S:string;
-        /**
-         * @property UNIFORM_ALPHA_TEST_VALUE_S
-         * @type {String}
-         * @readonly
-         */
-        export const UNIFORM_ALPHA_TEST_VALUE_S:string;
-
-        //------------Attribute names--------------
-        /**
-         * @property ATTRIBUTE_NAME_COLOR
-         * @type {String}
-         * @readonly
-         */
-        export const ATTRIBUTE_NAME_COLOR:string;
-        /**
-         * @property ATTRIBUTE_NAME_POSITION
-         * @type {String}
-         * @readonly
-         */
-        export const ATTRIBUTE_NAME_POSITION:string;
-        /**
-         * @property ATTRIBUTE_NAME_TEX_COORD
-         * @type {String}
-         * @readonly
-         */
-        export const ATTRIBUTE_NAME_TEX_COORD:string;
-
-
-        /**
-         * default size for font size
-         * @property ITEM_SIZE
-         * @type {Number}
-         * @readonly
-         */
-        export const ITEM_SIZE:number;
-
-        /**
-         * default tag for current item
-         * @property CURRENT_ITEM
-         * @type {Number}
-         * @readonly
-         */
-        export const CURRENT_ITEM:number;
-        /**
-         * default tag for zoom action tag
-         * @property ZOOM_ACTION_TAG
-         * @type {Number}
-         * @readonly
-         */
-        export const ZOOM_ACTION_TAG:number;
-        /**
-         * default tag for normal
-         * @property NORMAL_TAG
-         * @type {Number}
-         * @readonly
-         */
-        export const NORMAL_TAG:number;
-
-        /**
-         * default selected tag
-         * @property SELECTED_TAG
-         * @type {Number}
-         * @readonly
-         */
-        export const SELECTED_TAG:number;
-
-        /**
-         * default disabled tag
-         * @property DISABLE_TAG
-         * @type {Number}
-         * @readonly
-         */
-        export const DISABLE_TAG:number;
-
-        // General configurations
-        /**
-         * <p>
-         *   If enabled, the texture coordinates will be calculated by using this formula: <br/>
-         *      - texCoord.left = (rect.x*2+1) / (texture.wide*2);                  <br/>
-         *      - texCoord.right = texCoord.left + (rect.width*2-2)/(texture.wide*2); <br/>
-         *                                                                                 <br/>
-         *  The same for bottom and top.                                                   <br/>
-         *                                                                                 <br/>
-         *  This formula prevents artifacts by using 99% of the texture.                   <br/>
-         *  The "correct" way to prevent artifacts is by using the spritesheet-artifact-fixer.py or a similar tool.<br/>
-         *                                                                                  <br/>
-         *  Affected nodes:                                                                 <br/>
-         *      - _ccsg.Sprite / cc.SpriteBatchNode and subclasses: cc.LabelBMFont, _ccsg.TMXTiledMap <br/>
-         *      - cc.LabelAtlas                                                              <br/>
-         *      - cc.QuadParticleSystem                                                      <br/>
-         *      - cc.TileMap                                                                 <br/>
-         *                                                                                  <br/>
-         *  To enabled set it to 1. Disabled by default.<br/>
-         *  To modify it, in Web engine please refer to CCMacro.js, in JSB please refer to CCConfig.h
-         * </p>
-         *
-         * @property {Number} FIX_ARTIFACTS_BY_STRECHING_TEXEL
-         * @readonly
-         */
-        export const FIX_ARTIFACTS_BY_STRECHING_TEXEL:number;
-
-        /**
-         * Position of the FPS (Default: 0,0 (bottom-left corner))<br/>
-         * To modify it, in Web engine please refer to CCMacro.js, in JSB please refer to CCConfig.h
-         * @property {Vec2} DIRECTOR_STATS_POSITION
-         * @readonly
-         */
-        export const DIRECTOR_STATS_POSITION:Vec2;
-
-        /**
-         * <p>
-         *   Seconds between FPS updates.<br/>
-         *   0.5 seconds, means that the FPS number will be updated every 0.5 seconds.<br/>
-         *   Having a bigger number means a more reliable FPS<br/>
-         *   <br/>
-         *   Default value: 0.1f<br/>
-         *   To modify it, in Web engine please refer to CCMacro.js, in JSB please refer to CCConfig.h
-         * </p>
-         * @property {Number} DIRECTOR_FPS_INTERVAL
-         * @readonly
-         */
-        export const DIRECTOR_FPS_INTERVAL:number;
-
-        /**
-         * <p>
-         *    If enabled, the ccsg.Node objects (_ccsg.Sprite, _ccsg.Label,etc) will be able to render in subpixels.<br/>
-         *    If disabled, integer pixels will be used.<br/>
-         *    <br/>
-         *    To enable set it to 1. Enabled by default.<br/>
-         *    To modify it, in Web engine please refer to CCMacro.js, in JSB please refer to CCConfig.h
-         * </p>
-         * @property {Number} COCOSNODE_RENDER_SUBPIXEL
-         * @readonly
-         */
-        export const COCOSNODE_RENDER_SUBPIXEL:number;
-
-        /**
-         * <p>
-         *   If enabled, the _ccsg.Sprite objects rendered with cc.SpriteBatchNode will be able to render in subpixels.<br/>
-         *   If disabled, integer pixels will be used.<br/>
-         *   <br/>
-         *   To enable set it to 1. Enabled by default.<br/>
-         *   To modify it, in Web engine please refer to CCMacro.js, in JSB please refer to CCConfig.h
-         * </p>
-         * @property {Number} SPRITEBATCHNODE_RENDER_SUBPIXEL
-         * @readonly
-         */
-        export const SPRITEBATCHNODE_RENDER_SUBPIXEL:number;
-
-        /**
-         * <p>
-         *     Automatically premultiply alpha for PNG resources
-         * </p>
-         * @property {Number} AUTO_PREMULTIPLIED_ALPHA_FOR_PNG
-         * @readonly
-         */
-        export const AUTO_PREMULTIPLIED_ALPHA_FOR_PNG:number;
-
-        /**
-         * <p>
-         *     If most of your images have pre-multiplied alpha, set it to 1 (if you are going to use .PNG/.JPG file images).<br/>
-         *     Only set to 0 if ALL your images by-pass Apple UIImage loading system (eg: if you use libpng or PVR images)<br/>
-         *     <br/>
-         *     To enable set it to a value different than 0. Enabled by default.<br/>
-         *     To modify it, in Web engine please refer to CCMacro.js, in JSB please refer to CCConfig.h
-         * </p>
-         * @property {Number} OPTIMIZE_BLEND_FUNC_FOR_PREMULTIPLIED_ALPHA
-         * @readonly
-         */
-        export const OPTIMIZE_BLEND_FUNC_FOR_PREMULTIPLIED_ALPHA:number;
-
-        /**
-         * <p>
-         *   Use GL_TRIANGLE_STRIP instead of GL_TRIANGLES when rendering the texture atlas.<br/>
-         *   It seems it is the recommend way, but it is much slower, so, enable it at your own risk<br/>
-         *   <br/>
-         *   To enable set it to a value different than 0. Disabled by default.<br/>
-         *   To modify it, in Web engine please refer to CCMacro.js, in JSB please refer to CCConfig.h
-         * </p>
-         * @property {Number} TEXTURE_ATLAS_USE_TRIANGLE_STRIP
-         * @readonly
-         */
-        export const TEXTURE_ATLAS_USE_TRIANGLE_STRIP:number;
-
-        /**
-         * <p>
-         *    By default, cc.TextureAtlas (used by many cocos2d classes) will use VAO (Vertex Array Objects).<br/>
-         *    Apple recommends its usage but they might consume a lot of memory, specially if you use many of them.<br/>
-         *    So for certain cases, where you might need hundreds of VAO objects, it might be a good idea to disable it.<br/>
-         *    <br/>
-         *    To disable it set it to 0. disable by default.(Not Supported on WebGL)<br/>
-         *    To modify it, in Web engine please refer to CCMacro.js, in JSB please refer to CCConfig.h
-         * </p>
-         * @property {Number} TEXTURE_ATLAS_USE_VAO
-         * @readonly
-         */
-        export const TEXTURE_ATLAS_USE_VAO:number;
-
-        /**
-         * <p>
-         *  If enabled, NPOT textures will be used where available. Only 3rd gen (and newer) devices support NPOT textures.<br/>
-         *  NPOT textures have the following limitations:<br/>
-         *     - They can't have mipmaps<br/>
-         *     - They only accept GL_CLAMP_TO_EDGE in GL_TEXTURE_WRAP_{S,T}<br/>
-         *  <br/>
-         *  To enable set it to a value different than 0. Disabled by default. <br/>
-         *  <br/>
-         *  This value governs only the PNG, GIF, BMP, images.<br/>
-         *  This value DOES NOT govern the PVR (PVR.GZ, PVR.CCZ) files. If NPOT PVR is loaded, then it will create an NPOT texture ignoring this value.<br/>
-         *  To modify it, in Web engine please refer to CCMacro.js, in JSB please refer to CCConfig.h
-         * </p>
-         * @readonly
-         * @type {Number}
-         * @deprecated This value will be removed in 1.1 and NPOT textures will be loaded by default if the device supports it.
-         */
-        export const TEXTURE_NPOT_SUPPORT:number;
-
-        /**
-         * <p>
-         *     If enabled, it will use LA88 (Luminance Alpha 16-bit textures) for CCLabelTTF objects. <br/>
-         *     If it is disabled, it will use A8 (Alpha 8-bit textures).                              <br/>
-         *     LA88 textures are 6% faster than A8 textures, but they will consume 2x memory.         <br/>
-         *                                                                                            <br/>
-         *     This feature is enabled by default.
-         * </p>
-         * @property {Number} USE_LA88_LABELS
-         * @readonly
-         */
-        export const USE_LA88_LABELS:number;
-
-        /**
-         * <p>
-         *   If enabled, all subclasses of _ccsg.Sprite will draw a bounding box<br/>
-         *   Useful for debugging purposes only. It is recommend to leave it disabled.<br/>
-         *   <br/>
-         *   To enable set it to a value different than 0. Disabled by default:<br/>
-         *      0 -- disabled<br/>
-         *      1 -- draw bounding box<br/>
-         *      2 -- draw texture box
-         * </p>
-         * @property {Number} SPRITE_DEBUG_DRAW
-         * @readonly
-         */
-        export const SPRITE_DEBUG_DRAW:number;
-
-        /**
-         * <p>
-         *   If enabled, all subclasses of cc.LabelBMFont will draw a bounding box <br/>
-         *   Useful for debugging purposes only. It is recommend to leave it disabled.<br/>
-         *   <br/>
-         *   To enable set it to a value different than 0. Disabled by default.<br/>
-         * </p>
-         * @property {Number} LABELBMFONT_DEBUG_DRAW
-         * @readonly
-         */
-        export const LABELBMFONT_DEBUG_DRAW:number;
-
-        /**
-         * <p>
-         *    If enabled, all subclasses of cc.LabelAtlas will draw a bounding box<br/>
-         *    Useful for debugging purposes only. It is recommend to leave it disabled.<br/>
-         *    <br/>
-         *    To enable set it to a value different than 0. Disabled by default.
-         * </p>
-         * @property {Number} LABELATLAS_DEBUG_DRAW
-         * @readonly
-         */
-        export const LABELATLAS_DEBUG_DRAW:number;
-
-        /**
-         * <p>
-         *    If enabled, actions that alter the position property (eg: CCMoveBy, CCJumpBy, CCBezierBy, etc..) will be stacked.                  <br/>
-         *    If you run 2 or more 'position' actions at the same time on a node, then end position will be the sum of all the positions.        <br/>
-         *    If disabled, only the last run action will take effect.
-         * </p>
-         * @property {Number} ENABLE_STACKABLE_ACTIONS
-         * @readonly
-         */
-        export const ENABLE_STACKABLE_ACTIONS:number;
-
-        /**
-         * <p>
-         *      If enabled, cocos2d will maintain an OpenGL state cache internally to avoid unnecessary switches.                                     <br/>
-         *      In order to use them, you have to use the following functions, instead of the the GL ones:                                             <br/>
-         *          - cc.gl.useProgram() instead of glUseProgram()                                                                                      <br/>
-         *          - cc.gl.deleteProgram() instead of glDeleteProgram()                                                                                <br/>
-         *          - cc.gl.blendFunc() instead of glBlendFunc()                                                                                        <br/>
-         *                                                                                                                                            <br/>
-         *      If this functionality is disabled, then cc.gl.useProgram(), cc.gl.deleteProgram(), cc.gl.blendFunc() will call the GL ones, without using the cache.              <br/>
-         *      It is recommend to enable whenever possible to improve speed.                                                                        <br/>
-         *      If you are migrating your code from GL ES 1.1, then keep it disabled. Once all your code works as expected, turn it on.
-         * </p>
-         * @property {Number} ENABLE_GL_STATE_CACHE
-         * @readonly
-         */
-        // Editors do not need to cache fix bug for https://github.com/cocos-creator/fireball/issues/3079
-        export const ENABLE_GL_STATE_CACHE:number;
-    }
-
-    // /**
-    //  * default gl blend src function. Compatible with premultiplied alpha images.
-    //  * @property BLEND_SRC
-    //  * @type {Number}
-    //  * @readonly
-    //  */
-    // cc.defineGetterSetter(cc.macro, "BLEND_SRC", function (){
-    //     if (cc._renderType === cc.game.RENDER_TYPE_WEBGL
-    //          && cc.macro.OPTIMIZE_BLEND_FUNC_FOR_PREMULTIPLIED_ALPHA) {
-    //         return cc.macro.ONE;
-    //     }
-    //     else {
-    //         return cc.macro.SRC_ALPHA;
-    //     }
-    // });
+    export const RAD:number;
 
     /**
-     * <p>
+     * @constant
+     * @type Number
+     */
+    export const DEG:number;
+
+    /**
+     * maximum unsigned int value
+     * @constant
+     * @type Number
+     */
+    export const UINT_MAX:number;
+
+    /**
+     * 
      *     Linear interpolation between 2 numbers, the ratio sets how much it is biased to each end
-     * </p>
+     * 
      * @param {Number} a number A
      * @param {Number} b number B
      * @param {Number} r ratio between 0 and 1
-     * @method lerp
-     * @example {@link utils/api/engine/docs/cocos2d/core/platform/CCMacro/lerp.js}
+     * @function
+     * @example
+     * cc.lerp(2,10,0.5)//returns 6
+     * cc.lerp(2,10,0.2)//returns 3.6
      */
     export function lerp(a:number, b:number, r:number):number;
 
     /**
      * get a random number from 0 to 0xffffff
-     * @method rand
-     * @returns {Number}
+     * @function
+     * @returns {number}
      */
     export function rand():number;
 
     /**
      * returns a random float between -1 and 1
      * @return {Number}
-     * @method randomMinus1To1
+     * @function
      */
     export function randomMinus1To1():number;
 
     /**
-     * returns a random float between 0 and 1, use Math.random directly
+     * returns a random float between 0 and 1
      * @return {Number}
-     * @method random0To1
+     * @function
      */
     export function random0To1():number;
 
@@ -2045,7 +140,7 @@ declare namespace cc {
      * converts degrees to radians
      * @param {Number} angle
      * @return {Number}
-     * @method degreesToRadians
+     * @function
      */
     export function degreesToRadians(angle:number):number;
 
@@ -2053,69 +148,1761 @@ declare namespace cc {
      * converts radians to degrees
      * @param {Number} angle
      * @return {Number}
-     * @method radiansToDegrees
+     * @function
      */
     export function radiansToDegrees(angle:number):number;
 
     /**
+     * converts radians to degrees
+     * @param {Number} angle
+     * @return {Number}
+     * @function
+     */
+    export function radiansToDegress(angle:number):number;
+
+    /**
+     * @constant
+     * @type Number
+     */
+    export const REPEAT_FOREVER:number;
+
+    /**
      * Helpful macro that setups the GL server state, the correct GL program and sets the Model View Projection matrix
-     * @param {Node} node setup node
-     * @method nodeDrawSetup
+     * @param {cc.Node} node setup node
+     * @function
      */
     export function nodeDrawSetup(node:Node):void;
 
-    /*
-     * <p>
-     *     GL states that are enabled:<br/>
-     *       - GL_TEXTURE_2D<br/>
-     *       - GL_VERTEX_ARRAY<br/>
-     *       - GL_TEXTURE_COORD_ARRAY<br/>
-     *       - GL_COLOR_ARRAY<br/>
-     * </p>
-     * @method enableDefaultGLStates
+    /**
+     * 
+     *     GL states that are enabled:
+     *       - GL_TEXTURE_2D
+     *       - GL_VERTEX_ARRAY
+     *       - GL_TEXTURE_COORD_ARRAY
+     *       - GL_COLOR_ARRAY
+     * 
+     * @function
      */
-    // cc.enableDefaultGLStates = function () {
-        //TODO OPENGL STUFF
-        /*
-         glEnableClientState(GL_VERTEX_ARRAY);
-         glEnableClientState(GL_COLOR_ARRAY);
-         glEnableClientState(GL_TEXTURE_COORD_ARRAY);
-         glEnable(GL_TEXTURE_2D);*/
-    // };
-
-    /*
-     * <p>
-     *   Disable default GL states:<br/>
-     *     - GL_TEXTURE_2D<br/>
-     *     - GL_TEXTURE_COORD_ARRAY<br/>
-     *     - GL_COLOR_ARRAY<br/>
-     * </p>
-     * @method disableDefaultGLStates
-     */
-    // cc.disableDefaultGLStates = function () {
-        //TODO OPENGL
-        /*
-         glDisable(GL_TEXTURE_2D);
-         glDisableClientState(GL_COLOR_ARRAY);
-         glDisableClientState(GL_TEXTURE_COORD_ARRAY);
-         glDisableClientState(GL_VERTEX_ARRAY);
-         */
-    // };
+    export function enableDefaultGLStates():void;
 
     /**
-     * <p>
-     *  Increments the GL Draws counts by one.<br/>
-     *  The number of calls per frame are displayed on the screen when the CCDirector's stats are enabled.<br/>
-     * </p>
+     * 
+     *   Disable default GL states:
+     *     - GL_TEXTURE_2D
+     *     - GL_TEXTURE_COORD_ARRAY
+     *     - GL_COLOR_ARRAY
+     * 
+     * @function
+     */
+    export function disableDefaultGLStates();
+
+    /**
+     * 
+     *  Increments the GL Draws counts by one.
+     *  The number of calls per frame are displayed on the screen when the CCDirector's stats are enabled.
+     * 
      * @param {Number} addNumber
-     * @method incrementGLDraws
+     * @function
      */
     export function incrementGLDraws(addNumber:number):void;
 
     /**
-     * Check webgl error.Error will be shown in console if exists.
-     * @method checkGLErrorDebug
+     * @constant
+     * @type Number
      */
-    export function checkGLErrorDebug():void;
-}
+    export const FLT_EPSILON:number;
 
+    /**
+     * 
+     *     On Mac it returns 1;
+     *     On iPhone it returns 2 if RetinaDisplay is On. Otherwise it returns 1
+     * 
+     * @return {Number}
+     * @function
+     */
+    export function contentScaleFactor():number;
+
+    /**
+     * Converts a Point in points to pixels
+     * @param {cc.Point} points
+     * @return {cc.Point}
+     * @function
+     */
+    export function pointPointsToPixels(points:Point):Point;
+
+    /**
+     * Converts a Point in pixels to points
+     * @param {cc.Rect} pixels
+     * @return {cc.Point}
+     * @function
+     */
+    export function pointPixelsToPoints(pixels:Rect):Point;
+
+    /**
+     * Converts a Size in points to pixels
+     * @param {cc.Size} sizeInPoints
+     * @return {cc.Size}
+     * @function
+     */
+    export function sizePointsToPixels(sizeInPoints:Size):Size;
+
+    /**
+     * Converts a size in pixels to points
+     * @param {cc.Size} sizeInPixels
+     * @return {cc.Size}
+     * @function
+     */
+    export function sizePixelsToPoints(sizeInPixels:Size):Size;
+
+    /**
+     * Converts a rect in pixels to points
+     * @param {cc.Rect} pixel
+     * @return {cc.Rect}
+     * @function
+     */
+    export function rectPixelsToPoints(pixels:Rect):Rect;
+
+    /**
+     * Converts a rect in points to pixels
+     * @param {cc.Rect} point
+     * @return {cc.Rect}
+     * @function
+     */
+    export function rectPointsToPixels(point:Rect):Rect;
+
+//some gl constant variable
+    /**
+     * @constant
+     * @type Number
+     */
+    export const ONE:number;
+
+    /**
+     * @constant
+     * @type Number
+     */
+    export const ZERO:number;
+
+    /**
+     * @constant
+     * @type Number
+     */
+    export const SRC_ALPHA:number;
+
+    /**
+     * @constant
+     * @type Number
+     */
+    export const SRC_ALPHA_SATURATE:number;
+
+    /**
+     * @constant
+     * @type Number
+     */
+    export const SRC_COLOR:number;
+
+    /**
+     * @constant
+     * @type Number
+     */
+    export const DST_ALPHA:number;
+
+    /**
+     * @constant
+     * @type Number
+     */
+    export const DST_COLOR:number;
+
+    /**
+     * @constant
+     * @type Number
+     */
+    export const ONE_MINUS_SRC_ALPHA:number;
+
+    /**
+     * @constant
+     * @type Number
+     */
+    export const ONE_MINUS_SRC_COLOR:number;
+
+    /**
+     * @constant
+     * @type Number
+     */
+    export const ONE_MINUS_DST_ALPHA:number;
+
+    /**
+     * @constant
+     * @type Number
+     */
+    export const ONE_MINUS_DST_COLOR:number;
+
+    /**
+     * @constant
+     * @type Number
+     */
+    export const ONE_MINUS_CONSTANT_ALPHA:number;
+
+    /**
+     * @constant
+     * @type Number
+     */
+    export const ONE_MINUS_CONSTANT_COLOR:number;
+
+    /**
+     * the constant variable equals gl.LINEAR for texture
+     * @constant
+     * @type Number
+     */
+    export const LINEAR:number;
+
+    /**
+     * the constant variable equals gl.REPEAT for texture
+     * @constant
+     * @type Number
+     */
+    export const REPEAT:number;
+
+    /**
+     * the constant variable equals gl.CLAMP_TO_EDGE for texture
+     * @constant
+     * @type Number
+     */
+    export const CLAMP_TO_EDGE:number;
+
+    /**
+     * the constant variable equals gl.MIRRORED_REPEAT for texture
+     * @constant
+     * @type Number
+     */
+    export const MIRRORED_REPEAT:number;
+
+    /**
+     * default gl blend src function. Compatible with premultiplied alpha images.
+     * @constant
+     * @name export const BLEND_SRC
+     * @type Number
+     */
+    export const BLEND_SRC:number;
+
+    /**
+     * default gl blend dst function. Compatible with premultiplied alpha images.
+     * @constant
+     * @type Number
+     */
+    export const BLEND_DST:number;
+
+    /**
+     * Check webgl error.Error will be shown in console if exists.
+     * @function
+     */
+    export function checkGLErrorDebug();
+
+//Possible device orientations
+    /**
+     * Device oriented vertically, home button on the bottom (UIDeviceOrientationPortrait)
+     * @constant
+     * @type Number
+     */
+    export const DEVICE_ORIENTATION_PORTRAIT:number;
+
+    /**
+     * Device oriented horizontally, home button on the right (UIDeviceOrientationLandscapeLeft)
+     * @constant
+     * @type Number
+     */
+    export const DEVICE_ORIENTATION_LANDSCAPE_LEFT:number;
+
+    /**
+     * Device oriented vertically, home button on the top (UIDeviceOrientationPortraitUpsideDown)
+     * @constant
+     * @type Number
+     */
+    export const DEVICE_ORIENTATION_PORTRAIT_UPSIDE_DOWN:number;
+
+    /**
+     * Device oriented horizontally, home button on the left (UIDeviceOrientationLandscapeRight)
+     * @constant
+     * @type Number
+     */
+    export const DEVICE_ORIENTATION_LANDSCAPE_RIGHT:number;
+
+    /**
+     * In browsers, we only support 2 orientations by change window size.
+     * @constant
+     * @type Number
+     */
+    export const DEVICE_MAX_ORIENTATIONS:number;
+
+
+// ------------------- vertex attrib flags -----------------------------
+    /**
+     * @constant
+     * @type {Number}
+     */
+    export const VERTEX_ATTRIB_FLAG_NONE:number;
+    /**
+     * @constant
+     * @type {Number}
+     */
+    export const VERTEX_ATTRIB_FLAG_POSITION:number;
+    /**
+     * @constant
+     * @type {Number}
+     */
+    export const VERTEX_ATTRIB_FLAG_COLOR:number;
+    /**
+     * @constant
+     * @type {Number}
+     */
+    export const VERTEX_ATTRIB_FLAG_TEX_COORDS:number;
+    /**
+     * @constant
+     * @type {Number}
+     */
+    export const VERTEX_ATTRIB_FLAG_POS_COLOR_TEX:number;
+
+    /**
+     * GL server side states
+     * @constant
+     * @type {Number}
+     */
+    export const GL_ALL:number;
+
+//-------------Vertex Attributes-----------
+    /**
+     * @constant
+     * @type {Number}
+     */
+    export const VERTEX_ATTRIB_POSITION:number;
+    /**
+     * @constant
+     * @type {Number}
+     */
+    export const VERTEX_ATTRIB_COLOR:number;
+    /**
+     * @constant
+     * @type {Number}
+     */
+    export const VERTEX_ATTRIB_TEX_COORDS:number;
+    /**
+     * @constant
+     * @type {Number}
+     */
+    export const VERTEX_ATTRIB_MAX:number;
+
+//------------Uniforms------------------
+    /**
+     * @constant
+     * @type {Number}
+     */
+    export const UNIFORM_PMATRIX:number;
+    /**
+     * @constant
+     * @type {Number}
+     */
+    export const UNIFORM_MVMATRIX:number;
+    /**
+     * @constant
+     * @type {Number}
+     */
+    export const UNIFORM_MVPMATRIX:number;
+    /**
+     * @constant
+     * @type {Number}
+     */
+    export const UNIFORM_TIME:number;
+    /**
+     * @constant
+     * @type {Number}
+     */
+    export const UNIFORM_SINTIME:number;
+    /**
+     * @constant
+     * @type {Number}
+     */
+    export const UNIFORM_COSTIME:number;
+    /**
+     * @constant
+     * @type {Number}
+     */
+    export const UNIFORM_RANDOM01:number;
+    /**
+     * @constant
+     * @type {Number}
+     */
+    export const UNIFORM_SAMPLER:number;
+    /**
+     * @constant
+     * @type {Number}
+     */
+    export const UNIFORM_MAX:number;
+
+//------------Shader Name---------------
+    /**
+     * @constant
+     * @type {String}
+     */
+    export const SHADER_POSITION_TEXTURECOLOR:string;
+    /**
+     * @constant
+     * @type {String}
+     */
+    export const SHADER_POSITION_TEXTURECOLORALPHATEST:string;
+    /**
+     * @constant
+     * @type {String}
+     */
+    export const SHADER_POSITION_COLOR:string;
+    /**
+     * @constant
+     * @type {String}
+     */
+    export const SHADER_POSITION_TEXTURE:string;
+    /**
+     * @constant
+     * @type {String}
+     */
+    export const SHADER_POSITION_TEXTURE_UCOLOR:string;
+    /**
+     * @constant
+     * @type {String}
+     */
+    export const SHADER_POSITION_TEXTUREA8COLOR:string;
+    /**
+     * @constant
+     * @type {String}
+     */
+    export const SHADER_POSITION_UCOLOR:string;
+    /**
+     * @constant
+     * @type {String}
+     */
+    export const SHADER_POSITION_LENGTHTEXTURECOLOR:string;
+
+//------------uniform names----------------
+    /**
+     * @constant
+     * @type {String}
+     */
+    export const UNIFORM_PMATRIX_S:string;
+    /**
+     * @constant
+     * @type {String}
+     */
+    export const UNIFORM_MVMATRIX_S:string;
+    /**
+     * @constant
+     * @type {String}
+     */
+    export const UNIFORM_MVPMATRIX_S:string;
+    /**
+     * @constant
+     * @type {String}
+     */
+    export const UNIFORM_TIME_S:string;
+    /**
+     * @constant
+     * @type {String}
+     */
+    export const UNIFORM_SINTIME_S:string;
+    /**
+     * @constant
+     * @type {String}
+     */
+    export const UNIFORM_COSTIME_S:string;
+    /**
+     * @constant
+     * @type {String}
+     */
+    export const UNIFORM_RANDOM01_S:string;
+    /**
+     * @constant
+     * @type {String}
+     */
+    export const UNIFORM_SAMPLER_S:string;
+    /**
+     * @constant
+     * @type {String}
+     */
+    export const UNIFORM_ALPHA_TEST_VALUE_S:string;
+
+//------------Attribute names--------------
+    /**
+     * @constant
+     * @type {String}
+     */
+    export const ATTRIBUTE_NAME_COLOR:string;
+    /**
+     * @constant
+     * @type {String}
+     */
+    export const ATTRIBUTE_NAME_POSITION:string;
+    /**
+     * @constant
+     * @type {String}
+     */
+    export const ATTRIBUTE_NAME_TEX_COORD:string;
+
+
+    /**
+     * default size for font size
+     * @constant
+     * @type Number
+     */
+    export const ITEM_SIZE:number;
+
+    /**
+     * default tag for current item
+     * @constant
+     * @type Number
+     */
+    export const CURRENT_ITEM:number;
+    /**
+     * default tag for zoom action tag
+     * @constant
+     * @type Number
+     */
+    export const ZOOM_ACTION_TAG:number;
+    /**
+     * default tag for normal
+     * @constant
+     * @type Number
+     */
+    export const NORMAL_TAG:number;
+
+    /**
+     * default selected tag
+     * @constant
+     * @type Number
+     */
+    export const SELECTED_TAG:number;
+
+    /**
+     * default disabled tag
+     * @constant
+     * @type Number
+     */
+    export const DISABLE_TAG:number;
+
+
+// Array utils
+
+    /**
+     * Verify Array's Type
+     * @param {Array} arr
+     * @param {function} type
+     * @return {Boolean}
+     * @function
+     */
+    export function arrayVerifyType(arr:any[], type:any):boolean;
+
+    /**
+     * Searches for the first occurance of object and removes it. If object is not found the function has no effect.
+     * @function
+     * @param {Array} arr Source Array
+     * @param {*} delObj  remove object
+     */
+    export function arrayRemoveObject(arr:any[], delObj:any):void;
+
+    /**
+     * Removes from arr all values in minusArr. For each Value in minusArr, the first matching instance in arr will be removed.
+     * @function
+     * @param {Array} arr Source Array
+     * @param {Array} minusArr minus Array
+     */
+    export function arrayRemoveArray(arr:any[], minusArr:any[]):void;
+
+    /**
+     * Inserts some objects at index
+     * @function
+     * @param {Array} arr
+     * @param {Array} addObjs
+     * @param {Number} index
+     * @return {Array}
+     */
+    export function arrayAppendObjectsToIndex(arr:any[], addObjs:any[], index:number):any[];
+
+    /**
+     * Copy an array's item to a new array (its performance is better than Array.slice)
+     * @param {Array} arr
+     * @return {Array}
+     */
+    export function copyArray(arr:any[]):any[];
+
+
+    ////////////////////////////////////////////////////////////////////////////////
+    // File: cocos2d/core/platform/CCTypes.js
+    ////////////////////////////////////////////////////////////////////////////////
+
+    //+---------- Variable definitions ----------+//
+    /**
+     * text alignment : left
+     * @constant
+     * @type Number
+     */
+    export var TEXT_ALIGNMENT_LEFT;
+
+    /**
+     * text alignment : center
+     * @constant
+     * @type Number
+     */
+    export var TEXT_ALIGNMENT_CENTER;
+
+    /**
+     * text alignment : right
+     * @constant
+     * @type Number
+     */
+    export var TEXT_ALIGNMENT_RIGHT;
+
+    /**
+     * text alignment : top
+     * @constant
+     * @type Number
+     */
+    export var VERTICAL_TEXT_ALIGNMENT_TOP;
+
+    /**
+     * text alignment : center
+     * @constant
+     * @type Number
+     */
+    export var VERTICAL_TEXT_ALIGNMENT_CENTER;
+
+    /**
+     * text alignment : bottom
+     * @constant
+     * @type Number
+     */
+    export var VERTICAL_TEXT_ALIGNMENT_BOTTOM;
+
+    //+---------- Function definitions ----------+//
+    /**
+     * @function
+     * @returns {cc.BlendFunc}
+     */
+    export function blendFuncDisable():BlendFunc;
+
+    /**
+     * Generate a color object based on multiple forms of parameters
+     * @example
+     *
+     * // 1. All channels seperately as parameters
+     * var color1 = cc.color(255, 255, 255, 255);
+     *
+     * // 2. Convert a hex string to a color
+     * var color2 = cc.color("#000000");
+     *
+     * // 3. An color object as parameter
+     * var color3 = cc.color({r: 255, g: 255, b: 255, a: 255});
+     *
+     * Alpha channel is optional. Default value is 255
+     *
+     * @param {String|cc.Color} color
+     * @return {cc.Color}
+     */
+    export function color(color:Color|string):Color;
+
+    /**
+     * Generate a color object based on multiple forms of parameters
+     * @example
+     *
+     * // 1. All channels seperately as parameters
+     * var color1 = cc.color(255, 255, 255, 255);
+     *
+     * // 2. Convert a hex string to a color
+     * var color2 = cc.color("#000000");
+     *
+     * // 3. An color object as parameter
+     * var color3 = cc.color({r: 255, g: 255, b: 255, a: 255});
+     *
+     * Alpha channel is optional. Default value is 255
+     *
+     * @param {Number} red
+     * @param {Number} green
+     * @param {Number} blue
+     * @param {Number} [alpha=255]
+     * @return {cc.Color}
+     */
+    export function color(red:number, green:number, blue:number, alpha?:number):Color;
+
+    /**
+     * returns true if both ccColor3B are equal. Otherwise it returns false.
+     * @function
+     * @param {cc.Color} color1
+     * @param {cc.Color} color2
+     * @return {Boolean}  true if both ccColor3B are equal. Otherwise it returns false.
+     */
+    export function colorEqual(color1:Color, color2:Color);
+
+    /**
+     * convert Color to a string of color for style.
+     * e.g.  cc.color(255,6,255)  to : "#ff06ff"
+     * @function
+     * @param {cc.Color} color
+     * @return {String}
+     */
+    export function colorToHex(color:Color):string;
+
+    /**
+     * convert a string of color for style to Color.
+     * e.g. "#ff06ff"  to : cc.color(255,6,255)
+     * @function
+     * @param {String} hex
+     * @return {cc.Color}
+     */
+    export function hexToColor(hex:string):Color;
+
+    /**
+     * Helper macro that creates an Tex2F type: A texcoord composed of 2 floats: u, y
+     * @function
+     * @param {Number} u
+     * @param {Number} v
+     * @return {cc.Tex2F}
+     */
+    export function tex2(u:number, v:number):Tex2F;
+
+    /**
+     * Helper macro that creates an Vertex2F type composed of 2 floats: x, y
+     * @function
+     * @param {Number} x
+     * @param {Number} y
+     * @return {cc.Vertex2F}
+     */
+    export function vertex2(x:number, y:number):Vertex2F;
+
+    /**
+     * Helper macro that creates an Vertex3F type composed of 3 floats: x, y, z
+     * @function
+     * @param {Number} x
+     * @param {Number} y
+     * @param {Number} z
+     * @return {cc.Vertex3F}
+     */
+    export function vertex3(x:number, y:number, z:number):Vertex3F;
+
+    //+---------- Class definitions ----------+//
+    /**
+     * the device accelerometer reports values for each axis in units of g-force
+     * @class cc.Acceleration
+     */
+    export class Acceleration {
+        /**
+         * the device accelerometer reports values for each axis in units of g-force
+         * @constructor
+         * @param {Number} x
+         * @param {Number} y
+         * @param {Number} z
+         * @param {Number} timestamp
+         */
+        constructor (x:number, y:number, z:number, timestamp:number);
+    }
+
+    /**
+     * Blend Function used for textures
+     * @Class cc.BlendFunc
+     */
+    export class BlendFunc {
+        /**
+         * Blend Function used for textures
+         * @Constructor
+         * @param {Number} src source blend function
+         * @param {Number} dst destination blend function
+         */
+        constructor(src:number, dst:number);
+    }
+
+    /**
+     * Color class, please use cc.color() to construct a color
+     * @class cc.Color
+     * @see cc.color
+     */
+    export class Color {
+        public r:number;
+        public g:number;
+        public b:number;
+        public a:number;
+
+        /**
+         * Color class, please use cc.color() to construct a color
+         * @class cc.Color
+         * @param {Number} red
+         * @param {Number} green
+         * @param {Number} blue
+         * @param {Number} alpha
+         * @see cc.color
+         */
+        constructor(red:number, green:number, blue:number, alpha:number);
+    }
+
+    /**
+     * TODO: Define type for properties arg in c'tor. Figure out what the structure for props is and make a class.
+     * Common usage:
+     *
+     * var fontDef = new cc.FontDefinition();
+     * fontDef.fontName = "Arial";
+     * fontDef.fontSize = 12;
+     * ...
+     *
+     * OR using inline definition usefull for constructor injection
+     *
+     * var fontDef = new cc.FontDefinition({
+     *  fontName: "Arial",
+     *  fontSize: 12
+     * });
+     *
+     *
+     *
+     * @class cc.FontDefinition
+     */
+    export class FontDefinition {
+        public fontName;
+        public fontSize;
+        public textAlign;
+        public verticalAlign;
+        public fillStyle;
+        public boundingWidth;
+        public boundingHeight;
+
+        public strokeEnabled;
+        public strokeStyle;
+        public lineWidth;
+        public lineHeight;
+        public fontStyle;
+        public fontWeight;
+
+        public shadowEnabled;
+        public shadowOffsetX;
+        public shadowOffsetY;
+        public shadowBlur;
+        public shadowOpacity;
+
+        /**
+         * TODO: Define type for properties arg in c'tor. Figure out what the structure for props is and make a class (or more likely, an interface).
+         * @param {Object} properties - (OPTIONAL) Allow inline FontDefinition
+         * @constructor
+         */
+        constructor(properties:any);
+    }
+
+    /**
+     * @class cc.Tex2F
+     */
+    export class Tex2F {
+        /**
+         * @constructor
+         * @param {Number} u
+         * @param {Number} v
+         */
+        constructor(u:number, v:number);
+    }
+
+    /**
+     * @class cc.Vertex2F
+     */
+    export class Vertex2F {
+        /**
+         * @constructor
+         * @param {Number} x
+         * @param {Number} y
+         */
+        constructor(x:number, y:number);
+    }
+
+    /**
+     * @class cc.Vertex3F
+     */
+    export class Vertex3F {
+        /**
+         * @constructor
+         * @param {Number} x
+         * @param {Number} y
+         * @param {Number} z
+         */
+        constructor (x:number, y:number, z:number);
+    }
+
+    ////////////////////////////////////////////////////////////////////////////////
+    // File: cocos2d/core/platform/CCTypesWebGL.js
+    ////////////////////////////////////////////////////////////////////////////////
+    //    //redefine cc.Vertex2F
+    //    /**
+    //     * @class cc.Vertex2F
+    //     * @param {Number} x
+    //     * @param {Number}y
+    //     * @param {Array} arrayBuffer
+    //     * @param {Number}offset
+    //     * @constructor
+    //     */
+    //    cc.Vertex2F = function (x, y, arrayBuffer, offset) {
+    //        this._arrayBuffer = arrayBuffer || new ArrayBuffer(cc.Vertex2F.BYTES_PER_ELEMENT);
+    //        this._offset = offset || 0;
+    //
+    //        this._xF32 = new Float32Array(this._arrayBuffer, this._offset, 1);
+    //        this._yF32 = new Float32Array(this._arrayBuffer, this._offset + 4, 1);
+    //        this._xF32[0] = x || 0;
+    //        this._yF32[0] = y || 0;
+    //    };
+    //    /**
+    //     * @constant
+    //     * @type {number}
+    //     */
+    //    cc.Vertex2F.BYTES_PER_ELEMENT = 8;
+    //
+    //    _p = cc.Vertex2F.prototype;
+    //    _p._getX = function () {
+    //        return this._xF32[0];
+    //    };
+    //    _p._setX = function (xValue) {
+    //        this._xF32[0] = xValue;
+    //    };
+    //    _p._getY = function () {
+    //        return this._yF32[0];
+    //    };
+    //    _p._setY = function (yValue) {
+    //        this._yF32[0] = yValue;
+    //    };
+    //    /** @expose */
+    //    _p.x;
+    //    cc.defineGetterSetter(_p, "x", _p._getX, _p._setX);
+    //    /** @expose */
+    //    _p.y;
+    //    cc.defineGetterSetter(_p, "y", _p._getY, _p._setY);
+    //
+    //    // redefine cc.Vertex3F
+    //    /**
+    //     * @class cc.Vertex3F
+    //     * @param {Number} x
+    //     * @param {Number} y
+    //     * @param {Number}z
+    //     * @param {Array} arrayBuffer
+    //     * @param {Number} offset
+    //     * @constructor
+    //     */
+    //    cc.Vertex3F = function (x, y, z, arrayBuffer, offset) {
+    //        this._arrayBuffer = arrayBuffer || new ArrayBuffer(cc.Vertex3F.BYTES_PER_ELEMENT);
+    //        this._offset = offset || 0;
+    //
+    //        var locArrayBuffer = this._arrayBuffer, locOffset = this._offset;
+    //        this._xF32 = new Float32Array(locArrayBuffer, locOffset, 1);
+    //        this._xF32[0] = x || 0;
+    //        this._yF32 = new Float32Array(locArrayBuffer, locOffset + Float32Array.BYTES_PER_ELEMENT, 1);
+    //        this._yF32[0] = y || 0;
+    //        this._zF32 = new Float32Array(locArrayBuffer, locOffset + Float32Array.BYTES_PER_ELEMENT * 2, 1);
+    //        this._zF32[0] = z || 0;
+    //    };
+    //    /**
+    //     * @constant
+    //     * @type {number}
+    //     */
+    //    cc.Vertex3F.BYTES_PER_ELEMENT = 12;
+    //
+    //    _p = cc.Vertex3F.prototype;
+    //    _p._getX = function () {
+    //        return this._xF32[0];
+    //    };
+    //    _p._setX = function (xValue) {
+    //        this._xF32[0] = xValue;
+    //    };
+    //    _p._getY = function () {
+    //        return this._yF32[0];
+    //    };
+    //    _p._setY = function (yValue) {
+    //        this._yF32[0] = yValue;
+    //    };
+    //    _p._getZ = function () {
+    //        return this._zF32[0];
+    //    };
+    //    _p._setZ = function (zValue) {
+    //        this._zF32[0] = zValue;
+    //    };
+    //    /** @expose */
+    //    _p.x;
+    //    cc.defineGetterSetter(_p, "x", _p._getX, _p._setX);
+    //    /** @expose */
+    //    _p.y;
+    //    cc.defineGetterSetter(_p, "y", _p._getY, _p._setY);
+    //    /** @expose */
+    //    _p.z;
+    //    cc.defineGetterSetter(_p, "z", _p._getZ, _p._setZ);
+    //
+    //    // redefine cc.Tex2F
+    //    /**
+    //     * @class cc.Tex2F
+    //     * @param {Number} u
+    //     * @param {Number} v
+    //     * @param {Array} arrayBuffer
+    //     * @param {Number} offset
+    //     * @constructor
+    //     */
+    //    cc.Tex2F = function (u, v, arrayBuffer, offset) {
+    //        this._arrayBuffer = arrayBuffer || new ArrayBuffer(cc.Tex2F.BYTES_PER_ELEMENT);
+    //        this._offset = offset || 0;
+    //
+    //        this._uF32 = new Float32Array(this._arrayBuffer, this._offset, 1);
+    //        this._vF32 = new Float32Array(this._arrayBuffer, this._offset + 4, 1);
+    //        this._uF32[0] = u || 0;
+    //        this._vF32[0] = v || 0;
+    //    };
+    //    /**
+    //     * @constants
+    //     * @type {number}
+    //     */
+    //    cc.Tex2F.BYTES_PER_ELEMENT = 8;
+    //
+    //    _p = cc.Tex2F.prototype;
+    //    _p._getU = function () {
+    //        return this._uF32[0];
+    //    };
+    //    _p._setU = function (xValue) {
+    //        this._uF32[0] = xValue;
+    //    };
+    //    _p._getV = function () {
+    //        return this._vF32[0];
+    //    };
+    //    _p._setV = function (yValue) {
+    //        this._vF32[0] = yValue;
+    //    };
+    //    /** @expose */
+    //    _p.u;
+    //    cc.defineGetterSetter(_p, "u", _p._getU, _p._setU);
+    //    /** @expose */
+    //    _p.v;
+    //    cc.defineGetterSetter(_p, "v", _p._getV, _p._setV);
+
+    //redefine cc.Quad2
+    /**
+     * @class cc.Quad2
+     * @param {cc.Vertex2F} tl
+     * @param {cc.Vertex2F} tr
+     * @param {cc.Vertex2F} bl
+     * @param {cc.Vertex2F} br
+     * @param {Array} arrayBuffer
+     * @param {Number} offset
+     * @constructor
+     */
+    export class Quad2 {
+        public static BYTES_PER_ELEMENT:number;
+        public constructor(tl:Vertex2F, tr:Vertex2F, bl:Vertex2F, br:Vertex2F, arrayBuffer:Quad2[], offset:number);
+    }
+
+
+    /**
+     * A 3D Quad. 4 * 3 floats
+     * @Class cc.Quad3
+     * @Construct
+     * @param {cc.Vertex3F} bl1
+     * @param {cc.Vertex3F} br1
+     * @param {cc.Vertex3F} tl1
+     * @param {cc.Vertex3F} tr1
+     */
+    export class Quad3 {
+        public constructor(bl1:Vertex3F, br1:Vertex3F, tl1:Vertex3F, tr1:Vertex3F);
+    }
+
+    //redefine cc.V3F_C4B_T2F
+    /**
+     * @class cc.V3F_C4B_T2F
+     * @param {cc.Vertex3F} vertices
+     * @param { cc.color} colors
+     * @param {cc.Tex2F} texCoords
+     * @param {Array} arrayBuffer
+     * @param {Number} offset
+     * @constructor
+     */
+    export class V3F_C4B_T2F {
+        public static BYTES_PER_ELEMENT:number;
+        public constructor (vertices:Vertex3F, colors:Color, texCoords:Tex2F, arrayBuffer:V3F_C4B_T2F[], offset:number);
+    }
+
+    //redefine cc.V3F_C4B_T2F_Quad
+    /**
+     * @cc.class cc.V3F_C4B_T2F_Quad
+     * @param {cc.V3F_C4B_T2F} tl
+     * @param {cc.V3F_C4B_T2F} bl
+     * @param {cc.V3F_C4B_T2F} tr
+     * @param {cc.V3F_C4B_T2F} br
+     * @param {Array} arrayBuffer
+     * @param {Number} offset
+     * @constructor
+     */
+    export class V3F_C4B_T2F_Quad {
+        public static BYTES_PER_ELEMENT:number;
+
+        public constructor(tl:V3F_C4B_T2F, bl:V3F_C4B_T2F, tr:V3F_C4B_T2F, br:V3F_C4B_T2F, arrayBuffer:V3F_C4B_T2F[], offset:number);
+    }
+
+    /**
+     * @function
+     * @returns {cc.V3F_C4B_T2F_Quad}
+     */
+    export function V3F_C4B_T2F_QuadZero(): V3F_C4B_T2F_Quad;
+
+    /**
+     * @function
+     * @param {cc.V3F_C4B_T2F_Quad} sourceQuad
+     * @return {cc.V3F_C4B_T2F_Quad}
+     */
+    export function V3F_C4B_T2F_QuadCopy(sourceQuad:V3F_C4B_T2F_Quad): V3F_C4B_T2F_Quad;
+
+    /**
+     * @function
+     * @param {Array} sourceQuads
+     * @returns {Array}
+     */
+    export function V3F_C4B_T2F_QuadsCopy(sourceQuads:V3F_C4B_T2F_Quad[]): V3F_C4B_T2F_Quad[];
+
+    //redefine cc.V2F_C4B_T2F
+    /**
+     * @class cc.V2F_C4B_T2F
+     * @param {cc.Vertex2F} vertices
+     * @param {cc.color} colors
+     * @param {cc.Tex2F} texCoords
+     * @param {Array} arrayBuffer
+     * @param {Number} offset
+     * @constructor
+     */
+        //cc.V2F_C4B_T2F = function (vertices, colors, texCoords, arrayBuffer, offset) {
+    export class V2F_C4B_T2F {
+        public static BYTES_PER_ELEMENT:number;
+        public constructor(vertices:Vertex2F, colors:Color, texCoords:Tex2F, arrayBuffer:V2F_C4B_T2F[], offset:number);
+    }
+
+    //redefine cc.V2F_C4B_T2F_Triangle
+    /**
+     * @class cc.V2F_C4B_T2F_Triangle
+     * @param {cc.V2F_C4B_T2F} a
+     * @param {cc.V2F_C4B_T2F} b
+     * @param {cc.V2F_C4B_T2F} c
+     * @param {Array} arrayBuffer
+     * @param {Number} offset
+     * @constructor
+     */
+    export class V2F_C4B_T2F_Triangle {
+        public static BYTES_PER_ELEMENT:number;
+        public constructor(a:V2F_C4B_T2F, b:V2F_C4B_T2F, c:V2F_C4B_T2F, arrayBuffer:V2F_C4B_T2F_Triangle[], offset:number);
+    }
+
+    ////////////////////////////////////////////////////////////////////////////////
+    // File: cocos2d/core/platform/CCEGLView.js
+    ////////////////////////////////////////////////////////////////////////////////
+    // TODO: Figure out where the fuck the cc.View class is defined
+    export interface View extends Class {}
+
+    /**
+     * @ignore
+     */
+    //cc.Touches = [];
+    //cc.TouchesIntergerDict = {};
+
+    export const DENSITYDPI_DEVICE:string;
+    export const DENSITYDPI_HIGH:string;
+    export const DENSITYDPI_MEDIUM:string;
+    export const DENSITYDPI_LOW:string;
+
+    /**
+     * cc.view is the singleton object which represents the game window.
+     * It's main task include: 
+     *  - Apply the design resolution policy
+     *  - Provide interaction with the window, like resize event on web, retina display support, etc...
+     *  - Manage the game view port which can be different with the window
+     *  - Manage the content scale and translation
+     * 
+     * Since the cc.view is a singleton, you don't need to call any constructor or create functions,
+     * the standard way to use it is by calling:
+     *  - cc.view.methodName(); 
+     * @class
+     * @name cc.view
+     * @extend cc.Class
+     */
+    export class EGLView extends Class implements View {
+        /**
+         * Constructor of cc.EGLView
+         */
+        //ctor: function () {
+        //public constructor();
+
+        /**
+         * 
+         * Sets view's target-densitydpi for android mobile browser. it can be set to:           
+         *   1. cc.DENSITYDPI_DEVICE, value is "device-dpi"                                      
+         *   2. cc.DENSITYDPI_HIGH, value is "high-dpi"  (default value)                         
+         *   3. cc.DENSITYDPI_MEDIUM, value is "medium-dpi" (browser's default value)            
+         *   4. cc.DENSITYDPI_LOW, value is "low-dpi"                                            
+         *   5. Custom value, e.g: "480"                                                         
+         * 
+         * @param {String} densityDPI
+         */
+        public setTargetDensityDPI(densityDPI:string):void;
+
+        /**
+         * Returns the current target-densitydpi value of cc.view.
+         * @returns {String}
+         */
+        public getTargetDensityDPI():string;
+
+        /**
+         * Sets whether resize canvas automatically when browser's size changed.
+         * Useful only on web.
+         * @param {Boolean} enabled Whether enable automatic resize with browser's resize event
+         */
+        public resizeWithBrowserSize(enabled:boolean):void;
+
+        /**
+         * Sets the callback function for cc.view's resize action,
+         * this callback will be invoked before applying resolution policy, 
+         * so you can do any additional modifications within the callback.
+         * Useful only on web.
+         * @param {Function|null} callback The callback function
+         */
+        public setResizeCallback(callback?:()=>void):void;
+
+        // TODO: Shouldn't this return a boolean?!?
+        public initialize():void;
+
+        /**
+         * Sets whether the engine modify the "viewport" meta in your web page.
+         * It's enabled by default, we strongly suggest you not to disable it.
+         * And even when it's enabled, you can still set your own "viewport" meta, it won't be overridden
+         * Only useful on web
+         * @param {Boolean} enabled Enable automatic modification to "viewport" meta
+         */
+        public adjustViewPort(enabled:boolean):void;
+
+        /**
+         * Retina support is enabled by default for Apple device but disabled for other devices,
+         * it takes effect only when you called setDesignResolutionPolicy
+         * Only useful on web
+         * @param {Boolean} enabled  Enable or disable retina display
+         */
+        public enableRetina(enabled:boolean):void;
+
+        /**
+         * Check whether retina display is enabled.
+         * Only useful on web
+         * @return {Boolean}
+         */
+        public isRetinaEnabled():boolean;
+
+        /**
+         * If enabled, the application will try automatically to enter full screen mode on mobile devices
+         * You can pass true as parameter to enable it and disable it by passing false.
+         * Only useful on web
+         * @param {Boolean} enabled  Enable or disable auto full screen on mobile devices
+         */
+        public enableAutoFullScreen(enabled:boolean):void;
+
+        /**
+         * Check whether auto full screen is enabled.
+         * Only useful on web
+         * @return {Boolean} Auto full screen enabled or not
+         */
+        public isAutoFullScreenEnabled():boolean;
+
+        /**
+         * Force destroying EGL view, subclass must implement this method.
+         */
+        public end();
+
+        /**
+         * Get whether render system is ready(no matter opengl or canvas),
+         * this name is for the compatibility with cocos2d-x, subclass must implement this method.
+         * @return {Boolean}
+         */
+        public isOpenGLReady():boolean;
+
+        /*
+         * Set zoom factor for frame. This method is for debugging big resolution (e.g.new ipad) app on desktop.
+         * @param {Number} zoomFactor
+         */
+        public setFrameZoomFactor(zoomFactor:number):void;
+
+        /**
+         * Exchanges the front and back buffers, subclass must implement this method.
+         */
+        public swapBuffers():void;
+
+        /**
+         * Open or close IME keyboard , subclass must implement this method.
+         * @param {Boolean} isOpen
+         */
+        public setIMEKeyboardState(isOpen:boolean):void;
+
+        /**
+         * Sets the resolution translate on EGLView
+         * @param {Number} offsetLeft
+         * @param {Number} offsetTop
+         */
+        public setContentTranslateLeftTop(offsetLeft:number, offsetTop:number):void;
+
+        /**
+         * Returns the resolution translate on EGLView
+         * @return {cc.Size|Object}
+         */
+        //public getContentTranslateLeftTop():any
+        public getContentTranslateLeftTop():Size;
+
+        /**
+         * Returns the canvas size of the view.
+         * On native platforms, it returns the screen size since the view is a fullscreen view.
+         * On web, it returns the size of the canvas element.
+         * @return {cc.Size}
+         */
+        public getCanvasSize():Size;
+
+        /**
+         * Returns the frame size of the view.
+         * On native platforms, it returns the screen size since the view is a fullscreen view.
+         * On web, it returns the size of the canvas's outer DOM element.
+         * @return {cc.Size}
+         */
+        public getFrameSize():Size;
+
+        /**
+         * On native, it sets the frame size of view.
+         * On web, it sets the size of the canvas's outer DOM element.
+         * @param {Number} width
+         * @param {Number} height
+         */
+        public setFrameSize(width:number, height:number):void;
+
+        /**
+         * Empty function
+         */
+        public centerWindow();
+
+        /**
+         * Returns the visible area size of the view port.
+         * @return {cc.Size}
+         */
+        public getVisibleSize():Size;
+
+        /**
+         * Returns the visible area size of the view port.
+         * @return {cc.Size}
+         */
+        public getVisibleSizeInPixel():Size;
+
+        /**
+         * Returns the visible origin of the view port.
+         * @return {cc.Point}
+         */
+        public getVisibleOrigin():Point;
+
+        /**
+         * Returns the visible origin of the view port.
+         * @return {cc.Point}
+         */
+        public getVisibleOriginInPixel():Point;
+
+        /**
+         * Returns whether developer can set content's scale factor.
+         * @return {Boolean}
+         */
+        public canSetContentScaleFactor():boolean;
+
+        /**
+         * Returns the current resolution policy
+         * @see cc.ResolutionPolicy
+         * @return {cc.ResolutionPolicy}
+         */
+        public getResolutionPolicy():ResolutionPolicy;
+
+        /**
+         * Sets the current resolution policy
+         * @see cc.ResolutionPolicy
+         * @param {cc.ResolutionPolicy|Number} resolutionPolicy
+         */
+        public setResolutionPolicy(resolutionPolicy:number|ResolutionPolicy):void;
+
+        /**
+         * Sets the resolution policy with designed view size in points.
+         * The resolution policy include: 
+         * [1] ResolutionExactFit       Fill screen by stretch-to-fit: if the design resolution ratio of width to height is different from the screen resolution ratio, your game view will be stretched.
+         * [2] ResolutionNoBorder       Full screen without black border: if the design resolution ratio of width to height is different from the screen resolution ratio, two areas of your game view will be cut.
+         * [3] ResolutionShowAll        Full screen with black border: if the design resolution ratio of width to height is different from the screen resolution ratio, two black borders will be shown.
+         * [4] ResolutionFixedHeight    Scale the content's height to screen's height and proportionally scale its width
+         * [5] ResolutionFixedWidth     Scale the content's width to screen's width and proportionally scale its height
+         * [cc.ResolutionPolicy]        [Web only feature] Custom resolution policy, constructed by cc.ResolutionPolicy
+         * @param {Number} width Design resolution width.
+         * @param {Number} height Design resolution height.
+         * @param {cc.ResolutionPolicy|Number} resolutionPolicy The resolution policy desired
+         */
+        public setDesignResolutionSize(width:number, height:number, resolutionPolicy:number|ResolutionPolicy):void;
+
+        /**
+         * Returns the designed size for the view.
+         * Default resolution size is the same as 'getFrameSize'.
+         * @return {cc.Size}
+         */
+        public getDesignResolutionSize():Size;
+
+        /**
+         * Sets the document body to desired pixel resolution and fit the game content to it.
+         * This function is very useful for adaptation in mobile browsers.
+         * In some HD android devices, the resolution is very high, but its browser performance may not be very good.
+         * In this case, enabling retina display is very costy and not suggested, and if retina is disabled, the image may be blurry.
+         * But this API can be helpful to set a desired pixel resolution which is in between.
+         * This API will do the following:
+         *     1. Set viewport's width to the desired width in pixel
+         *     2. Set body width to the exact pixel resolution
+         *     3. The resolution policy will be reset with designed view size in points.
+         * @param {Number} width Design resolution width.
+         * @param {Number} height Design resolution height.
+         * @param {cc.ResolutionPolicy|Number} resolutionPolicy The resolution policy desired
+         */
+        public setRealPixelResolution(width:number, height:number, resolutionPolicy:number|ResolutionPolicy):void;
+
+        /**
+         * Sets view port rectangle with points.
+         * @param {Number} x
+         * @param {Number} y
+         * @param {Number} w width
+         * @param {Number} h height
+         */
+        public setViewPortInPoints(x:number, y:number, w:number, h:number):void;
+
+        /**
+         * Sets Scissor rectangle with points.
+         * @param {Number} x
+         * @param {Number} y
+         * @param {Number} w
+         * @param {Number} h
+         */
+        public setScissorInPoints(x:number, y:number, w:number, h:number):void;
+
+        /**
+         * Returns whether GL_SCISSOR_TEST is enable
+         * @return {Boolean}
+         */
+        public isScissorEnabled():boolean;
+
+        /**
+         * Returns the current scissor rectangle
+         * @return {cc.Rect}
+         */
+        public getScissorRect():Rect;
+
+        /**
+         * Sets the name of the view
+         * @param {String} viewName
+         */
+        public setViewName(viewName:string):void;
+
+        /**
+         * Returns the name of the view
+         * @return {String}
+         */
+        public getViewName():string;
+
+        /**
+         * Returns the view port rectangle.
+         * @return {cc.Rect}
+         */
+        public getViewPortRect(rect:Rect);
+
+        /**
+         * Returns scale factor of the horizontal direction (X axis).
+         * @return {Number}
+         */
+        public getScaleX():number;
+
+        /**
+         * Returns scale factor of the vertical direction (Y axis).
+         * @return {Number}
+         */
+        public getScaleY():number;
+
+        /**
+         * Returns device pixel ratio for retina display.
+         * @return {Number}
+         */
+        public getDevicePixelRatio():number;
+
+        /**
+         * Returns the real location in view for a translation based on a related position
+         * @param {Number} tx The X axis translation
+         * @param {Number} ty The Y axis translation
+         * @param {Object} relatedPos The related position object including "left", "top", "width", "height" informations
+         * @return {cc.Point}
+         */
+        // TODO: Figure out wtf this relatedPos object is
+        public convertToLocationInView(tx:number, ty:number, relatedPos:any):Point;
+    }
+
+    /**
+     * cc.ContainerStrategy class is the root strategy class of container's scale strategy,
+     * it controls the behavior of how to scale the cc.container and cc._canvas object
+     *
+     * @class
+     * @extends cc.Class
+     */
+    export class ContainerStrategy extends Class {
+        /**
+         * Manipulation before appling the strategy
+         * @param {cc.view} view The target view
+         */
+        public preApply(view:View):void;
+
+        /**
+         * Function to apply this strategy
+         * @param {cc.view} view
+         * @param {cc.Size} designedResolution
+         */
+        public apply(view:View, designedResolution:Size):void;
+
+        /**
+         * Manipulation after applying the strategy
+         * @param {cc.view} view  The target view
+         */
+        public postApply(view:View):void;
+    }
+
+    /**
+     * cc.ContentStrategy class is the root strategy class of content's scale strategy,
+     * it controls the behavior of how to scale the scene and setup the viewport for the game
+     *
+     * @class
+     * @extends cc.Class
+     */
+    export class ContentStrategy extends Class {
+        /**
+         * Manipulation before applying the strategy
+         * @param {cc.view} view The target view
+         */
+        public preApply(view:View);
+
+        /**
+         * Function to apply this strategy
+         * The return value is {scale: [scaleX, scaleY], viewport: {cc.Rect}},
+         * The target view can then apply these value to itself, it's preferred not to modify directly its private variables
+         * @param {cc.view} view
+         * @param {cc.Size} designedResolution
+         * @return {object} scaleAndViewportRect
+         */
+        // TODO: Figure out what return value is
+        public apply(view:View, designedResolution:Size):any;
+
+        /**
+         * Manipulation after applying the strategy
+         * @param {cc.view} view The target view
+         */
+        public postApply(view:View):void;
+    }
+
+// Container scale strategies
+    /**
+     * @class
+     * @extends cc.ContainerStrategy
+     */
+    export class EqualToFrame extends ContainerStrategy {
+        public apply(view:View, designedResolution?:Size):void;
+    }
+
+    /**
+     * @class
+     * @extends cc.ContainerStrategy
+     */
+    export class ProportionalToFrame extends ContainerStrategy {
+        public apply(view:View, designedResolution:Size):void;
+    }
+
+    /**
+     * @class
+     * @extends EqualToFrame
+     */
+    export class EqualToWindow extends EqualToFrame {
+        public preApply(view:View);
+        public apply(view:View, designedResolution:Size):any;
+    }
+
+    /**
+     * @class
+     * @extends ProportionalToFrame
+     */
+    export class ProportionalToWindow extends ProportionalToFrame {
+        public preApply(view:View);
+
+        public apply(view:View, designedResolution:Size):any;
+    }
+
+    /**
+     * @class
+     * @extends cc.ContainerStrategy
+     */
+    export class OriginalContainer extends ContainerStrategy {
+        public apply(view:View, designedResolution:Size):any;
+    }
+
+
+//// #NOT STABLE on Android# Alias: Strategy that makes the container's size equals to the window's size
+////    cc.ContainerStrategy.EQUAL_TO_WINDOW = new EqualToWindow();
+//// #NOT STABLE on Android# Alias: Strategy that scale proportionally the container's size to window's size
+////    cc.ContainerStrategy.PROPORTION_TO_WINDOW = new ProportionalToWindow();
+//// Alias: Strategy that makes the container's size equals to the frame's size
+//        cc.ContainerStrategy.EQUAL_TO_FRAME = new EqualToFrame();
+//// Alias: Strategy that scale proportionally the container's size to frame's size
+//        cc.ContainerStrategy.PROPORTION_TO_FRAME = new ProportionalToFrame();
+//// Alias: Strategy that keeps the original container's size
+//        cc.ContainerStrategy.ORIGINAL_CONTAINER = new OriginalContainer();
+//
+
+// Content scale strategies
+    export class ExactFit extends ContainerStrategy {
+        public apply(view:View, designedResolution:Size):any;
+    }
+
+    export class ShowAll extends ContainerStrategy {
+        public apply(view:View, designedResolution:Size):any;
+    }
+
+    export class NoBorder extends ContainerStrategy {
+        public apply(view:View, designedResolution:Size):any;
+    }
+
+    export class FixedHeight extends ContainerStrategy {
+        public apply(view:View, designedResolution:Size):any;
+        public postApply(view:View):void;
+    }
+
+    export class FixedWidth extends ContainerStrategy {
+        public apply(view:View, designedResolution:Size):any;
+        public postApply(view:View):void;
+    }
+
+//// Alias: Strategy to scale the content's size to container's size, non proportional
+//        cc.ContentStrategy.EXACT_FIT = new ExactFit();
+//// Alias: Strategy to scale the content's size proportionally to maximum size and keeps the whole content area to be visible
+//        cc.ContentStrategy.SHOW_ALL = new ShowAll();
+//// Alias: Strategy to scale the content's size proportionally to fill the whole container area
+//        cc.ContentStrategy.NO_BORDER = new NoBorder();
+//// Alias: Strategy to scale the content's height to container's height and proportionally scale its width
+//        cc.ContentStrategy.FIXED_HEIGHT = new FixedHeight();
+//// Alias: Strategy to scale the content's width to container's width and proportionally scale its height
+//        cc.ContentStrategy.FIXED_WIDTH = new FixedWidth();
+//
+//    })();
+//
+    /**
+     * cc.ResolutionPolicy class is the root strategy class of scale strategy,
+     * its main task is to maintain the compatibility with Cocos2d-x
+     *
+     * @class
+     * @extends cc.Class
+     * @param {cc.ContainerStrategy} containerStg The container strategy
+     * @param {cc.ContentStrategy} contentStg The content strategy
+     */
+    export class ResolutionPolicy extends Class {
+        /**
+         * @memberOf cc.ResolutionPolicy#
+         * @name EXACT_FIT
+         * @constant
+         * @type Number
+         * @static
+         * The entire application is visible in the specified area without trying to preserve the original aspect ratio.
+         * Distortion can occur, and the application may appear stretched or compressed.
+         */
+        public static EXACT_FIT:number;
+
+        /**
+         * @memberOf cc.ResolutionPolicy#
+         * @name NO_BORDER
+         * @constant
+         * @type Number
+         * @static
+         * The entire application fills the specified area, without distortion but possibly with some cropping,
+         * while maintaining the original aspect ratio of the application.
+         */
+        public static NO_BORDER:number;
+
+        /**
+         * @memberOf cc.ResolutionPolicy#
+         * @name SHOW_ALL
+         * @constant
+         * @type Number
+         * @static
+         * The entire application is visible in the specified area without distortion while maintaining the original
+         * aspect ratio of the application. Borders can appear on two sides of the application.
+         */
+        public static SHOW_ALL:number;
+
+        /**
+         * @memberOf cc.ResolutionPolicy#
+         * @name FIXED_HEIGHT
+         * @constant
+         * @type Number
+         * @static
+         * The application takes the height of the design resolution size and modifies the width of the internal
+         * canvas so that it fits the aspect ratio of the device
+         * no distortion will occur however you must make sure your application works on different
+         * aspect ratios
+         */
+        public static FIXED_HEIGHT:number;
+
+        /**
+         * @memberOf cc.ResolutionPolicy#
+         * @name FIXED_WIDTH
+         * @constant
+         * @type Number
+         * @static
+         * The application takes the width of the design resolution size and modifies the height of the internal
+         * canvas so that it fits the aspect ratio of the device
+         * no distortion will occur however you must make sure your application works on different
+         * aspect ratios
+         */
+        public static FIXED_WIDTH:number;
+
+        /**
+         * @memberOf cc.ResolutionPolicy#
+         * @name UNKNOWN
+         * @constant
+         * @type Number
+         * @static
+         * Unknow policy
+         */
+        public static UNKNOWN:number;
+
+        /**
+         * Constructor of cc.ResolutionPolicy
+         * @param {cc.ContainerStrategy} containerStg
+         * @param {cc.ContentStrategy} contentStg
+         */
+        public constructor(containerStg:ContainerStrategy, contentStg:ContainerStrategy);
+
+        /**
+         * Manipulation before applying the resolution policy
+         * @param {cc.view} view The target view
+         */
+        public preApply(view:View);
+
+        /**
+         * Function to apply this resolution policy
+         * The return value is {scale: [scaleX, scaleY], viewport: {cc.Rect}},
+         * The target view can then apply these value to itself, it's preferred not to modify directly its private variables
+         * @param {cc.view} view The target view
+         * @param {cc.Size} designedResolution The user defined design resolution
+         * @return {object} An object contains the scale X/Y values and the viewport rect
+         */
+        public apply(view:View, designedResolution:Size):any;
+
+        /**
+         * Manipulation after appyling the strategy
+         * @param {cc.view} view The target view
+         */
+        public postApply(view:View):void;
+
+        /**
+         * Setup the container's scale strategy
+         * @param {cc.ContainerStrategy} containerStg
+         */
+        public setContainerStrategy(containerStg:ContainerStrategy):void;
+
+        /**
+         * Setup the content's scale strategy
+         * @param {cc.ContentStrategy} contentStg
+         */
+        public setContentStrategy(contentStg:ContainerStrategy):void;
+    }
+}

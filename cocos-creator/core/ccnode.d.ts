@@ -1,23 +1,9 @@
-/// <reference path="../cocos2d-lib.d.ts" />
+/// <reference path="../cocos-creator-lib.d.ts" />
 
 declare namespace cc {
     //+--------------------------------------------------------------------------------
     //  File: cocos2d/core/CCNode.js
     //+--------------------------------------------------------------------------------
-
-
-
-
-// var EventTarget = require('./event/event-target');
-// var PrefabHelper = require('./utils/prefab-helper');
-
-// var JS = cc.js;
-// var Flags = cc.Object.Flags;
-// var Destroying = Flags.Destroying;
-// var DontDestroy = Flags.DontDestroy;
-// var Activating = Flags.Activating;
-//var RegisteredInEditor = Flags.RegisteredInEditor;
-
     /**
      * !#en The event type supported by Node
      * !#zh Node 支持的事件类型
