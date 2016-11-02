@@ -2236,5 +2236,112 @@ declare namespace cc {
      * cc.log(cc.isValid(target));
      */
     export function isValid(value:any):boolean;
+
+    //+--------------------------------------------------------------------------------
+    // File: cocos2d/core/platform/CCSaxParser.js
+    //+--------------------------------------------------------------------------------
+    /**
+     * A SAX Parser
+     * @class saxParser
+     */
+    // cc.SAXParser = cc._Class.extend(/** @lends cc.saxParser# */{
+    export class SAXParser {
+        /**
+         * Constructor of cc.SAXParser
+         */
+        public constructor();
+
+        /**
+         * @method parse
+         * @param {String} xmlTxt
+         * @return {Document}
+         */
+        public parse(xmlTxt:string):Document;
+    }
+
+    export interface PlistObject {
+        [key:string]: any;
+    }
+
+    /**
+     * NOTE: PListParser will not extend SAXParser in these TF definitions, because it conflicts with the return value of the parse() method.
+     * cc.plistParser is a singleton object for parsing plist files
+     * @class plistParser
+     */
+    export class PlistParser {
+        /**
+         * parse a xml string as plist object.
+         * @param {String} xmlTxt - plist xml contents
+         * @return {*} plist object
+         */
+        public parse(xmlTxt:string):PlistObject;
+    }
+
+    /**
+     * @type {SAXParser}
+     * @name saxParser
+     * A SAX Parser
+     */
+    export const saxParser:SAXParser;
+
+    /**
+     * @type {PlistParser}
+     * @name plistParser
+     * A Plist Parser
+     */
+    export const plistParser:PlistParser;
+
+
+    //+--------------------------------------------------------------------------------
+    // File: cocos2d/core/platform/CCScreen.js
+    //+--------------------------------------------------------------------------------
+
+    export interface FullScreenChangeCallback { ():void; }
+
+    /**
+     * The fullscreen API provides an easy way for web content to be presented using the user's entire screen.
+     * It's invalid on safari, QQbrowser and android browser
+     * @class screen
+     */
+    export class Screen {
+        /**
+         * initialize
+         * @method init
+         */
+        public init():void;
+        
+        /**
+         * return true if it's full now.
+         * @method fullScreen
+         * @returns {Boolean}
+         */
+        public fullScreen():boolean;
+        
+        /**
+         * change the screen to full mode.
+         * @method requestFullScreen
+         * @param {Element} element
+         * @param {Function} onFullScreenChange
+         */
+        public requestFullScreen(element:Element, onFullScreenChange:FullScreenChangeCallback):void;
+        
+        /**
+         * exit the full mode.
+         * @method exitFullScreen
+         * @return {Boolean}
+         */
+        public exitFullScreen():boolean;
+        
+        /**
+         * Automatically request full screen with a touch/click event
+         * @method autoFullScreen
+         * @param {Element} element
+         * @param {Function} onFullScreenChange
+         */
+        public autoFullScreen(element:Element, onFullScreenChange:FullScreenChangeCallback):void;
+    }
+
+    export const screen:Screen;
 }
+
 
