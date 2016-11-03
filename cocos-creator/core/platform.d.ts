@@ -18,7 +18,6 @@ declare namespace cc {
 
     //+--------------------------------------------------------------------------------
     // File: cocos2d/core/platform/CCAssetLibrary.js
-    // NOTE: Skipping this file.
     //+--------------------------------------------------------------------------------
 
     export function isScene(asset:Asset):boolean;
@@ -3319,7 +3318,6 @@ declare namespace cc {
      *
      * @class ContainerStrategy
      */
-    // cc.ContainerStrategy = cc._Class.extend(/** @lends cc.ContainerStrategy# */{
     export class ContainerStrategy extends Class {
         /**
          * Manipulation before appling the strategy
@@ -3532,6 +3530,98 @@ declare namespace cc {
          */
         public setContentStrategy(contentStg:ContentStrategy):void;
     }
+
+    //+--------------------------------------------------------------------------------
+    // File: cocos2d/core/platform/CCVisibleRect.js
+    //+--------------------------------------------------------------------------------
+
+    /**
+     * cc.visibleRect is a singleton object which defines the actual visible rect of the current view,
+     * it should represent the same rect as cc.view.getViewportRect()
+     *
+     * @class visibleRect
+     */
+    export class VisibleRect {
+        /**
+         * Top left coordinate of the screen related to the game scene.
+         * @property {Vec2} topLeft
+         */
+        public topLeft:Vec2;
+
+        /**
+         * Top right coordinate of the screen related to the game scene.
+         * @property {Vec2} topRight
+         */
+        public topRight:Vec2;
+
+        /**
+         * Top center coordinate of the screen related to the game scene.
+         * @property {Vec2} top
+         */
+        public top:Vec2;
+
+        /**
+         * Bottom left coordinate of the screen related to the game scene.
+         * @property {Vec2} bottomLeft
+         */
+        public bottomLeft:Vec2;
+
+        /**
+         * Bottom right coordinate of the screen related to the game scene.
+         * @property {Vec2} bottomRight
+         */
+        public bottomRight:Vec2;
+
+        /**
+         * Bottom center coordinate of the screen related to the game scene.
+         * @property {Vec2} bottom
+         */
+        public bottom:Vec2;
+
+        /**
+         * Center coordinate of the screen related to the game scene.
+         * @property {Vec2} center
+         */
+        public center:Vec2;
+
+        /**
+         * Left center coordinate of the screen related to the game scene.
+         * @property {Vec2} left
+         */
+        public left:Vec2;
+
+        /**
+         * Right center coordinate of the screen related to the game scene.
+         * @property {Vec2} right
+         */
+        public right:Vec2;
+
+        /**
+         * Width of the screen.
+         * @property {Number} width
+         */
+        public width:number;
+
+        /**
+         * Height of the screen.
+         * @property {Number} height
+         */
+        public height:number;
+
+        /**
+         * initialize
+         * @method init
+         * @param {Rect} visibleRect
+         */
+        public init(visibleRect:Rect):void;
+    }
+
+    export const visibleRect:VisibleRect;
+
+
+    //+--------------------------------------------------------------------------------
+    // File: cocos2d/core/platform/CCVisibleRect.js
+    //+--------------------------------------------------------------------------------
 
 }
 
