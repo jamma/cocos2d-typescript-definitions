@@ -2342,6 +2342,606 @@ declare namespace cc {
     }
 
     export const screen:Screen;
+
+    //+--------------------------------------------------------------------------------
+    // File: cocos2d/core/platform/CCSys.js
+    //+--------------------------------------------------------------------------------
+    export module Sys {
+        export class Capabilities {
+            public canvas:boolean;
+            public opengl:boolean;
+            public touches:boolean;
+            public mouse:boolean;
+            public keyboard:boolean;
+            public accelerometer:boolean;
+        }
+    }
+
+    /**
+     * System variables
+     * @class sys
+     * @static
+     */
+    export class Sys {
+
+        /**
+         * English language code
+         * @property {String} LANGUAGE_ENGLISH
+         * @readOnly
+         */
+        public readonly LANGUAGE_ENGLISH:string;
+
+        /**
+         * Chinese language code
+         * @property {String} LANGUAGE_CHINESE
+         * @readOnly
+         */
+        public readonly LANGUAGE_CHINESE:string;
+
+        /**
+         * French language code
+         * @property {String} LANGUAGE_FRENCH
+         * @readOnly
+         */
+        public readonly LANGUAGE_FRENCH:string;
+
+        /**
+         * Italian language code
+         * @property {String} LANGUAGE_ITALIAN
+         * @readOnly
+         */
+        public readonly LANGUAGE_ITALIAN:string;
+
+        /**
+         * German language code
+         * @property {String} LANGUAGE_GERMAN
+         * @readOnly
+         */
+        public readonly LANGUAGE_GERMAN:string;
+
+        /**
+         * Spanish language code
+         * @property {String} LANGUAGE_SPANISH
+         * @readOnly
+         */
+        public readonly LANGUAGE_SPANISH:string;
+
+        /**
+         * Spanish language code
+         * @property {String} LANGUAGE_DUTCH
+         * @readOnly
+         */
+        public readonly LANGUAGE_DUTCH:string;
+
+        /**
+         * Russian language code
+         * @property {String} LANGUAGE_RUSSIAN
+         * @readOnly
+         */
+        public readonly LANGUAGE_RUSSIAN:string;
+
+        /**
+         * Korean language code
+         * @property {String} LANGUAGE_KOREAN
+         * @readOnly
+         */
+        public readonly LANGUAGE_KOREAN:string;
+
+        /**
+         * Japanese language code
+         * @property {String} LANGUAGE_JAPANESE
+         * @readOnly
+         */
+        public readonly LANGUAGE_JAPANESE:string;
+
+        /**
+         * Hungarian language code
+         * @property {String} LANGUAGE_HUNGARIAN
+         * @readonly
+         */
+        public readonly LANGUAGE_HUNGARIAN:string;
+
+        /**
+         * Portuguese language code
+         * @property {String} LANGUAGE_PORTUGUESE
+         * @readOnly
+         */
+        public readonly LANGUAGE_PORTUGUESE:string;
+
+        /**
+         * Arabic language code
+         * @property {String} LANGUAGE_ARABIC
+         * @readOnly
+         */
+        public readonly LANGUAGE_ARABIC:string;
+
+        /**
+         * Norwegian language code
+         * @property {String} LANGUAGE_NORWEGIAN
+         * @readOnly
+         */
+        public readonly LANGUAGE_NORWEGIAN:string;
+
+        /**
+         * Polish language code
+         * @property {String} LANGUAGE_POLISH
+         * @readOnly
+         */
+        public readonly LANGUAGE_POLISH:string;
+
+        /**
+         * Unknown language code
+         * @property {String} LANGUAGE_UNKNOWN
+         * @readOnly
+         */
+        public readonly LANGUAGE_UNKNOWN:string;
+
+        /**
+         * @property {String} OS_IOS
+         * @readOnly
+         */
+        public readonly OS_IOS:string;
+
+        /**
+         * @property {String} OS_ANDROID
+         * @readOnly
+         */
+        public readonly OS_ANDROID:string;
+
+        /**
+         * @property {String} OS_WINDOWS
+         * @readOnly
+         */
+        public readonly OS_WINDOWS:string;
+
+        /**
+         * @property {String} OS_MARMALADE
+         * @readOnly
+         */
+        public readonly OS_MARMALADE:string;
+
+        /**
+         * @property {String} OS_LINUX
+         * @readOnly
+         */
+        public readonly OS_LINUX:string;
+
+        /**
+         * @property {String} OS_BADA
+         * @readOnly
+         */
+        public readonly OS_BADA:string;
+
+        /**
+         * @property {String} OS_BLACKBERRY
+         * @readOnly
+         */
+        public readonly OS_BLACKBERRY:string;
+
+        /**
+         * @property {String} OS_OSX
+         * @readOnly
+         */
+        public readonly OS_OSX:string;
+
+        /**
+         * @property {String} OS_WP8
+         * @readOnly
+         */
+        public readonly OS_WP8:string;
+
+        /**
+         * @property {String} OS_WINRT
+         * @readOnly
+         */
+        public readonly OS_WINRT:string;
+
+        /**
+         * @property {String} OS_UNKNOWN
+         * @readOnly
+         */
+        public readonly OS_UNKNOWN:string;
+
+        /**
+         * @property {Number} UNKNOWN
+         * @readOnly
+         * @default -1
+         */
+        public readonly UNKNOWN:number;
+
+        /**
+         * @property {Number} WIN32
+         * @readOnly
+         * @default 0
+         */
+        public readonly WIN32:number;
+
+        /**
+         * @property {Number} LINUX
+         * @readOnly
+         * @default 1
+         */
+        public readonly LINUX:number;
+
+        /**
+         * @property {Number} MACOS
+         * @readOnly
+         * @default 2
+         */
+        public readonly MACOS:number;
+
+        /**
+         * @property {Number} ANDROID
+         * @readOnly
+         * @default 3
+         */
+        public readonly ANDROID:number;
+
+        /**
+         * @property {Number} IPHONE
+         * @readOnly
+         * @default 4
+         */
+        public readonly IPHONE:number;
+
+        /**
+         * @property {Number} IPAD
+         * @readOnly
+         * @default 5
+         */
+        public readonly IPAD:number;
+
+        /**
+         * @property {Number} BLACKBERRY
+         * @readOnly
+         * @default 6
+         */
+        public readonly BLACKBERRY:number;
+
+        /**
+         * @property {Number} NACL
+         * @readOnly
+         * @default 7
+         */
+        public readonly NACL:number;
+
+        /**
+         * @property {Number} EMSCRIPTEN
+         * @readOnly
+         * @default 8
+         */
+        public readonly EMSCRIPTEN:number;
+
+        /**
+         * @property {Number} TIZEN
+         * @readOnly
+         * @default 9
+         */
+        public readonly TIZEN:number;
+
+        /**
+         * @property {Number} WINRT
+         * @readOnly
+         * @default 10
+         */
+        public readonly WINRT:number;
+
+        /**
+         * @property {Number} WP8
+         * @readOnly
+         * @default 11
+         */
+        public readonly WP8:number;
+
+        /**
+         * @property {Number} MOBILE_BROWSER
+         * @readOnly
+         * @default 100
+         */
+        public readonly MOBILE_BROWSER:number;
+
+        /**
+         * @property {Number} DESKTOP_BROWSER
+         * @readOnly
+         * @default 101
+         */
+        public readonly DESKTOP_BROWSER:number;
+
+        /**
+         * Indicates whether executes in editor's window process (Electron's renderer context)
+         * @property {Number} EDITOR_PAGE
+         * @readOnly
+         * @default 102
+         */
+        public readonly EDITOR_PAGE:number;
+
+        /**
+         * Indicates whether executes in editor's main process (Electron's browser context)
+         * @property {Number} EDITOR_CORE
+         * @readOnly
+         * @default 103
+         */
+        public readonly EDITOR_CORE:number;
+
+        /**
+         * BROWSER_TYPE_WECHAT
+         * @property {String} BROWSER_TYPE_WECHAT
+         * @readOnly
+         * @default "wechat"
+         */
+        public readonly BROWSER_TYPE_WECHAT:string;
+
+        /**
+         *
+         * @property {String} BROWSER_TYPE_ANDROID
+         * @readOnly
+         * @default "androidbrowser"
+         */
+        public readonly BROWSER_TYPE_ANDROID:string;
+
+        /**
+         *
+         * @property {String} BROWSER_TYPE_IE
+         * @readOnly
+         * @default "ie"
+         */
+        public readonly BROWSER_TYPE_IE:string;
+
+        /**
+         *
+         * @property {String} BROWSER_TYPE_QQ
+         * @readOnly
+         * @default "qqbrowser"
+         */
+        public readonly BROWSER_TYPE_QQ:string;
+
+        /**
+         *
+         * @property {String} BROWSER_TYPE_MOBILE_QQ
+         * @readOnly
+         * @default "mqqbrowser"
+         */
+        public readonly BROWSER_TYPE_MOBILE_QQ:string;
+
+        /**
+         *
+         * @property {String} BROWSER_TYPE_UC
+         * @readOnly
+         * @default "ucbrowser"
+         */
+        public readonly BROWSER_TYPE_UC:string;
+
+        /**
+         *
+         * @property {String} BROWSER_TYPE_360
+         * @readOnly
+         * @default "360browser"
+         */
+        public readonly BROWSER_TYPE_360:string;
+
+        /**
+         *
+         * @property {String} BROWSER_TYPE_BAIDU_APP
+         * @readOnly
+         * @default "baiduboxapp"
+         */
+        public readonly BROWSER_TYPE_BAIDU_APP:string;
+
+        /**
+         *
+         * @property {String} BROWSER_TYPE_BAIDU
+         * @readOnly
+         * @default "baidubrowser"
+         */
+        public readonly BROWSER_TYPE_BAIDU:string;
+
+        /**
+         *
+         * @property {String} BROWSER_TYPE_MAXTHON
+         * @readOnly
+         * @default "maxthon"
+         */
+        public readonly BROWSER_TYPE_MAXTHON:string;
+
+        /**
+         *
+         * @property {String} BROWSER_TYPE_OPERA
+         * @readOnly
+         * @default "opera"
+         */
+        public readonly BROWSER_TYPE_OPERA:string;
+
+        /**
+         *
+         * @property {String} BROWSER_TYPE_OUPENG
+         * @readOnly
+         * @default "oupeng"
+         */
+        public readonly BROWSER_TYPE_OUPENG:string;
+
+        /**
+         *
+         * @property {String} BROWSER_TYPE_MIUI
+         * @readOnly
+         * @default "miuibrowser"
+         */
+        public readonly BROWSER_TYPE_MIUI:string;
+
+        /**
+         *
+         * @property {String} BROWSER_TYPE_FIREFOX
+         * @readOnly
+         * @default "firefox"
+         */
+        public readonly BROWSER_TYPE_FIREFOX:string;
+
+        /**
+         *
+         * @property {String} BROWSER_TYPE_SAFARI
+         * @readOnly
+         * @default "safari"
+         */
+        public readonly BROWSER_TYPE_SAFARI:string;
+
+        /**
+         *
+         * @property {String} BROWSER_TYPE_CHROME
+         * @readOnly
+         * @default "chrome"
+         */
+        public readonly BROWSER_TYPE_CHROME:string;
+
+        /**
+         *
+         * @property {String} BROWSER_TYPE_LIEBAO
+         * @readOnly
+         * @default "liebao"
+         */
+        public readonly BROWSER_TYPE_LIEBAO:string;
+
+        /**
+         *
+         * @property {String} BROWSER_TYPE_QZONE
+         * @readOnly
+         * @default "qzone"
+         */
+        public readonly BROWSER_TYPE_QZONE:string;
+
+        /**
+         *
+         * @property {String} BROWSER_TYPE_SOUGOU
+         * @readOnly
+         * @default "sogou"
+         */
+        public readonly BROWSER_TYPE_SOUGOU:string;
+
+        /**
+         *
+         * @property {String} BROWSER_TYPE_UNKNOWN
+         * @readOnly
+         * @default "unknown"
+         */
+        public readonly BROWSER_TYPE_UNKNOWN:string;
+
+        /**
+         * Is native ? This is set to be true in jsb auto.
+         * @property {Boolean} isNative
+         */
+        public readonly isNative:boolean;
+
+        /**
+         * Is web browser ?
+         * @property {Boolean} isBrowser
+         */
+        public readonly isBrowser:boolean;
+
+        public readonly isMobile:boolean;
+        public readonly platform:number;
+
+        /**
+         * Indicate the current language of the running system
+         * @property {String} language
+         */
+        public readonly language:string;
+
+        /**
+         * Indicate the running os name
+         * @property {String} os
+         */
+        public readonly os:string;
+
+        /**
+         * Indicate the running browser type
+         * @property {String} browserType
+         */
+        public readonly browserType:string;
+
+        /**
+         * Indicate the running browser version
+         * @property {Number} browserVersion
+         */
+        public readonly browserVersion:string;
+
+        /**
+         * Indicate the real pixel resolution of the whole game window
+         * @property {Size} windowPixelResolution
+         */
+        public readonly windowPixelResolution:Size;
+
+        /**
+         * Indicate the running os version
+         * @property {String} osVersion
+         */
+        public readonly osVersion:string;
+
+        /**
+         * Indicate the running os main version
+         * @property {Number} osMainVersion
+         */
+        public readonly osMainVersion:string;
+
+        /**
+         * cc.sys.localStorage is a local storage component.
+         * @property {Object} localStorage
+         */
+        public readonly localStorage:LocalStorage;
+
+        /**
+         * The capabilities of the current platform
+         * @property {SysCapabilities} capabilities
+         */
+        public readonly capabilities:Sys.Capabilities;
+
+        /**
+         * Forces the garbage collection, only available in JSB
+         * @method garbageCollect
+         */
+        public garbageCollect():void;
+
+        /**
+         * Dumps rooted objects, only available in JSB
+         * @method dumpRoot
+         */
+        public dumpRoot():void;
+
+        /**
+         * Restart the JS VM, only available in JSB
+         * @method restartVM
+         */
+        public restartVM():void;
+
+        /**
+         * Clean a script in the JS VM, only available in JSB
+         * @method cleanScript
+         * @param {String} jsfile
+         */
+        public cleanScript(jsfile:string):void;
+
+        /**
+         * Check whether an object is valid,
+         * In web engine, it will return true if the object exist
+         * In native engine, it will return true if the JS object and the correspond native object are both valid
+         * @method isObjectValid
+         * @param {Object} obj
+         * @return {Boolean} Validity of the object
+         */
+        public isObjectValid(obj:Object):boolean;
+
+        /**
+         * Dump system informations
+         * @method dump
+         */
+        public dump():void;
+
+        /**
+         * Open a url in browser
+         * @method openURL
+         * @param {String} url
+         */
+        public openURL(url:string):void;
+    }
+
+    export const sys:Sys;
 }
 
 
