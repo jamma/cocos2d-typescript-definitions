@@ -20,30 +20,15 @@ declare namespace cc {
     // File: cocos2d/core/platform/CCAssetLibrary.js
     // NOTE: Skipping this file.
     //+--------------------------------------------------------------------------------
-    // var Asset = require('../assets/CCAsset');
-    // var callInNextTick = require('./utils').callInNextTick;
-    // var Loader = require('../load-pipeline/CCLoader');
-    // var PackDownloader = require('../load-pipeline/pack-downloader');
-    // var AutoReleaseUtils = require('../load-pipeline/auto-release-utils');
+
+    export function isScene(asset:Asset):boolean;
 
     /**
-     * The asset library which managing loading/unloading assets in project.
-     *
-     * @class AssetLibrary
-     * @static
+     * @callback loadCallback
+     * @param {String} error - null or the error info
+     * @param {Asset} data - the loaded asset or null
      */
-
-    // configs
-
-    // var _libraryBase = '';
-    // var _rawAssetsBase = '';     // The base dir for raw assets in runtime
-    // var _uuidToRawAsset = {};
-
-    // function isScene (asset) {
-    //     return asset && (asset.constructor === cc.SceneAsset || asset instanceof cc.Scene);
-    // }
-    export function isScene(asset:Asset):boolean;
-    export interface LoadAssetCallback { (error:Error, asset:Asset):void; }
+    export interface LoadAssetCallback { (error:string, asset:Asset):void; }
     export interface LoadAssetOptions {
         readMainCache:boolean;
         writeMainCache:boolean;
@@ -51,8 +36,8 @@ declare namespace cc {
         deserializeInfo:Details;
     }
 
-    export interface QueryAssetCallback { (error:Error, url:string, raw:boolean):void; }
-    export interface LoadJsonCallback { (error:Error, asset:Asset):void; }
+    export interface QueryAssetCallback { (error:string, url:string, raw:boolean):void; }
+    export interface LoadJsonCallback { (error:string, asset:Asset):void; }
 
     export interface MountPaths {
         assets:string;
@@ -72,12 +57,12 @@ declare namespace cc {
     }
 
     /**
-     * @callback loadCallback
-     * @param {String} error - null or the error info
-     * @param {Asset} data - the loaded asset or null
+     * The asset library which managing loading/unloading assets in project.
+     *
+     * @class AssetLibrary
+     * @static
      */
     export class AssetLibrary {
-
         /**
          * @method loadAsset
          * @param {String} uuid
@@ -1193,7 +1178,7 @@ declare namespace cc {
      * @namespace cc
      */
     // cc.macro = {
-    declare namespace macro {
+    export namespace macro {
         /**
          * @property INVALID_INDEX
          * @type {Number}
@@ -2346,7 +2331,7 @@ declare namespace cc {
     //+--------------------------------------------------------------------------------
     // File: cocos2d/core/platform/CCSys.js
     //+--------------------------------------------------------------------------------
-    export module Sys {
+    export namespace Sys {
         export class Capabilities {
             public canvas:boolean;
             public opengl:boolean;
@@ -2942,6 +2927,612 @@ declare namespace cc {
     }
 
     export const sys:Sys;
+
+    //+--------------------------------------------------------------------------------
+    // File: cocos2d/core/platform/CCView.js
+    //+--------------------------------------------------------------------------------
+    export namespace View {
+        export interface ResizeCallback { ():void }
+    }
+
+    /**
+     * cc.view is the singleton object which represents the game window.<br/>
+     * It's main task include: <br/>
+     *  - Apply the design resolution policy<br/>
+     *  - Provide interaction with the window, like resize event on web, retina display support, etc...<br/>
+     *  - Manage the game view port which can be different with the window<br/>
+     *  - Manage the content scale and translation<br/>
+     * <br/>
+     * Since the cc.view is a singleton, you don't need to call any constructor or create functions,<br/>
+     * the standard way to use it is by calling:<br/>
+     *  - cc.view.methodName(); <br/>
+     *
+     * @class View
+     */
+    export class View extends Class {
+        /**
+         * Constructor of View
+         */
+        public constructor();
+
+        /**
+         * <p>
+         * Sets view's target-densitydpi for android mobile browser. it can be set to:           <br/>
+         *   1. cc.macro.DENSITYDPI_DEVICE, value is "device-dpi"                                      <br/>
+         *   2. cc.macro.DENSITYDPI_HIGH, value is "high-dpi"  (default value)                         <br/>
+         *   3. cc.macro.DENSITYDPI_MEDIUM, value is "medium-dpi" (browser's default value)            <br/>
+         *   4. cc.macro.DENSITYDPI_LOW, value is "low-dpi"                                            <br/>
+         *   5. Custom value, e.g: "480"                                                         <br/>
+         * </p>
+         *
+         * @method setTargetDensityDPI
+         * @param {String} densityDPI
+         */
+        public setTargetDensityDPI(densityDPI:string):void;
+
+        /**
+         * Returns the current target-densitydpi value of cc.view.
+         * @method getTargetDensityDPI
+         * @returns {String}
+         */
+        public getTargetDensityDPI():string;
+
+        /**
+         * Sets whether resize canvas automatically when browser's size changed.<br/>
+         * Useful only on web.
+         * @method resizeWithBrowserSize
+         * @param {Boolean} enabled - Whether enable automatic resize with browser's resize event
+         */
+        public resizeWithBrowserSize(enabled:boolean):void;
+
+        /**
+         * Sets the callback function for cc.view's resize action,<br/>
+         * this callback will be invoked before applying resolution policy, <br/>
+         * so you can do any additional modifications within the callback.<br/>
+         * Useful only on web.
+         * @method setResizeCallback
+         * @param {Function|Null} callback - The callback function
+         */
+        public setResizeCallback(callback:View.ResizeCallback):void;
+
+        /**
+         * Sets the orientation of the game, it can be landscape, portrait or auto.
+         * When set it to landscape or portrait, and screen w/h ratio doesn't fit, 
+         * cc.view will automatically rotate the game canvas using CSS.
+         * Note that this function doesn't have any effect in native, 
+         * in native, you need to set the application orientation in native project settings
+         * @method setOrientation
+         * @param {Number} orientation - Possible values: cc.macro.ORIENTATION_LANDSCAPE | cc.macro.ORIENTATION_PORTRAIT | cc.macro.ORIENTATION_AUTO
+         */
+        public setOrientation(orientation:number):void;
+
+        public initialize():void;
+
+        /**
+         * Sets whether the engine modify the "viewport" meta in your web page.<br/>
+         * It's enabled by default, we strongly suggest you not to disable it.<br/>
+         * And even when it's enabled, you can still set your own "viewport" meta, it won't be overridden<br/>
+         * Only useful on web
+         * @method adjustViewPort
+         * @param {Boolean} enabled - Enable automatic modification to "viewport" meta
+         */
+        public adjustViewPort(enabled:boolean):void;
+
+        /**
+         * Retina support is enabled by default for Apple device but disabled for other devices,<br/>
+         * it takes effect only when you called setDesignResolutionPolicy<br/>
+         * Only useful on web
+         * @method enableRetina
+         * @param {Boolean} enabled - Enable or disable retina display
+         */
+        public enableRetina(enabled:boolean):void;
+
+        /**
+         * Check whether retina display is enabled.<br/>
+         * Only useful on web
+         * @method isRetinaEnabled
+         * @return {Boolean}
+         */
+        public isRetinaEnabled():boolean;
+
+        /**
+         * !#en Whether to Enable on anti-alias
+         * !#zh 控制抗锯齿是否开启
+         * @method enableAntiAlias
+         * @param {Boolean} enabled - Enable or not anti-alias
+         */
+        public enableAntiAlias(enabled:boolean):void;
+
+        /**
+         * !#en Returns whether the current enable on anti-alias
+         * !#zh 返回当前是否抗锯齿
+         * @method isAntiAliasEnabled
+         * @return {Boolean}
+         */
+        public isAntiAliasEnabled():boolean;
+
+        /**
+         * If enabled, the application will try automatically to enter full screen mode on mobile devices<br/>
+         * You can pass true as parameter to enable it and disable it by passing false.<br/>
+         * Only useful on web
+         * @method enableAutoFullScreen
+         * @param {Boolean} enabled - Enable or disable auto full screen on mobile devices
+         */
+        public enableAutoFullScreen(enabled:boolean):void;
+
+        /**
+         * Check whether auto full screen is enabled.<br/>
+         * Only useful on web
+         * @method isAutoFullScreenEnabled
+         * @return {Boolean} Auto full screen enabled or not
+         */
+        public isAutoFullScreenEnabled():boolean;
+
+        /**
+         * Get whether render system is ready(no matter opengl or canvas),<br/>
+         * this name is for the compatibility with cocos2d-x, subclass must implement this method.
+         * @method isViewReady
+         * @return {Boolean}
+         */
+        public isViewReady():boolean;
+
+        /*
+         * Set zoom factor for frame. This method is for debugging big resolution (e.g.new ipad) app on desktop.
+         * @method setFrameZoomFactor
+         * @param {Number} zoomFactor
+         */
+        public setFrameZoomFactor(zoomFactor:number):void;
+
+        /**
+         * Sets the resolution translate on View.
+         * @method setContentTranslateLeftTop
+         * @param {Number} offsetLeft
+         * @param {Number} offsetTop
+         */
+        public setContentTranslateLeftTop(offsetLeft:number, offsetTop:number):void;
+
+        /**
+         * Returns the resolution translate on View
+         * @method getContentTranslateLeftTop
+         * @return {Size|Object}
+         */
+        public getContentTranslateLeftTop():Size;
+
+        /*
+         * Not support on native.<br/>
+         * On web, it sets the size of the canvas.
+         * @method setCanvasSize
+         * @param {Number} width
+         * @param {Number} height
+         */
+        public setCanvasSize(width:number, height:number):void;
+
+        /*
+         * Returns the canvas size of the view.<br/>
+         * On native platforms, it returns the screen size since the view is a fullscreen view.<br/>
+         * On web, it returns the size of the canvas element.
+         * @method getCanvasSize
+         * @return {Size}
+         */
+        public getCanvasSize():Size;
+
+        /**
+         * Returns the frame size of the view.<br/>
+         * On native platforms, it returns the screen size since the view is a fullscreen view.<br/>
+         * On web, it returns the size of the canvas's outer DOM element.
+         * @method getFrameSize
+         * @return {Size}
+         */
+        public getFrameSize():Size;
+
+        /**
+         * On native, it sets the frame size of view.<br/>
+         * On web, it sets the size of the canvas's outer DOM element.
+         * @method setFrameSize
+         * @param {Number} width
+         * @param {Number} height
+         */
+        public setFrameSize(width:number, height:number):void;
+
+        /**
+         * Returns the visible area size of the view port.
+         * @method getVisibleSize
+         * @return {Size}
+         */
+        public getVisibleSize():Size;
+
+        /**
+         * Returns the visible area size of the view port.
+         * @method getVisibleSizeInPixel
+         * @return {Size}
+         */
+        public getVisibleSizeInPixel():Size;
+
+        /**
+         * Returns the visible origin of the view port.
+         * @method getVisibleOrigin
+         * @return {Vec2}
+         */
+        public getVisibleOrigin():Vec2;
+
+        /**
+         * Returns the visible origin of the view port.
+         * @method getVisibleOriginInPixel
+         * @return {Vec2}
+         */
+        public getVisibleOriginInPixel():Vec2;
+
+        /**
+         * Returns whether developer can set content's scale factor.
+         * @method canSetContentScaleFactor
+         * @return {Boolean}
+         */
+        public canSetContentScaleFactor():boolean; 
+
+        /**
+         * Returns the current resolution policy
+         * @see cc.ResolutionPolicy
+         * @method getResolutionPolicy
+         * @return {ResolutionPolicy}
+         */
+        public getResolutionPolicy():ResolutionPolicy;
+
+        /**
+         * Sets the current resolution policy
+         * @see cc.ResolutionPolicy
+         * @method setResolutionPolicy
+         * @param {ResolutionPolicy} resolutionPolicy
+         */
+        public setResolutionPolicy(resolutionPolicy:ResolutionPolicy):void;
+
+        /**
+         * Sets the resolution policy with designed view size in points.<br/>
+         * The resolution policy include: <br/>
+         * [1] ResolutionExactFit       Fill screen by stretch-to-fit: if the design resolution ratio of width to height is different from the screen resolution ratio, your game view will be stretched.<br/>
+         * [2] ResolutionNoBorder       Full screen without black border: if the design resolution ratio of width to height is different from the screen resolution ratio, two areas of your game view will be cut.<br/>
+         * [3] ResolutionShowAll        Full screen with black border: if the design resolution ratio of width to height is different from the screen resolution ratio, two black borders will be shown.<br/>
+         * [4] ResolutionFixedHeight    Scale the content's height to screen's height and proportionally scale its width<br/>
+         * [5] ResolutionFixedWidth     Scale the content's width to screen's width and proportionally scale its height<br/>
+         * [cc.ResolutionPolicy]        [Web only feature] Custom resolution policy, constructed by cc.ResolutionPolicy<br/>
+         * @method setDesignResolutionSize
+         * @param {Number} width Design resolution width.
+         * @param {Number} height Design resolution height.
+         * @param {ResolutionPolicy} resolutionPolicy The resolution policy desired
+         */
+        public setDesignResolutionSize(width:number, height:number, resolutionPolicy:ResolutionPolicy):void;
+
+        /**
+         * Returns the designed size for the view.
+         * Default resolution size is the same as 'getFrameSize'.
+         * @method getDesignResolutionSize
+         * @return {Size}
+         */
+        public getDesignResolutionSize():Size;
+
+        /**
+         * Sets the container to desired pixel resolution and fit the game content to it.
+         * This function is very useful for adaptation in mobile browsers.
+         * In some HD android devices, the resolution is very high, but its browser performance may not be very good.
+         * In this case, enabling retina display is very costy and not suggested, and if retina is disabled, the image may be blurry.
+         * But this API can be helpful to set a desired pixel resolution which is in between.
+         * This API will do the following:
+         *     1. Set viewport's width to the desired width in pixel
+         *     2. Set body width to the exact pixel resolution
+         *     3. The resolution policy will be reset with designed view size in points.
+         * @method setRealPixelResolution
+         * @param {Number} width Design resolution width.
+         * @param {Number} height Design resolution height.
+         * @param {ResolutionPolicy} resolutionPolicy The resolution policy desired
+         */
+        public setRealPixelResolution(width:number, height:number, resolutionPolicy:ResolutionPolicy):void;
+
+        /**
+         * Sets view port rectangle with points.
+         * @method setViewPortInPoints
+         * @param {Number} x
+         * @param {Number} y
+         * @param {Number} w width
+         * @param {Number} h height
+         */
+        public setViewPortInPoints(x:number, y:number, w:number, h:number):void;
+
+        /**
+         * Sets Scissor rectangle with points.
+         * @method setScissorInPoints
+         * @param {Number} x
+         * @param {Number} y
+         * @param {Number} w
+         * @param {Number} h
+         */
+        public setScissorInPoints(x:number, y:number, w:number, h:number):void;
+
+        /**
+         * Returns whether GL_SCISSOR_TEST is enable
+         * @method isScissorEnabled
+         * @return {Boolean}
+         */
+        public isScissorEnabled():boolean;
+
+        /**
+         * Returns the current scissor rectangle
+         * @method getScissorRect
+         * @return {Rect}
+         */
+        public getScissorRect():Rect;
+
+        /**
+         * Sets the name of the view
+         * @method setViewName
+         * @param {String} viewName
+         */
+        public setViewName(viewName:string):void;
+
+        /**
+         * Returns the name of the view
+         * @method getViewName
+         * @return {String}
+         */
+        public getViewName():string;
+
+        /**
+         * Returns the view port rectangle.
+         * @method getViewPortRect
+         * @return {Rect}
+         */
+        public getViewPortRect():Rect;
+
+        /**
+         * Returns scale factor of the horizontal direction (X axis).
+         * @method getScaleX
+         * @return {Number}
+         */
+        public getScaleX():number;
+
+        /**
+         * Returns scale factor of the vertical direction (Y axis).
+         * @method getScaleY
+         * @return {Number}
+         */
+        public getScaleY():number;
+
+        /**
+         * Returns device pixel ratio for retina display.
+         * @method getDevicePixelRatio
+         * @return {Number}
+         */
+        public getDevicePixelRatio():number;
+
+        /**
+         * Returns the real location in view for a translation based on a related position
+         * @method convertToLocationInView
+         * @param {Number} tx - The X axis translation
+         * @param {Number} ty - The Y axis translation
+         * @param {Object} relatedPos - The related position object including "left", "top", "width", "height" informations
+         * @return {Vec2}
+         */
+        public convertToLocationInView(tx:number, ty:number, relatedPos:HTMLElementPosition):Vec2;
+    }
+
+    /**
+     * <p>cc.ContainerStrategy class is the root strategy class of container's scale strategy,
+     * it controls the behavior of how to scale the cc.container and cc.game.canvas object</p>
+     *
+     * @class ContainerStrategy
+     */
+    // cc.ContainerStrategy = cc._Class.extend(/** @lends cc.ContainerStrategy# */{
+    export class ContainerStrategy extends Class {
+        /**
+         * Manipulation before appling the strategy
+         * @method preApply
+         * @param {View} view - The target view
+         */
+        public preApply(view:View):void;
+
+        /**
+         * Function to apply this strategy
+         * @method apply
+         * @param {View} view
+         * @param {Size} designedResolution
+         */
+        public apply(view:View, designedResolution:Size):void;
+
+        /**
+         * Manipulation after applying the strategy
+         * @method postApply
+         * @param {View} view  The target view
+         */
+        public postApply(view:View):void;
+    }
+
+    export namespace ContentStrategy {
+        export interface ScaleAndViewportRect {
+            scale?:number[];
+            viewport?:Rect;
+        }
+    }
+
+    /**
+     * <p>cc.ContentStrategy class is the root strategy class of content's scale strategy,
+     * it controls the behavior of how to scale the scene and setup the viewport for the game</p>
+     *
+     * @class ContentStrategy
+     */
+    export class ContentStrategy extends Class {
+        // #NOT STABLE on Android# Alias: Strategy that makes the container's size equals to the window's size
+        // public static readonly EQUAL_TO_WINDOW:ContainerStrategy;
+
+        // #NOT STABLE on Android# Alias: Strategy that scale proportionally the container's size to window's size
+        // public static readonly PROPORTION_TO_WINDOW:ContainerStrategy;
+
+        // Alias: Strategy that makes the container's size equals to the frame's size
+        public static readonly EQUAL_TO_FRAME:ContainerStrategy;
+
+        // Alias: Strategy that scale proportionally the container's size to frame's size
+        public static readonly PROPORTION_TO_FRAME:ContainerStrategy;
+
+        // Alias: Strategy that keeps the original container's size
+        public static readonly ORIGINAL_CONTAINER:ContainerStrategy;
+
+        // Alias: Strategy to scale the content's size to container's size, non proportional
+        public static readonly EXACT_FIT:ContainerStrategy;
+
+        // Alias: Strategy to scale the content's size proportionally to maximum size and keeps the whole content area to be visible
+        public static readonly SHOW_ALL:ContainerStrategy;
+
+        // Alias: Strategy to scale the content's size proportionally to fill the whole container area
+        public static readonly NO_BORDER:ContainerStrategy;
+
+        // Alias: Strategy to scale the content's height to container's height and proportionally scale its width
+        public static readonly FIXED_HEIGHT:ContainerStrategy;
+
+        // Alias: Strategy to scale the content's width to container's width and proportionally scale its height
+        public static readonly FIXED_WIDTH:ContainerStrategy;
+
+
+        /**
+         * Manipulation before applying the strategy
+         * @method preApply
+         * @param {View} view - The target view
+         */
+        public preApply(view:View):void;
+
+        /**
+         * Function to apply this strategy
+         * The return value is {scale: [scaleX, scaleY], viewport: {cc.Rect}},
+         * The target view can then apply these value to itself, it's preferred not to modify directly its private variables
+         * @method apply
+         * @param {View} view
+         * @param {Size} designedResolution
+         * @return {Object} scaleAndViewportRect
+         */
+        public apply(view:View, designedResolution:Size):ContentStrategy.ScaleAndViewportRect;
+
+        /**
+         * Manipulation after applying the strategy
+         * @method postApply
+         * @param {View} view - The target view
+         */
+        public postApply(view:View):void;
+    }
+
+    /**
+     * <p>cc.ResolutionPolicy class is the root strategy class of scale strategy,
+     * its main task is to maintain the compatibility with Cocos2d-x</p>
+     *
+     * @class ResolutionPolicy
+     */
+    export class ResolutionPolicy extends Class {
+        /**
+         * The entire application is visible in the specified area without trying to preserve the original aspect ratio.<br/>
+         * Distortion can occur, and the application may appear stretched or compressed.
+         * @property {Number} EXACT_FIT
+         * @readonly
+         * @static
+         */
+        public static readonly EXACT_FIT:ResolutionPolicy;
+
+        /**
+         * The entire application fills the specified area, without distortion but possibly with some cropping,<br/>
+         * while maintaining the original aspect ratio of the application.
+         * @property {Number} NO_BORDER
+         * @readonly
+         * @static
+         */
+        // cc.ResolutionPolicy.NO_BORDER = 1;
+        public static readonly NO_BORDER:ResolutionPolicy;
+
+        /**
+         * The entire application is visible in the specified area without distortion while maintaining the original<br/>
+         * aspect ratio of the application. Borders can appear on two sides of the application.
+         * @property {Number} SHOW_ALL
+         * @readonly
+         * @static
+         */
+        // cc.ResolutionPolicy.SHOW_ALL = 2;
+        public static readonly SHOW_ALL:ResolutionPolicy;
+
+        /**
+         * The application takes the height of the design resolution size and modifies the width of the internal<br/>
+         * canvas so that it fits the aspect ratio of the device<br/>
+         * no distortion will occur however you must make sure your application works on different<br/>
+         * aspect ratios
+         * @property {Number} FIXED_HEIGHT
+         * @readonly
+         * @static
+         */
+        // cc.ResolutionPolicy.FIXED_HEIGHT = 3;
+        public static readonly FIXED_HEIGHT:ResolutionPolicy;
+
+        /**
+         * The application takes the width of the design resolution size and modifies the height of the internal<br/>
+         * canvas so that it fits the aspect ratio of the device<br/>
+         * no distortion will occur however you must make sure your application works on different<br/>
+         * aspect ratios
+         * @property {Number} FIXED_WIDTH
+         * @readonly
+         * @static
+         */
+        // cc.ResolutionPolicy.FIXED_WIDTH = 4;
+        public static readonly FIXED_WIDTH:ResolutionPolicy;
+
+        /**
+         * Unknow policy
+         * @property {Number} UNKNOWN
+         * @readonly
+         * @static
+         */
+        // cc.ResolutionPolicy.UNKNOWN = 5;
+        public static readonly UNKNOWN:ResolutionPolicy;
+
+        public readonly canvasSize:Vec2;
+
+        /**
+         * Constructor of cc.ResolutionPolicy
+         * @param {ContainerStrategy} containerStg
+         * @param {ContentStrategy} contentStg
+         */
+        public constructor(containerStg:ContainerStrategy, contentStg:ContentStrategy);
+
+        /**
+         * Manipulation before applying the resolution policy
+         * @method preApply
+         * @param {View} view The target view
+         */
+        public preApply(view:View):void;
+
+        /**
+         * Function to apply this resolution policy
+         * The return value is {scale: [scaleX, scaleY], viewport: {cc.Rect}},
+         * The target view can then apply these value to itself, it's preferred not to modify directly its private variables
+         * @method apply
+         * @param {View} view - The target view
+         * @param {Size} designedResolution - The user defined design resolution
+         * @return {Object} An object contains the scale X/Y values and the viewport rect
+         */
+        public apply(view:View, designedResolution:Size):ContentStrategy.ScaleAndViewportRect;
+
+        /**
+         * Manipulation after appyling the strategy
+         * @method postApply
+         * @param {View} view - The target view
+         */
+        public postApply(view:View):void;
+
+        /**
+         * Setup the container's scale strategy
+         * @method setContainerStrategy
+         * @param {ContainerStrategy} containerStg
+         */
+        public setContainerStrategy(containerStg:ContainerStrategy):void;
+
+        /**
+         * Setup the content's scale strategy
+         * @method setContentStrategy
+         * @param {ContentStrategy} contentStg
+         */
+        public setContentStrategy(contentStg:ContentStrategy):void;
+    }
+
 }
 
 
