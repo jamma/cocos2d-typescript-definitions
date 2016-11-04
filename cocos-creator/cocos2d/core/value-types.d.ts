@@ -1,4 +1,4 @@
-/// <reference path="../cocos-creator-lib.d.ts" />
+/// <reference path="../../cocos-creator-lib.d.ts" />
 
 declare namespace cc {
     //+--------------------------------------------------------------------------------

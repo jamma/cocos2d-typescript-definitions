@@ -1,4 +1,4 @@
-/// <reference path="../cocos-creator-lib.d.ts" />
+/// <reference path="../../cocos-creator-lib.d.ts" />
 
 declare namespace cc {
     //+--------------------------------------------------------------------------------
@@ -12,7 +12,7 @@ declare namespace cc {
      * @namespace Node
      */
     // var EventType = cc.Enum({
-    export class EventType extends cc.Enum {
+    export class EventType extends Enum {
         /**
          * !#en The event type for touch start event, you can use its value directly: 'touchstart'
          * !#zh 当手指触摸到屏幕时。
