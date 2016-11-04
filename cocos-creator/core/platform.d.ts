@@ -3767,6 +3767,276 @@ declare namespace cc {
      * @return {Object} the newly instantiated object
      */
     export function instantiate(original:Object):Object;
+
+
+    //+--------------------------------------------------------------------------------
+    // File: cocos2d/core/platform/js.js
+    //+--------------------------------------------------------------------------------
+
+    /**
+     * This module provides some JavaScript utilities.
+     * All members can be accessed with cc.js
+     * @module js
+     * @namespace cc.js
+     */
+    export namespace js {
+
+        /**
+         * Check the obj whether is number or not
+         * If a number is created by using 'new Number(10086)', the typeof it will be "object"...
+         * Then you can use this function if you care about this case.
+         * @method isNumber
+         * @param {*} obj
+         * @returns {Boolean}
+         */
+        export function isNumber(obj:any):boolean;
+
+        /**
+         * Check the obj whether is string or not.
+         * If a string is created by using 'new String("blabla")', the typeof it will be "object"...
+         * Then you can use this function if you care about this case.
+         * @method isString
+         * @param {*} obj
+         * @returns {Boolean}
+         */
+        export function isString(obj:any):boolean;
+
+
+        /**
+         * copy all properties from arguments[1...n] to obj
+         * @method mixin
+         * @param {Object} obj
+         * @param {Object} ...sourceObj
+         * @return {Object} the result obj
+         */
+        // NOTE: Purposely hiding this, it probably shouldn't be exposed in the TS interface 
+        // export function mixin(...obj:Object[]):Object;
+
+        /**
+         * Derive the class from the supplied base class.
+         * Both classes are just native javascript constructors, not created by cc.Class, so
+         * usually you will want to inherit using {{#crossLink "cc/Class:method"}}cc.Class {{/crossLink}} instead.
+         *
+         * @method extend
+         * @param {Function} cls
+         * @param {Function} base - the baseclass to inherit
+         * @return {Function} the result class
+         */
+        // NOTE: Purposely hiding this, it probably shouldn't be exposed in the TS interface 
+        // export function extend(cls:???, base:???):???;
+
+        /**
+         * Removes all enumerable properties from object
+         * @method clear
+         * @param {any} obj
+         */
+        // NOTE: Purposely hiding this, it probably shouldn't be exposed in the TS interface
+        // export function clear(obj:any):void;
+
+        /**
+         * Get property descriptor in object and all its ancestors
+         * @method getPropertyDescriptor
+         * @param {Object} obj
+         * @param {String} name
+         * @return {Object}
+         */
+        // NOTE: Purposely hiding this, it probably shouldn't be exposed in the TS interface
+        // export function getPropertyDescriptor(obj:Object, name:string):Object;
+
+        /**
+         * Get class name of the object, if object is just a {} (and which class named 'Object'), it will return null.
+         * (modified from <a href="http://stackoverflow.com/questions/1249531/how-to-get-a-javascript-objects-class">the code from this stackoverflow post</a>)
+         * @method getClassName
+         * @param {Object|Function} obj - instance or constructor
+         * @return {String}
+         */
+        export function getClassName(obj:Object|Function):string;
+
+        /**
+         * Register the class by specified name manually
+         * @method setClassName
+         * @param {String} className
+         * @param {Function} constructor
+         */
+        export function setClassName(className:string, constructor:Function):void;
+
+        /**
+         * Unregister a class from fireball.
+         *
+         * If you dont need a registered class anymore, you should unregister the class so that Fireball will not keep its reference anymore.
+         * Please note that its still your responsibility to free other references to the class.
+         *
+         * @method unregisterClass
+         * @param {Function} ...constructor - the class you will want to unregister, any number of classes can be added
+         */
+        export function unregisterClass(constructor:Function):void;
+
+        /**
+         * Get the registered class by name
+         * @method getClassByName
+         * @param {String} classname
+         * @return {Function} constructor
+         */
+        export function getClassByName(classname:string):Function;
+
+        /**
+         * Define get set accessor, just help to call Object.defineProperty(...)
+         * @method getset
+         * @param {any} obj
+         * @param {String} prop
+         * @param {Function} getter
+         * @param {Function} setter
+         * @param {Boolean} [enumerable=false]
+         */
+        // NOTE: Purposely hiding this, it probably shouldn't be exposed in the TS interface
+        // export function getset(obj:any, prop:string, getter:Function, setter:Function, enumerable?:boolean):void;
+
+        /**
+         * Define get accessor, just help to call Object.defineProperty(...)
+         * @method get
+         * @param {any} obj
+         * @param {String} prop
+         * @param {Function} getter
+         * @param {Boolean} [enumerable=false]
+         */
+        // NOTE: Purposely hiding this, it probably shouldn't be exposed in the TS interface
+        // export function get(obj:any, prop:string, getter:Function, enumerable?:boolean):void;
+
+        /**
+         * Define set accessor, just help to call Object.defineProperty(...)
+         * @method set
+         * @param {any} obj
+         * @param {String} prop
+         * @param {Function} setter
+         * @param {Boolean} [enumerable=false]
+         */
+        // NOTE: Purposely hiding this, it probably shouldn't be exposed in the TS interface
+        // export function set(obj:any, prop:string, setter:Function, enumerable?:boolean):void;
+
+        /**
+         * Defines a polyfill field for obsoleted codes.
+         * @method obsolete
+         * @param {any} obj - YourObject or YourClass.prototype
+         * @param {String} obsoleted - "OldParam" or "YourClass.OldParam"
+         * @param {String} newPropName - "NewParam"
+         * @param {Boolean} [writable=false]
+         */
+        export function obsolete(obj:any, obsoleted:string, newPropName:string, writable?:boolean):void;
+
+        /**
+         * Defines all polyfill fields for obsoleted codes corresponding to the enumerable properties of props.
+         * @method obsoletes
+         * @param {any} obj - YourObject or YourClass.prototype
+         * @param {any} objName - "YourObject" or "YourClass"
+         * @param {Object} props
+         * @param {Boolean} [writable=false]
+         */
+        export function obsoletes(obj:any, objName:string, props:Object, writable?:boolean):void;
+
+        /**
+         * A string tool to construct a string with format string.
+         * for example:
+         *      cc.js.formatStr("a: %s, b: %s", a, b);
+         *      cc.js.formatStr(a, b, c);
+         * @method formatStr
+         * @returns {String}
+         */
+        export function formatStr(format:string, ...args:any[]):string;
+
+        /**
+         * @class array
+         * @static
+         */
+        // js.array = {
+        export class Array {
+            /**
+             * Removes the first occurrence of a specific object from the array.
+             * @method remove
+             * @param {any[]} array
+             * @param {any} value
+             * @return {Boolean}
+             */
+            public remove(array:any[], value:any):boolean;
+
+            /**
+             * Removes the array item at the specified index.
+             * @method removeAt
+             * @param {any[]} array
+             * @param {Number} index
+             */
+            public removeAt(array:any[], index:number):void;
+
+            /**
+             * Determines whether the array contains a specific value.
+             * @method contains
+             * @param {any[]} array
+             * @param {any} value
+             * @return {Boolean}
+             */
+            public contains(array:any[], value:any):boolean;
+
+            /**
+             * Verify array's Type
+             * @method verifyType
+             * @param {array} array
+             * @param {Function} type
+             * @return {Boolean}
+             */
+            public verifyType(array:any[], type:Function):boolean;
+
+            /**
+             * Removes from array all values in minusArr. For each Value in minusArr, the first matching instance in array will be removed.
+             * @method removeArray
+             * @param {Array} array Source Array
+             * @param {Array} minusArr minus Array
+             */
+            public removeArray(array:any[], minusArr:any[]):void;
+
+            /**
+             * Inserts some objects at index
+             * @method appendObjectsAt
+             * @param {Array} array
+             * @param {Array} addObjs
+             * @param {Number} index
+             * @return {Array}
+             */
+            public appendObjectsAt(array:any[], addObjs:any[], index:number):any[];
+
+            /**
+             * Copy an array's item to a new array (its performance is better than Array.slice)
+             * @method copy
+             * @param {Array} array
+             * @return {Array}
+             */
+            public copy(array:any[]):any[];
+
+            /**
+             * Exact same function as Array.prototype.indexOf.
+             * HACK: ugliy hack for Baidu mobile browser compatibility,
+             * stupid Baidu guys modify Array.prototype.indexOf for all pages loaded,
+             * their version changes strict comparison to non-strict comparison, 
+             * it also ignores the second parameter of the original API, 
+             * and this will cause event handler enter infinite loop.
+             * Baidu developers, if you ever see this documentation, 
+             * here is the standard: https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Array/indexOf
+             * Seriously !
+             * 
+             * @method indexOf
+             * @param {any} searchElement Element to locate in the array.
+             * @param {Number} [fromIndex=0] The index to start the search at
+             * @return {Number} returns the first index at which a given element can be found in the array, or -1 if it is not present.
+             */
+            public indexOf(searchElement:any, fromIndex?:number):number;
+        }
+
+        export const array:cc.js.Array;
+    }
+
+    //+--------------------------------------------------------------------------------
+    // File: cocos2d/core/platform/miniFramework.js
+    // NOTE: Purposely ignoring this file for now
+    //+--------------------------------------------------------------------------------
+
 }
 
 
