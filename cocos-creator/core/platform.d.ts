@@ -3717,24 +3717,56 @@ declare namespace cc {
     //+--------------------------------------------------------------------------------
     // File: cocos2d/core/platform/id-generator.js
     //+--------------------------------------------------------------------------------
-	/*
-	 * @param {string} [category] - You can specify a unique category to avoid id collision with other instance of IdGenerater
-	 */
-	export function IdGenerater(category?:string):void;
 
-    export namespace IdGenerater {
+    // This is a really crappy way to define this, but I'm not sure the original JS design makes a ton of sense.
+    // Here are some notes:
+    //  1. I'm not even sure if this needs to be exposed, if not get rid of it.
+    //  2. The JS IdGenerater is a function, but also behaves like a class because it has methods (getNewId) and properties (global)
+    //  3. I cannot figure out why it wasn't designed with a more standard OOP interface.
+    //  4. I'm carrying over the typo in the name when declaring these TS interfaces, that only makes sense.
+    export interface IdGeneraterGlobalInterface {
+        /*
+        * @param {string} [category] - You can specify a unique category to avoid id collision with other instance of IdGenerater
+        */
+        (category?:string):void;
+
         /*
         * @method getNewId
         * @return {string}
         */
-        export function getNewId():string;
+        getNewId():string;
+    }
 
+    export interface IdGeneraterInterface {
         /*
         * The global id generater might have a conflict problem once every 365 days,
         * if the game runs at 60 FPS and each frame 4760273 counts of new id are requested.
         */
-        export const global:IdGenerater;
+        global:IdGeneraterGlobalInterface;
     }
+
+    export const IdGenerater:IdGeneraterInterface;
+
+    //+--------------------------------------------------------------------------------
+    // File: cocos2d/core/platform/instantiate.js
+    //+--------------------------------------------------------------------------------
+    /**
+     * !#en Clones the object original and returns the clone.
+     *
+     * See [Clone exists Entity](/en/scripting/create-destroy-entities/#instantiate)
+     *
+     * !#zh 复制给定的对象
+     *
+     * 详细用法可参考[复制已有Entity](/zh/scripting/create-destroy-entities/#instantiate)
+     *
+     * Instantiate 时，function 和 dom 等非可序列化对象会直接保留原有引用，Asset 会直接进行浅拷贝，可序列化类型会进行深拷贝。
+     * <del>对于 Entity / Component 等 Scene Object，如果对方也会被一起 Instantiate，则重定向到新的引用，否则保留为原来的引用。</del>
+     *
+     * @method instantiate
+     * @param {Object} original - An existing object that you want to make a copy of.
+     * @return {Object} the newly instantiated object
+     */
+    export function instantiate(original:Object):Object;
 }
 
 
