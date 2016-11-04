@@ -4037,6 +4037,53 @@ declare namespace cc {
     // NOTE: Purposely ignoring this file for now
     //+--------------------------------------------------------------------------------
 
+    //+--------------------------------------------------------------------------------
+    // File: cocos2d/core/platform/preprocess-attrs.js
+    // NOTE: Purposely ignoring this file for now
+    //+--------------------------------------------------------------------------------
+
+    //+--------------------------------------------------------------------------------
+    // File: cocos2d/core/platform/requiring-frame.js
+    // NOTE: Purposely ignoring this file for now
+    //+--------------------------------------------------------------------------------
+
+    //+--------------------------------------------------------------------------------
+    // File: cocos2d/core/platform/url.js
+    //+--------------------------------------------------------------------------------
+    /**
+     * @class url
+     * @static
+     */
+    export const url:Url;
+
+    export class Url {
+        
+        public normalize(url:string):string;
+
+        /**
+         * Returns the url of raw assets, you will only need this if the raw asset is inside the "resources" folder.
+         * 
+         * @method raw
+         * @param {String} url
+         * @return {String}
+         * @example {@link utils/api/engine/docs/cocos2d/core/platform/url/raw.js}
+         */
+        public raw(url:string):string;
+
+        /**
+         * Returns the url of builtin raw assets. This method can only used in editor.
+         * @method builtinRaw
+         * @param {String} url
+         * @return {String}
+         * @example {@link utils/api/engine/docs/cocos2d/core/platform/url/builtinRaw.js}
+         */
+        public builtinRaw(url:string):string;
+    }
+
+    //+--------------------------------------------------------------------------------
+    // File: cocos2d/core/platform/utils.js
+    // NOTE: Purposely ignoring this file for now
+    //+--------------------------------------------------------------------------------
 }
 
 
