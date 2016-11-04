@@ -3620,8 +3620,99 @@ declare namespace cc {
 
 
     //+--------------------------------------------------------------------------------
-    // File: cocos2d/core/platform/CCVisibleRect.js
+    // File: cocos2d/core/platform/deserialize.js
     //+--------------------------------------------------------------------------------
+    /**
+     * !#en Contains information collected during deserialization
+     * !#zh 包含反序列化时的一些信息
+     * @class Details
+     * @constructor
+     */
+    export class Details {
+        /**
+         * list of the depends assets' uuid
+         * @property {String[]} uuidList
+         */
+        public uuidList:string[];
+
+        /**
+         * the obj list whose field needs to load asset by uuid
+         * @property {Object[]} uuidObjList
+         */
+        public uuidObjList:Object[];
+
+        /**
+         * the corresponding field name which referenced to the asset
+         * @property {String[]} uuidPropList
+         */
+        public uuidPropList:string[];
+
+        /**
+         * the corresponding field name which referenced to the raw object
+         * @property {String} rawProp
+         */
+        public rawProp:string;
+
+        /**
+         * 用户可以指定一个在反序列化过程中会被触发的回调，该回调会在反序列化之前调用，并且传回反序列化时解析到的字段。
+         * NOTE:
+         * - only available in editor
+         * - 会被传回的字段仅限于非 Asset 类型，并且如果字段值为 null 或 undefined，则可能不会被传回。
+         * @callback visit
+         * @param {Object} obj
+         * @param {String} propName
+         * @private
+         */
+        public visit:boolean;
+
+        /**
+         * @method reset
+         */
+        public reset():void;
+
+        // TODO: If this needs to be exposed, figure out proper signature (not sure the proper signature for getter)
+        // public assignAssetsBy(getter):void;
+
+        /**
+         * @method getUuidOf
+         * @param {Object} obj
+         * @param {String} propName
+         * @return {String}
+         */
+        public getUuidOf(obj:Object, propName:string):string;
+
+        /**
+         * @method push
+         * @param {Object} obj
+         * @param {String} propName
+         * @param {String} uuid
+         */
+        public push(obj:Object, propName:string, uuid:string):void;
+    }
+
+    /**
+     * @module cc
+     */
+
+    /**
+     * !#en Deserialize json to cc.Asset
+     * !#zh 将 JSON 反序列化为对象实例。
+     *
+     * 当指定了 target 选项时，如果 target 引用的其它 asset 的 uuid 不变，则不会改变 target 对 asset 的引用，
+     * 也不会将 uuid 保存到 result 对象中。
+     *
+     * @method deserialize
+     * @param {String|Object} data - the serialized cc.Asset json string or json object.
+     * @param {Details} [result] - additional loading result
+     * @param {Object} [options]
+     * @return {object} the main data(asset)
+     */
+    export function deserialize(data:string|Object, result?:Details, options?:Object):Object;
+
+    export namespace deserialize {
+        export const Details:Details;
+        export function reportMissingClass(id:string):void;
+    }
 
 }
 
