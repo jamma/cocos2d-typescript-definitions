@@ -3714,6 +3714,27 @@ declare namespace cc {
         export function reportMissingClass(id:string):void;
     }
 
+    //+--------------------------------------------------------------------------------
+    // File: cocos2d/core/platform/id-generator.js
+    //+--------------------------------------------------------------------------------
+	/*
+	 * @param {string} [category] - You can specify a unique category to avoid id collision with other instance of IdGenerater
+	 */
+	export function IdGenerater(category?:string):void;
+
+    export namespace IdGenerater {
+        /*
+        * @method getNewId
+        * @return {string}
+        */
+        export function getNewId():string;
+
+        /*
+        * The global id generater might have a conflict problem once every 365 days,
+        * if the game runs at 60 FPS and each frame 4760273 counts of new id are requested.
+        */
+        export const global:IdGenerater;
+    }
 }
 
 
