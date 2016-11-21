@@ -1000,30 +1000,21 @@ declare namespace cc {
      * @param {ActionInterval} action
      * @param {Number} period
      */
-    cc.EaseElastic = cc.ActionEase.extend({
-        _period: 0.3,
-
-        ctor:function(action, period){
-            cc.ActionEase.prototype.ctor.call(this);
-
-            action && this.initWithAction(action, period);
-        },
+    // cc.EaseElastic = cc.ActionEase.extend({
+    export class EaseElastic extends ActionEase {
+        public constructor(action:ActionInterval, period:number);
 
         /**
          * get period of the wave in radians. default is 0.3
          * @return {Number}
          */
-        getPeriod:function () {
-            return this._period;
-        },
+        public getPeriod():number;
 
         /**
          * set period of the wave in radians.
          * @param {Number} period
          */
-        setPeriod:function (period) {
-            this._period = period;
-        },
+        public setPeriod(period:number):void;
 
         /**
          * Initializes the action with the inner action and the period in radians (default is 0.3)
@@ -1031,23 +1022,12 @@ declare namespace cc {
          * @param {Number} [period=0.3]
          * @return {Boolean}
          */
-        initWithAction:function (action, period) {
-            cc.ActionEase.prototype.initWithAction.call(this, action);
-            this._period = (period == null) ? 0.3 : period;
-            return true;
-        },
+        public initWithAction(action:ActionInterval, period:number):boolean;
 
-        reverse:function () {
-            cc.log("cc.EaseElastic.reverse(): it should be overridden in subclass.");
-            return null;
-        },
+        public reverse():EaseElastic;
 
-        clone:function(){
-            var action = new cc.EaseElastic();
-            action.initWithAction(this._inner.clone(), this._period);
-            return action;
-        }
-    });
+        public clone():EaseElastic;
+    }
 
     /**
      * @module cc
@@ -1066,42 +1046,14 @@ declare namespace cc {
     * @example
     * action.easing(cc.easeElasticIn(period));
     */
-    cc.EaseElasticIn = cc.EaseElastic.extend({
-        update:function (dt) {
-            var newT = 0;
-            if (dt === 0 || dt === 1) {
-                newT = dt;
-            } else {
-                var s = this._period / 4;
-                dt = dt - 1;
-                newT = -Math.pow(2, 10 * dt) * Math.sin((dt - s) * Math.PI * 2 / this._period);
-            }
-            this._inner.update(newT);
-        },
+    // cc.EaseElasticIn = cc.EaseElastic.extend({
+    export class EaseElasticIn extends EaseElastic {
+        public update(dt:number):void;
 
-        reverse:function () {
-            return new cc.EaseElasticOut(this._inner.reverse(), this._period);
-        },
+        public reverse():EaseElasticIn;
 
-        clone:function(){
-            var action = new cc.EaseElasticIn();
-            action.initWithAction(this._inner.clone(), this._period);
-            return action;
-        }
-    });
-
-    //default ease elastic in object (period = 0.3)
-    cc._easeElasticInObj = {
-    easing:function(dt){
-        if (dt === 0 || dt === 1)
-            return dt;
-        dt = dt - 1;
-        return -Math.pow(2, 10 * dt) * Math.sin((dt - (0.3 / 4)) * Math.PI * 2 / 0.3);
-    },
-        reverse:function(){
-            return cc._easeElasticOutObj;
-        }
-    };
+        public clone():EaseElasticIn;
+    }
 
     /**
      * !#en
@@ -1119,23 +1071,7 @@ declare namespace cc {
      * // example
      * action.easing(cc.easeElasticIn(3.0));
      */
-    cc.easeElasticIn = function (period) {
-        if(period && period !== 0.3){
-            return {
-                _period: period,
-                easing: function (dt) {
-                    if (dt === 0 || dt === 1)
-                        return dt;
-                    dt = dt - 1;
-                    return -Math.pow(2, 10 * dt) * Math.sin((dt - (this._period / 4)) * Math.PI * 2 / this._period);
-                },
-                reverse:function () {
-                    return cc.easeElasticOut(this._period);
-                }
-            };
-        }
-        return cc._easeElasticInObj;
-    };
+    export function easeElasticIn(period:number):EaseElasticIn;
 
     /*
     * Ease Elastic Out action. <br />
@@ -1150,39 +1086,14 @@ declare namespace cc {
     * @example
     * action.easing(cc.easeElasticOut(period));
     */
-    cc.EaseElasticOut = cc.EaseElastic.extend({
-        update:function (dt) {
-            var newT = 0;
-            if (dt === 0 || dt === 1) {
-                newT = dt;
-            } else {
-                var s = this._period / 4;
-                newT = Math.pow(2, -10 * dt) * Math.sin((dt - s) * Math.PI * 2 / this._period) + 1;
-            }
+    export class EaseElasticOut extends EaseElasticIn {
+        public update(dt:number):void;
 
-            this._inner.update(newT);
-        },
+        public reverse():EaseElasticOut;
 
-        reverse:function () {
-            return new cc.EaseElasticIn(this._inner.reverse(), this._period);
-        },
+        public clone():EaseElasticOut;
+    }
 
-        clone:function(){
-            var action = new cc.EaseElasticOut();
-            action.initWithAction(this._inner.clone(), this._period);
-            return action;
-        }
-    });
-
-    //default ease elastic out object (period = 0.3)
-    cc._easeElasticOutObj = {
-        easing: function (dt) {
-            return (dt === 0 || dt === 1) ? dt : Math.pow(2, -10 * dt) * Math.sin((dt - (0.3 / 4)) * Math.PI * 2 / 0.3) + 1;
-        },
-        reverse:function(){
-            return cc._easeElasticInObj;
-        }
-    };
     /**
      * !#en
      * Creates the action easing object with the period in radians (default is 0.3). <br />
@@ -1199,20 +1110,7 @@ declare namespace cc {
      * // example
      * action.easing(cc.easeElasticOut(3.0));
      */
-    cc.easeElasticOut = function (period) {
-        if(period && period !== 0.3){
-            return {
-                _period: period,
-                easing: function (dt) {
-                    return (dt === 0 || dt === 1) ? dt : Math.pow(2, -10 * dt) * Math.sin((dt - (this._period / 4)) * Math.PI * 2 / this._period) + 1;
-                },
-                reverse:function(){
-                    return cc.easeElasticIn(this._period);
-                }
-            };
-        }
-        return cc._easeElasticOutObj;
-    };
+    export function easeElasticOut(period:number):EaseElasticOut;
 
     /*
     * Ease Elastic InOut action. <br />
@@ -1227,37 +1125,13 @@ declare namespace cc {
     * @example
     * action.easing(cc.easeElasticInOut(period));
     */
-    cc.EaseElasticInOut = cc.EaseElastic.extend({
-        update:function (dt) {
-            var newT = 0;
-            var locPeriod = this._period;
-            if (dt === 0 || dt === 1) {
-                newT = dt;
-            } else {
-                dt = dt * 2;
-                if (!locPeriod)
-                    locPeriod = this._period = 0.3 * 1.5;
+    export class EaseElasticInOut extends EaseElastic {
+        public update(dt:number):void;
 
-                var s = locPeriod / 4;
-                dt = dt - 1;
-                if (dt < 0)
-                    newT = -0.5 * Math.pow(2, 10 * dt) * Math.sin((dt - s) * Math.PI * 2 / locPeriod);
-                else
-                    newT = Math.pow(2, -10 * dt) * Math.sin((dt - s) * Math.PI * 2 / locPeriod) * 0.5 + 1;
-            }
-            this._inner.update(newT);
-        },
+        public reverse():EaseElasticInOut;
 
-        reverse:function () {
-            return new cc.EaseElasticInOut(this._inner.reverse(), this._period);
-        },
-
-        clone:function(){
-            var action = new cc.EaseElasticInOut();
-            action.initWithAction(this._inner.clone(), this._period);
-            return action;
-        }
-    });
+        public clone():EaseElasticInOut;
+    }
 
     /**
      * !#en
@@ -1275,33 +1149,7 @@ declare namespace cc {
      * // example
      * action.easing(cc.easeElasticInOut(3.0));
      */
-    cc.easeElasticInOut = function (period) {
-        period = period || 0.3;
-        return {
-            _period: period,
-            easing: function (dt) {
-                var newT = 0;
-                var locPeriod = this._period;
-                if (dt === 0 || dt === 1) {
-                    newT = dt;
-                } else {
-                    dt = dt * 2;
-                    if (!locPeriod)
-                        locPeriod = this._period = 0.3 * 1.5;
-                    var s = locPeriod / 4;
-                    dt = dt - 1;
-                    if (dt < 0)
-                        newT = -0.5 * Math.pow(2, 10 * dt) * Math.sin((dt - s) * Math.PI * 2 / locPeriod);
-                    else
-                        newT = Math.pow(2, -10 * dt) * Math.sin((dt - s) * Math.PI * 2 / locPeriod) * 0.5 + 1;
-                }
-                return newT;
-            },
-            reverse: function(){
-                return cc.easeElasticInOut(this._period);
-            }
-        };
-    };
+    export function easeElasticInOut(period:number):EaseElasticInOut;
 
     /**
      * !#en cc.EaseBounce abstract class.
@@ -1309,36 +1157,19 @@ declare namespace cc {
      * @class EaseBounce
      * @extends ActionEase
      */
-    cc.EaseBounce = cc.ActionEase.extend({
+    // cc.EaseBounce = cc.ActionEase.extend({
+    export class EaseBounce extends ActionEase {
         /**
-         * @param {Number} time1
+         * @param {Number} time
          * @return {Number}
          */
-        bounceTime:function (time1) {
-            if (time1 < 1 / 2.75) {
-                return 7.5625 * time1 * time1;
-            } else if (time1 < 2 / 2.75) {
-                time1 -= 1.5 / 2.75;
-                return 7.5625 * time1 * time1 + 0.75;
-            } else if (time1 < 2.5 / 2.75) {
-                time1 -= 2.25 / 2.75;
-                return 7.5625 * time1 * time1 + 0.9375;
-            }
+        public bounceTime(time:number):number;
 
-            time1 -= 2.625 / 2.75;
-            return 7.5625 * time1 * time1 + 0.984375;
-        },
+        public reverse():EaseBounce;
 
-        clone:function(){
-            var action = new cc.EaseBounce();
-            action.initWithAction(this._inner.clone());
-            return action;
-        },
+        public clone():EaseBounce;
+    }
 
-        reverse:function () {
-            return new cc.EaseBounce(this._inner.reverse());
-        }
-    });
 
     /**
      * @module cc
@@ -1356,46 +1187,14 @@ declare namespace cc {
     * @example
     * action.easing(cc.easeBounceIn());
     */
-    cc.EaseBounceIn = cc.EaseBounce.extend({
-        update:function (dt) {
-            var newT = 1 - this.bounceTime(1 - dt);
-            this._inner.update(newT);
-        },
+    export class EaseBounceIn extends EaseBounce {
+        public update(dt:number):void;
 
-        reverse:function () {
-            return new cc.EaseBounceOut(this._inner.reverse());
-        },
+        public reverse():EaseBounceIn;
 
-        clone:function(){
-            var action = new cc.EaseBounceIn();
-            action.initWithAction(this._inner.clone());
-            return action;
-        }
-    });
+        public clone():EaseBounceIn;
+    }
 
-    cc._bounceTime = function (time1) {
-        if (time1 < 1 / 2.75) {
-            return 7.5625 * time1 * time1;
-        } else if (time1 < 2 / 2.75) {
-            time1 -= 1.5 / 2.75;
-            return 7.5625 * time1 * time1 + 0.75;
-        } else if (time1 < 2.5 / 2.75) {
-            time1 -= 2.25 / 2.75;
-            return 7.5625 * time1 * time1 + 0.9375;
-        }
-
-        time1 -= 2.625 / 2.75;
-        return 7.5625 * time1 * time1 + 0.984375;
-    };
-
-    cc._easeBounceInObj = {
-        easing: function(dt){
-            return 1 - cc._bounceTime(1 - dt);
-        },
-        reverse: function(){
-            return cc._easeBounceOutObj;
-        }
-    };
 
     /**
      * !#en
@@ -1410,9 +1209,7 @@ declare namespace cc {
      * // example
      * action.easing(cc.easeBounceIn());
      */
-    cc.easeBounceIn = function(){
-        return cc._easeBounceInObj;
-    };
+    export function easeBounceIn():EaseBounceIn;
 
     /*
     * cc.EaseBounceOut action. <br />
@@ -1426,31 +1223,13 @@ declare namespace cc {
     * @example
     * action.easing(cc.easeBounceOut());
     */
-    cc.EaseBounceOut = cc.EaseBounce.extend({
-        update:function (dt) {
-            var newT = this.bounceTime(dt);
-            this._inner.update(newT);
-        },
+    export class EaseBounceOut extends EaseBounce {
+        public update(dt:number):void;
 
-        reverse:function () {
-            return new cc.EaseBounceIn(this._inner.reverse());
-        },
+        public reverse():EaseBounceOut;
 
-        clone:function(){
-            var action = new cc.EaseBounceOut();
-            action.initWithAction(this._inner.clone());
-            return action;
-        }
-    });
-
-    cc._easeBounceOutObj = {
-        easing: function(dt){
-            return cc._bounceTime(dt);
-        },
-        reverse:function () {
-            return cc._easeBounceInObj;
-        }
-    };
+        public clone():EaseBounceOut;
+    }
 
     /**
      * !#en
@@ -1465,9 +1244,7 @@ declare namespace cc {
      * // example
      * action.easing(cc.easeBounceOut());
      */
-    cc.easeBounceOut = function(){
-        return cc._easeBounceOutObj;
-    };
+    export function easeBounceOut():EaseBounceOut;
 
     /*
     * cc.EaseBounceInOut action. <br />
@@ -1481,44 +1258,13 @@ declare namespace cc {
     * @example
     * action.easing(cc.easeBounceInOut());
     */
-    cc.EaseBounceInOut = cc.EaseBounce.extend({
-        update:function (dt) {
-            var newT = 0;
-            if (dt < 0.5) {
-                dt = dt * 2;
-                newT = (1 - this.bounceTime(1 - dt)) * 0.5;
-            } else {
-                newT = this.bounceTime(dt * 2 - 1) * 0.5 + 0.5;
-            }
-            this._inner.update(newT);
-        },
+    export class EaseBounceInOut extends EaseBounce {
+        public update(dt:number):void;
 
-        clone:function(){
-            var action = new cc.EaseBounceInOut();
-            action.initWithAction(this._inner.clone());
-            return action;
-        },
+        public reverse():EaseBounceInOut;
 
-        reverse:function () {
-            return new cc.EaseBounceInOut(this._inner.reverse());
-        }
-    });
-
-    cc._easeBounceInOutObj = {
-        easing: function (time1) {
-            var newT;
-            if (time1 < 0.5) {
-                time1 = time1 * 2;
-                newT = (1 - cc._bounceTime(1 - time1)) * 0.5;
-            } else {
-                newT = cc._bounceTime(time1 * 2 - 1) * 0.5 + 0.5;
-            }
-            return newT;
-        },
-        reverse: function(){
-            return cc._easeBounceInOutObj;
-        }
-    };
+        public clone():EaseBounceInOut;
+    }
 
     /**
      * !#en
@@ -1533,9 +1279,7 @@ declare namespace cc {
      * // example
      * action.easing(cc.easeBounceInOut());
      */
-    cc.easeBounceInOut = function(){
-        return cc._easeBounceInOutObj;
-    };
+    export function easeBounceInOut():EaseBounceInOut;
 
     /*
     * cc.EaseBackIn action. <br />
@@ -1549,33 +1293,13 @@ declare namespace cc {
     * @example
     * action.easing(cc.easeBackIn());
     */
-    cc.EaseBackIn = cc.ActionEase.extend({
-        update:function (dt) {
-            var overshoot = 1.70158;
-            dt = dt===0 || dt===1 ? dt : dt * dt * ((overshoot + 1) * dt - overshoot);
-            this._inner.update(dt);
-        },
+    export class EaseBackIn extends ActionEase {
+        public update(dt:number):void;
 
-        reverse:function () {
-            return new cc.EaseBackOut(this._inner.reverse());
-        },
+        public reverse():EaseBackIn;
 
-        clone:function(){
-            var action = new cc.EaseBackIn();
-            action.initWithAction(this._inner.clone());
-            return action;
-        }
-    });
-
-    cc._easeBackInObj = {
-        easing: function (time1) {
-            var overshoot = 1.70158;
-            return (time1===0 || time1===1) ? time1 : time1 * time1 * ((overshoot + 1) * time1 - overshoot);
-        },
-        reverse: function(){
-            return cc._easeBackOutObj;
-        }
-    };
+        public clone():EaseBackIn;
+    }
 
     /**
      * !#en
@@ -1590,9 +1314,7 @@ declare namespace cc {
      * // example
      * action.easing(cc.easeBackIn());
      */
-    cc.easeBackIn = function(){
-        return cc._easeBackInObj;
-    };
+    export function easeBackIn():EaseBackIn;
 
     /*
     * cc.EaseBackOut action. <br />
@@ -1606,34 +1328,13 @@ declare namespace cc {
     * @example
     * action.easing(cc.easeBackOut());
     */
-    cc.EaseBackOut = cc.ActionEase.extend({
-        update:function (dt) {
-            var overshoot = 1.70158;
-            dt = dt - 1;
-            this._inner.update(dt * dt * ((overshoot + 1) * dt + overshoot) + 1);
-        },
+    export class EaseBackOut extends ActionEase {
+        public update(dt:number):void;
 
-        reverse:function () {
-            return new cc.EaseBackIn(this._inner.reverse());
-        },
+        public reverse():EaseBackOut;
 
-        clone:function(){
-            var action = new cc.EaseBackOut();
-            action.initWithAction(this._inner.clone());
-            return action;
-        }
-    });
-
-    cc._easeBackOutObj = {
-        easing: function (time1) {
-            var overshoot = 1.70158;
-            time1 = time1 - 1;
-            return time1 * time1 * ((overshoot + 1) * time1 + overshoot) + 1;
-        },
-        reverse: function(){
-            return cc._easeBackInObj;
-        }
-    };
+        public clone():EaseBackOut;
+    }
 
     /**
      * !#en
@@ -1648,9 +1349,7 @@ declare namespace cc {
      * // example
      * action.easing(cc.easeBackOut());
      */
-    cc.easeBackOut = function(){
-        return cc._easeBackOutObj;
-    };
+    export function easeBackOut():EaseBackOut;
 
     /*
     * cc.EaseBackInOut action. <br />
@@ -1664,44 +1363,13 @@ declare namespace cc {
     * @example
     * action.easing(cc.easeBackInOut());
     */
-    cc.EaseBackInOut = cc.ActionEase.extend({
-        update:function (dt) {
-            var overshoot = 1.70158 * 1.525;
-            dt = dt * 2;
-            if (dt < 1) {
-                this._inner.update((dt * dt * ((overshoot + 1) * dt - overshoot)) / 2);
-            } else {
-                dt = dt - 2;
-                this._inner.update((dt * dt * ((overshoot + 1) * dt + overshoot)) / 2 + 1);
-            }
-        },
+    export class EaseBackInOut extends ActionEase {
+        public update(dt:number):void;
 
-        clone:function(){
-            var action = new cc.EaseBackInOut();
-            action.initWithAction(this._inner.clone());
-            return action;
-        },
+        public reverse():EaseBackInOut;
 
-        reverse:function () {
-            return new cc.EaseBackInOut(this._inner.reverse());
-        }
-    });
-
-    cc._easeBackInOutObj = {
-        easing: function (time1) {
-            var overshoot = 1.70158 * 1.525;
-            time1 = time1 * 2;
-            if (time1 < 1) {
-                return (time1 * time1 * ((overshoot + 1) * time1 - overshoot)) / 2;
-            } else {
-                time1 = time1 - 2;
-                return (time1 * time1 * ((overshoot + 1) * time1 + overshoot)) / 2 + 1;
-            }
-        },
-        reverse: function(){
-            return cc._easeBackInOutObj;
-        }
-    };
+        public clone():EaseBackInOut;
+    }
 
     /**
      * !#en
@@ -1715,9 +1383,7 @@ declare namespace cc {
      * // example
      * action.easing(cc.easeBackInOut());
      */
-    cc.easeBackInOut = function(){
-        return cc._easeBackInOutObj;
-    };
+    export function easeBackInOut():EaseBackInOut;
 
     /*
     * cc.EaseBezierAction action. <br />
@@ -1732,43 +1398,19 @@ declare namespace cc {
     * @example
     * action.easing(cc.easeBezierAction(0.5, 0.5, 1.0, 1.0));
     */
-    cc.EaseBezierAction = cc.ActionEase.extend({
+    export class EaseBezierAction extends ActionEase {
+        // /**
+        //  * Constructor function, override it to extend the construction behavior, remember to call "this._super()" in the extended "ctor" function. <br />
+        //  * Initialization requires the application of Bessel curve of action.
+        //  * @param {Action} action
+        //  */
+        // public constructor(action:Action);
 
-        _p0: null,
-        _p1: null,
-        _p2: null,
-        _p3: null,
+        public update(dt:number):void;
 
-        /**
-         * Constructor function, override it to extend the construction behavior, remember to call "this._super()" in the extended "ctor" function. <br />
-         * Initialization requires the application of Bessel curve of action.
-         * @param {Action} action
-         */
-        ctor: function(action){
-            cc.ActionEase.prototype.ctor.call(this, action);
-        },
+        public reverse():EaseBezierAction;
 
-        _updateTime: function(a, b, c, d, t){
-            return (Math.pow(1-t,3) * a + 3*t*(Math.pow(1-t,2))*b + 3*Math.pow(t,2)*(1-t)*c + Math.pow(t,3)*d );
-        },
-
-        update: function(dt){
-            var t = this._updateTime(this._p0, this._p1, this._p2, this._p3, dt);
-            this._inner.update(t);
-        },
-
-        clone: function(){
-            var action = new cc.EaseBezierAction();
-            action.initWithAction(this._inner.clone());
-            action.setBezierParamer(this._p0, this._p1, this._p2, this._p3);
-            return action;
-        },
-
-        reverse: function(){
-            var action = new cc.EaseBezierAction(this._inner.reverse());
-            action.setBezierParamer(this._p3, this._p2, this._p1, this._p0);
-            return action;
-        },
+        public clone():EaseBezierAction;
 
         /**
          * Set of 4 reference point
@@ -1777,13 +1419,8 @@ declare namespace cc {
          * @param p2
          * @param p3
          */
-        setBezierParamer: function(p0, p1, p2, p3){
-            this._p0 = p0 || 0;
-            this._p1 = p1 || 0;
-            this._p2 = p2 || 0;
-            this._p3 = p3 || 0;
-        }
-    });
+        public setBezierParamer(p0:Vec2, p1:Vec2, p2:Vec2, p3:Vec2):void;
+    }
 
     /**
      * !#en
@@ -1803,16 +1440,7 @@ declare namespace cc {
      * // example
      * action.easing(cc.easeBezierAction(0.5, 0.5, 1.0, 1.0));
      */
-    cc.easeBezierAction = function(p0, p1, p2, p3){
-        return {
-            easing: function(time){
-                return cc.EaseBezierAction.prototype._updateTime(p0, p1, p2, p3, time);
-            },
-            reverse: function(){
-                return cc.easeBezierAction(p3, p2, p1, p0);
-            }
-        };
-    };
+    export function easeBezierAction(p0:Vec2, p1:Vec2, p2:Vec2, p3:Vec2):EaseBezierAction;
 
     /*
     * cc.EaseQuadraticActionIn action. <br />
@@ -1826,34 +1454,22 @@ declare namespace cc {
     * @example
     * action.easing(cc.easeQuadraticActionIn());
     */
-    cc.EaseQuadraticActionIn = cc.ActionEase.extend({
+    export class EaseQuadraticActionIn extends ActionEase {
+        public update(dt:number):void;
 
-        _updateTime: function(time){
-            return Math.pow(time, 2);
-        },
+        public reverse():EaseQuadraticActionIn;
 
-        update: function(dt){
-            this._inner.update(this._updateTime(dt));
-        },
+        public clone():EaseQuadraticActionIn;
 
-        clone: function(){
-            var action = new cc.EaseQuadraticActionIn();
-            action.initWithAction(this._inner.clone());
-            return action;
-        },
-
-        reverse: function(){
-            return new cc.EaseQuadraticActionIn(this._inner.reverse());
-        }
-
-    });
-
-    cc._easeQuadraticActionIn = {
-        easing: cc.EaseQuadraticActionIn.prototype._updateTime,
-        reverse: function(){
-            return cc._easeQuadraticActionIn;
-        }
-    };
+        /**
+         * Set of 4 reference point
+         * @param p0
+         * @param p1
+         * @param p2
+         * @param p3
+         */
+        public setBezierParamer(p0:Vec2, p1:Vec2, p2:Vec2, p3:Vec2):void;
+    }
 
     /**
      * !#en
@@ -1870,12 +1486,10 @@ declare namespace cc {
      * //example
      * action.easing(cc.easeQuadraticActionIn());
      */
-    cc.easeQuadraticActionIn = function(){
-        return cc._easeQuadraticActionIn;
-    };
+    export function easeQuadraticActionIn():EaseQuadraticActionIn;
 
     /*
-    * cc.EaseQuadraticActionIn action. <br />
+    * cc.EaseQuadraticActionOut action. <br />
     * Reference easeOutQuad: <br />
     * http://www.zhihu.com/question/21981571/answer/19925418
     * @class EaseQuadraticActionOut
@@ -1886,33 +1500,14 @@ declare namespace cc {
     * @example
     * action.easing(cc.easeQuadraticActionOut());
     */
-    cc.EaseQuadraticActionOut = cc.ActionEase.extend({
+    export class EaseQuadraticActionOut extends ActionEase {
+        public update(dt:number):void;
 
-        _updateTime: function(time){
-            return -time*(time-2);
-        },
+        public reverse():EaseQuadraticActionOut;
 
-        update: function(dt){
-            this._inner.update(this._updateTime(dt));
-        },
+        public clone():EaseQuadraticActionOut;
+    }
 
-        clone: function(){
-            var action = new cc.EaseQuadraticActionOut();
-            action.initWithAction();
-            return action;
-        },
-
-        reverse: function(){
-            return new cc.EaseQuadraticActionOut(this._inner.reverse());
-        }
-    });
-
-    cc._easeQuadraticActionOut = {
-        easing: cc.EaseQuadraticActionOut.prototype._updateTime,
-        reverse: function(){
-            return cc._easeQuadraticActionOut;
-        }
-    };
     /**
      * !#en
      * Creates the action easing object. <br />
@@ -1928,9 +1523,7 @@ declare namespace cc {
      * //example
      * action.easing(cc.easeQuadraticActionOut());
      */
-    cc.easeQuadraticActionOut = function(){
-        return cc._easeQuadraticActionOut;
-    };
+    export function easeQuadraticActionOut():EaseQuadraticActionOut;
 
     /*
     * cc.EaseQuadraticActionInOut action. <br />
@@ -1944,40 +1537,13 @@ declare namespace cc {
     * @example
     * action.easing(cc.easeQuadraticActionInOut());
     */
-    cc.EaseQuadraticActionInOut = cc.ActionEase.extend({
-        _updateTime: function(time){
-            var resultTime = time;
-            time *= 2;
-            if(time < 1){
-                resultTime = time * time * 0.5;
-            }else{
-                --time;
-                resultTime = -0.5 * ( time * ( time - 2 ) - 1)
-            }
-            return resultTime;
-        },
+    export class EaseQuadraticActionInOut extends ActionEase {
+        public update(dt:number):void;
 
-        update: function(dt){
-            this._inner.update(this._updateTime(dt));
-        },
+        public reverse():EaseQuadraticActionInOut;
 
-        clone: function(){
-            var action = new cc.EaseQuadraticActionInOut();
-            action.initWithAction(this._inner.clone());
-            return action;
-        },
-
-        reverse: function(){
-            return new cc.EaseQuadraticActionInOut(this._inner.reverse());
-        }
-    });
-
-    cc._easeQuadraticActionInOut = {
-        easing: cc.EaseQuadraticActionInOut.prototype._updateTime,
-        reverse: function(){
-            return cc._easeQuadraticActionInOut;
-        }
-    };
+        public clone():EaseQuadraticActionInOut;
+    }
 
     /**
      * !#en
@@ -1994,9 +1560,7 @@ declare namespace cc {
      * //example
      * action.easing(cc.easeQuadraticActionInOut());
      */
-    cc.easeQuadraticActionInOut = function(){
-        return cc._easeQuadraticActionInOut;
-    };
+    export function easeQuadraticActionInOut():EaseQuadraticActionInOut;
 
     /*
     * cc.EaseQuarticActionIn action. <br />
@@ -2010,32 +1574,14 @@ declare namespace cc {
     * @example
     * action.easing(cc.easeQuarticActionIn());
     */
-    cc.EaseQuarticActionIn = cc.ActionEase.extend({
-        _updateTime: function(time){
-            return time * time * time * time;
-        },
+    export class EaseQuarticActionIn extends ActionEase {
+        public update(dt:number):void;
 
-        update: function(dt){
-            this._inner.update(this._updateTime(dt));
-        },
+        public reverse():EaseQuarticActionIn;
 
-        clone: function(){
-            var action = new cc.EaseQuarticActionIn();
-            action.initWithAction(this._inner.clone());
-            return action;
-        },
+        public clone():EaseQuarticActionIn;
+    }
 
-        reverse: function(){
-            return new cc.EaseQuarticActionIn(this._inner.reverse());
-        }
-    });
-
-    cc._easeQuarticActionIn = {
-        easing: cc.EaseQuarticActionIn.prototype._updateTime,
-        reverse: function(){
-            return cc._easeQuarticActionIn;
-        }
-    };
     /**
      * !#en
      * Creates the action easing object. <br />
@@ -2051,9 +1597,7 @@ declare namespace cc {
      * //example
      * action.easing(cc.easeQuarticActionIn());
      */
-    cc.easeQuarticActionIn = function(){
-        return cc._easeQuarticActionIn;
-    };
+    export function easeQuarticActionIn():EaseQuarticActionIn;
 
     /*
     * cc.EaseQuarticActionOut action. <br />
@@ -2067,33 +1611,13 @@ declare namespace cc {
     * @example
     * action.easing(cc.EaseQuarticActionOut());
     */
-    cc.EaseQuarticActionOut = cc.ActionEase.extend({
-        _updateTime: function(time){
-            time -= 1;
-            return -(time * time * time * time - 1);
-        },
+    export class EaseQuarticActionOut extends ActionEase {
+        public update(dt:number):void;
 
-        update: function(dt){
-            this._inner.update(this._updateTime(dt));
-        },
+        public reverse():EaseQuarticActionOut;
 
-        clone: function(){
-            var action = new cc.EaseQuarticActionOut();
-            action.initWithAction(this._inner.clone());
-            return action;
-        },
-
-        reverse: function(){
-            return new cc.EaseQuarticActionOut(this._inner.reverse());
-        }
-    });
-
-    cc._easeQuarticActionOut = {
-        easing: cc.EaseQuarticActionOut.prototype._updateTime,
-        reverse: function(){
-            return cc._easeQuarticActionOut;
-        }
-    };
+        public clone():EaseQuarticActionOut;
+    }
 
     /**
      * !#en
@@ -2110,9 +1634,7 @@ declare namespace cc {
      * //example
      * action.easing(cc.QuarticActionOut());
      */
-    cc.easeQuarticActionOut = function(){
-        return cc._easeQuarticActionOut;
-    };
+    export function easeQuarticActionOut():EaseQuarticActionOut;
 
     /*
     * cc.EaseQuarticActionInOut action. <br />
@@ -2126,36 +1648,14 @@ declare namespace cc {
     * @example
     * action.easing(cc.easeQuarticActionInOut());
     */
-    cc.EaseQuarticActionInOut = cc.ActionEase.extend({
-        _updateTime: function(time){
-            time = time*2;
-            if (time < 1)
-                return 0.5 * time * time * time * time;
-            time -= 2;
-            return -0.5 * (time * time * time * time - 2);
-        },
+    export class EaseQuarticActionInOut extends ActionEase {
+        public update(dt:number):void;
 
-        update: function(dt){
-            this._inner.update(this._updateTime(dt));
-        },
+        public reverse():EaseQuarticActionInOut;
 
-        clone: function(){
-            var action = new cc.EaseQuarticActionInOut();
-            action.initWithAction(this._inner.clone());
-            return action;
-        },
+        public clone():EaseQuarticActionInOut;
+    }
 
-        reverse: function(){
-            return new cc.EaseQuarticActionInOut(this._inner.reverse());
-        }
-    });
-
-    cc._easeQuarticActionInOut = {
-        easing: cc.EaseQuarticActionInOut.prototype._updateTime,
-        reverse: function(){
-            return cc._easeQuarticActionInOut;
-        }
-    };
     /**
      * !#en
      * Creates the action easing object.  <br />
@@ -2168,9 +1668,7 @@ declare namespace cc {
      * @method easeQuarticActionInOut
      * @returns {Object}
      */
-    cc.easeQuarticActionInOut = function(){
-        return cc._easeQuarticActionInOut;
-    };
+    export function easeQuarticActionInOut():EaseQuarticActionInOut;
 
     /*
     * cc.EaseQuinticActionIn action. <br />
@@ -2184,32 +1682,13 @@ declare namespace cc {
     * @example
     * action.easing(cc.easeQuinticActionIn());
     */
-    cc.EaseQuinticActionIn = cc.ActionEase.extend({
-        _updateTime: function(time){
-            return time * time * time * time * time;
-        },
+    export class EaseQuinticActionIn extends ActionEase {
+        public update(dt:number):void;
 
-        update: function(dt){
-            this._inner.update(this._updateTime(dt));
-        },
+        public reverse():EaseQuinticActionIn;
 
-        clone: function(){
-            var action = new cc.EaseQuinticActionIn();
-            action.initWithAction(this._inner.clone());
-            return action;
-        },
-
-        reverse: function(){
-            return new cc.EaseQuinticActionIn(this._inner.reverse());
-        }
-    });
-
-    cc._easeQuinticActionIn = {
-        easing: cc.EaseQuinticActionIn.prototype._updateTime,
-        reverse: function(){
-            return cc._easeQuinticActionIn;
-        }
-    };
+        public clone():EaseQuinticActionIn;
+    }
 
     /**
      * !#en
@@ -2226,9 +1705,7 @@ declare namespace cc {
      * //example
      * action.easing(cc.easeQuinticActionIn());
      */
-    cc.easeQuinticActionIn = function(){
-        return cc._easeQuinticActionIn;
-    };
+    export function easeQuinticActionIn():EaseQuinticActionIn;
 
     /*
     * cc.EaseQuinticActionOut action. <br />
@@ -2242,33 +1719,13 @@ declare namespace cc {
     * @example
     * action.easing(cc.easeQuadraticActionOut());
     */
-    cc.EaseQuinticActionOut = cc.ActionEase.extend({
-        _updateTime: function(time){
-            time -=1;
-            return (time * time * time * time * time + 1);
-        },
+    export class EaseQuinticActionOut extends ActionEase {
+        public update(dt:number):void;
 
-        update: function(dt){
-            this._inner.update(this._updateTime(dt));
-        },
+        public reverse():EaseQuinticActionOut;
 
-        clone: function(){
-            var action = new cc.EaseQuinticActionOut();
-            action.initWithAction(this._inner.clone());
-            return action;
-        },
-
-        reverse: function(){
-            return new cc.EaseQuinticActionOut(this._inner.reverse());
-        }
-    });
-
-    cc._easeQuinticActionOut = {
-        easing: cc.EaseQuinticActionOut.prototype._updateTime,
-        reverse: function(){
-            return cc._easeQuinticActionOut;
-        }
-    };
+        public clone():EaseQuinticActionOut;
+    }
 
     /**
      * !#en
@@ -2285,9 +1742,7 @@ declare namespace cc {
      * //example
      * action.easing(cc.easeQuadraticActionOut());
      */
-    cc.easeQuinticActionOut = function(){
-        return cc._easeQuinticActionOut;
-    };
+    export function easeQuinticActionOut():EaseQuinticActionOut;
 
     /*
     * cc.EaseQuinticActionInOut action. <br />
@@ -2301,36 +1756,13 @@ declare namespace cc {
     * @example
     * action.easing(cc.easeQuinticActionInOut());
     */
-    cc.EaseQuinticActionInOut = cc.ActionEase.extend({
-        _updateTime: function(time){
-            time = time*2;
-            if (time < 1)
-                return 0.5 * time * time * time * time * time;
-            time -= 2;
-            return 0.5 * (time * time * time * time * time + 2);
-        },
+    export class EaseQuinticActionInOut extends ActionEase {
+        public update(dt:number):void;
 
-        update: function(dt){
-            this._inner.update(this._updateTime(dt));
-        },
+        public reverse():EaseQuinticActionInOut;
 
-        clone: function(){
-            var action = new cc.EaseQuinticActionInOut();
-            action.initWithAction(this._inner.clone());
-            return action;
-        },
-
-        reverse: function(){
-            return new cc.EaseQuinticActionInOut(this._inner.reverse());
-        }
-    });
-
-    cc._easeQuinticActionInOut = {
-        easing: cc.EaseQuinticActionInOut.prototype._updateTime,
-        reverse: function(){
-            return cc._easeQuinticActionInOut;
-        }
-    };
+        public clone():EaseQuinticActionInOut;
+    }
 
     /**
      * !#en
@@ -2347,9 +1779,7 @@ declare namespace cc {
      * //example
      * action.easing(cc.easeQuinticActionInOut());
      */
-    cc.easeQuinticActionInOut = function(){
-        return cc._easeQuinticActionInOut;
-    };
+    export function easeQuinticActionInOut():EaseQuinticActionInOut;
 
     /*
     * cc.EaseCircleActionIn action. <br />
@@ -2363,32 +1793,13 @@ declare namespace cc {
     * @example
     * action.easing(cc.easeCircleActionIn());
     */
-    cc.EaseCircleActionIn = cc.ActionEase.extend({
-        _updateTime: function(time){
-            return -1 * (Math.sqrt(1 - time * time) - 1);
-        },
+    export class EaseCircleActionIn extends ActionEase {
+        public update(dt:number):void;
 
-        update: function(dt){
-            this._inner.update(this._updateTime(dt));
-        },
+        public reverse():EaseCircleActionIn;
 
-        clone: function(){
-            var action = new cc.EaseCircleActionIn();
-            action.initWithAction(this._inner.clone());
-            return action;
-        },
-
-        reverse: function(){
-            return new cc.EaseCircleActionIn(this._inner.reverse());
-        }
-    });
-
-    cc._easeCircleActionIn = {
-        easing: cc.EaseCircleActionIn.prototype._updateTime,
-        reverse: function(){
-            return cc._easeCircleActionIn;
-        }
-    };
+        public clone():EaseCircleActionIn;
+    }
 
     /**
      * !#en
@@ -2405,9 +1816,7 @@ declare namespace cc {
      * //example
      * action.easing(cc.easeCircleActionIn());
      */
-    cc.easeCircleActionIn = function(){
-        return cc._easeCircleActionIn;
-    };
+    export function easeCircleActionIn():EaseCircleActionIn;
 
     /*
     * cc.EaseCircleActionOut action. <br />
@@ -2421,33 +1830,13 @@ declare namespace cc {
     * @example
     * action.easing(cc.easeCircleActionOut());
     */
-    cc.EaseCircleActionOut = cc.ActionEase.extend({
-        _updateTime: function(time){
-            time = time - 1;
-            return Math.sqrt(1 - time * time);
-        },
+    export class EaseCircleActionOut extends ActionEase {
+        public update(dt:number):void;
 
-        update: function(dt){
-            this._inner.update(this._updateTime(dt));
-        },
+        public reverse():EaseCircleActionIn;
 
-        clone: function(){
-            var action = new cc.EaseCircleActionOut();
-            action.initWithAction(this._inner.clone());
-            return action;
-        },
-
-        reverse: function(){
-            return new cc.EaseCircleActionOut(this._inner.reverse());
-        }
-    });
-
-    cc._easeCircleActionOut = {
-        easing: cc.EaseCircleActionOut.prototype._updateTime,
-        reverse: function(){
-            return cc._easeCircleActionOut;
-        }
-    };
+        public clone():EaseCircleActionIn;
+    }
 
     /**
      * !#en
@@ -2464,9 +1853,7 @@ declare namespace cc {
      * //example
      * actioneasing(cc.easeCircleActionOut());
      */
-    cc.easeCircleActionOut = function(){
-        return cc._easeCircleActionOut;
-    };
+    export function easeCircleActionOut():EaseCircleActionIn;
 
     /*
     * cc.EaseCircleActionInOut action. <br />
@@ -2480,36 +1867,13 @@ declare namespace cc {
     * @example
     * action.easing(cc.easeCircleActionInOut());
     */
-    cc.EaseCircleActionInOut = cc.ActionEase.extend({
-        _updateTime: function(time){
-            time = time * 2;
-            if (time < 1)
-                return -0.5 * (Math.sqrt(1 - time * time) - 1);
-            time -= 2;
-            return 0.5 * (Math.sqrt(1 - time * time) + 1);
-        },
+    export class EaseCircleActionInOut extends ActionEase {
+        public update(dt:number):void;
 
-        update: function(dt){
-            this._inner.update(this._updateTime(dt));
-        },
+        public reverse():EaseCircleActionInOut;
 
-        clone: function(){
-            var action = new cc.EaseCircleActionInOut();
-            action.initWithAction(this._inner.clone());
-            return action;
-        },
-
-        reverse: function(){
-            return new cc.EaseCircleActionInOut(this._inner.reverse());
-        }
-    });
-
-    cc._easeCircleActionInOut = {
-        easing: cc.EaseCircleActionInOut.prototype._updateTime,
-        reverse: function(){
-            return cc._easeCircleActionInOut;
-        }
-    };
+        public clone():EaseCircleActionInOut;
+    }
 
     /**
      * !#en
@@ -2526,9 +1890,7 @@ declare namespace cc {
      * //example
      * action.easing(cc.easeCircleActionInOut());
      */
-    cc.easeCircleActionInOut = function(){
-        return cc._easeCircleActionInOut;
-    };
+    export function easeCircleActionInOut():EaseCircleActionInOut;
 
     /*
     * cc.EaseCubicActionIn action. <br />
@@ -2542,32 +1904,13 @@ declare namespace cc {
     * @example
     * action.easing(cc.easeCubicActionIn());
     */
-    cc.EaseCubicActionIn = cc.ActionEase.extend({
-        _updateTime: function(time){
-            return time * time * time;
-        },
+    export class EaseCubicActionIn extends ActionEase {
+        public update(dt:number):void;
 
-        update: function(dt){
-            this._inner.update(this._updateTime(dt));
-        },
+        public reverse():EaseCubicActionIn;
 
-        clone: function(){
-            var action = new cc.EaseCubicActionIn();
-            action.initWithAction(this._inner.clone());
-            return action;
-        },
-
-        reverse: function(){
-            return new cc.EaseCubicActionIn(this._inner.reverse());
-        }
-    });
-
-    cc._easeCubicActionIn = {
-        easing: cc.EaseCubicActionIn.prototype._updateTime,
-        reverse: function(){
-            return cc._easeCubicActionIn;
-        }
-    };
+        public clone():EaseCubicActionIn;
+    }
 
     /**
      * !#en
@@ -2584,9 +1927,7 @@ declare namespace cc {
      * //example
      * action.easing(cc.easeCubicActionIn());
      */
-    cc.easeCubicActionIn = function(){
-        return cc._easeCubicActionIn;
-    };
+    export function easeCubicActionIn():EaseCubicActionIn;
 
     /*
     * cc.EaseCubicActionOut action. <br />
@@ -2600,33 +1941,13 @@ declare namespace cc {
     * @example
     * action.easing(cc.easeCubicActionOut());
     */
-    cc.EaseCubicActionOut = cc.ActionEase.extend({
-        _updateTime: function(time){
-            time -= 1;
-            return (time * time * time + 1);
-        },
+    export class EaseCubicActionOut extends ActionEase {
+        public update(dt:number):void;
 
-        update: function(dt){
-            this._inner.update(this._updateTime(dt));
-        },
+        public reverse():EaseCubicActionOut;
 
-        clone: function(){
-            var action = new cc.EaseCubicActionOut();
-            action.initWithAction(this._inner.clone());
-            return action;
-        },
-
-        reverse: function(){
-            return new cc.EaseCubicActionOut(this._inner.reverse());
-        }
-    });
-
-    cc._easeCubicActionOut = {
-        easing: cc.EaseCubicActionOut.prototype._updateTime,
-        reverse: function(){
-            return cc._easeCubicActionOut;
-        }
-    };
+        public clone():EaseCubicActionOut;
+    }
 
     /**
      * !#en
@@ -2643,9 +1964,7 @@ declare namespace cc {
      * //example
      * action.easing(cc.easeCubicActionOut());
      */
-    cc.easeCubicActionOut = function(){
-        return cc._easeCubicActionOut;
-    };
+    export function easeCubicActionOut():EaseCubicActionOut;
 
     /*
     * cc.EaseCubicActionInOut action. <br />
@@ -2659,36 +1978,13 @@ declare namespace cc {
     * @example
     * action.easing(cc.easeCubicActionInOut());
     */
-    cc.EaseCubicActionInOut = cc.ActionEase.extend({
-        _updateTime: function(time){
-            time = time*2;
-            if (time < 1)
-                return 0.5 * time * time * time;
-            time -= 2;
-            return 0.5 * (time * time * time + 2);
-        },
+    export class EaseCubicActionInOut extends ActionEase {
+        public update(dt:number):void;
 
-        update: function(dt){
-            this._inner.update(this._updateTime(dt));
-        },
+        public reverse():EaseCubicActionInOut;
 
-        clone: function(){
-            var action = new cc.EaseCubicActionInOut();
-            action.initWithAction(this._inner.clone());
-            return action;
-        },
-
-        reverse: function(){
-            return new cc.EaseCubicActionInOut(this._inner.reverse());
-        }
-    });
-
-    cc._easeCubicActionInOut = {
-        easing: cc.EaseCubicActionInOut.prototype._updateTime,
-        reverse: function(){
-            return cc._easeCubicActionInOut;
-        }
-    };
+        public clone():EaseCubicActionInOut;
+    }
 
     /**
      * !#en
@@ -2702,8 +1998,1679 @@ declare namespace cc {
      * @method easeCubicActionInOut
      * @returns {Object}
      */
-    cc.easeCubicActionInOut = function(){
-        return cc._easeCubicActionInOut;
-    };
+    export function easeCubicActionInOut():EaseCubicActionInOut;
 
+
+    //+--------------------------------------------------------------------------------
+    //  File: cocos2d/core/CCActionInstant.js
+    //+--------------------------------------------------------------------------------
+
+    /**
+     * !#en Instant actions are immediate actions. They don't have a duration like the ActionInterval actions.
+     * !#zh 即时动作，这种动作立即就会执行，继承自 FiniteTimeAction。
+     * @class ActionInstant
+     * @extends FiniteTimeAction
+     */
+    export class ActionInstant extends FiniteTimeAction {
+        public isDone():boolean;
+
+        public step(dt:number):void;
+
+        public update(dt:number):void;
+
+        /**
+         * returns a reversed action. <br />
+         * For example: <br />
+         * - The action is x coordinates of 0 move to 100. <br />
+         * - The reversed action will be x of 100 move to 0.
+         * @returns {Action}
+         */
+        public reverse():ActionInstant;
+        public clone():ActionInstant;
+    }
+
+    /*
+    * Show the node.
+    * @class Show
+    * @extends ActionInstant
+    */
+    export class Show extends ActionInstant {
+
+        public update(dt:number):void;
+
+        public reverse():Hide;
+        public clone():Show;
+    }
+
+    /**
+     * !#en Show the Node.
+     * !#zh 立即显示。
+     * @method show
+     * @return {ActionInstant}
+     * @example
+     * // example
+     * var showAction = cc.show();
+     */
+    export function show():Show;
+
+    /*
+    * Hide the node.
+    * @class Hide
+    * @extends ActionInstant
+    */
+    export class Hide extends ActionInstant {
+
+        public update(dt:number):void;
+
+        public reverse():Show;
+        public clone():Hide;
+    }
+
+    /**
+     * !#en Hide the node.
+     * !#zh 立即隐藏。
+     * @method hide
+     * @return {ActionInstant}
+     * @example
+     * // example
+     * var hideAction = cc.hide();
+     */
+    export function hide():Hide;
+
+    /*
+    * Toggles the visibility of a node.
+    * @class ToggleVisibility
+    * @extends ActionInstant
+    */
+    export class ToggleVisibility extends ActionInstant {
+
+        public update(dt:number):void;
+
+        public reverse():ToggleVisibility;
+        public clone():ToggleVisibility;
+    }
+
+    /**
+     * !#en Toggles the visibility of a node.
+     * !#zh 显隐状态切换。
+     * @method toggleVisibility
+     * @return {ActionInstant}
+     * @example
+     * // example
+     * var toggleVisibilityAction = cc.toggleVisibility();
+     */
+    export function toggleVisibility():ToggleVisibility;
+
+    /*
+    * Delete self in the next frame.
+    * @class RemoveSelf
+    * @extends ActionInstant
+    * @param {Boolean} isNeedCleanUp
+    *
+    * @example
+    * // example
+    * var removeSelfAction = new cc.RemoveSelf(false);
+    */
+    export class RemoveSelf extends ActionInstant {
+        public constructor(isNeedCleanUp?:boolean);
+        public init(isNeedCleanUp?:boolean):boolean;
+
+        public update(dt:number):void;
+
+        public reverse():RemoveSelf;
+        public clone():RemoveSelf;
+    }
+
+    /**
+     * !#en Create a RemoveSelf object with a flag indicate whether the target should be cleaned up while removing.
+     * !#zh 从父节点移除自身。
+     * @method removeSelf
+     * @param {Boolean} isNeedCleanUp
+     * @return {ActionInstant}
+     *
+     * @example
+     * // example
+     * var removeSelfAction = cc.removeSelf();
+     */
+    export function removeSelf(isNeedCleanUp?:boolean):RemoveSelf;
+
+    /*
+    * Flips the sprite horizontally.
+    * @class FlipX
+    * @extends ActionInstant
+    * @param {Boolean} flip Indicate whether the target should be flipped or not
+    *
+    * @example
+    * var flipXAction = new cc.FlipX(true);
+    */
+    export class FlipX extends ActionInstant {
+        public constructor(flip:boolean);
+        public initWithFlipX(flip:boolean):boolean;
+
+        public update(dt:number):void;
+
+        public reverse():FlipX;
+        public clone():FlipX;
+    }
+
+    /**
+     * !#en Create a FlipX action to flip or unflip the target.
+     * !#zh X轴翻转。
+     * @method flipX
+     * @param {Boolean} flip Indicate whether the target should be flipped or not
+     * @return {ActionInstant}
+     * @example
+     * var flipXAction = cc.flipX(true);
+     */
+    export function flipX(flip:boolean):FlipX;
+
+    /*
+    * Flips the sprite vertically
+    * @class FlipY
+    * @extends ActionInstant
+    * @param {Boolean} flip
+    * @example
+    * var flipYAction = new cc.FlipY(true);
+    */
+    export class FlipY extends ActionInstant {
+        public constructor(flip:boolean);
+        /*
+         * initializes the action with a set flipY.
+         * @param {Boolean} flip
+         * @return {Boolean}
+         */
+        public initWithFlipY(flip:boolean):boolean;
+
+        public update(dt:number):void;
+
+        public reverse():FlipY;
+        public clone():FlipY;
+    }
+
+    /**
+     * !#en Create a FlipY action to flip or unflip the target.
+     * !#zh Y轴翻转。
+     * @method flipY
+     * @param {Boolean} flip
+     * @return {ActionInstant}
+     * @example
+     * var flipYAction = cc.flipY(true);
+     */
+    export function flipY(flip:boolean):FlipY;
+
+    /*
+    * Places the node in a certain position
+    * @class Place
+    * @extends ActionInstant
+    * @param {Vec2|Number} pos
+    * @param {Number} [y]
+    * @example
+    * var placeAction = new cc.Place(cc.p(200, 200));
+    * var placeAction = new cc.Place(200, 200);
+    */
+    export class Place extends ActionInstant {
+        public constructor(pos:Vec2|number, y?:number);
+
+        /*
+        * Initializes a Place action with a position
+        * @param {number} x
+        * @param {number} y
+        * @return {Boolean}
+        */
+        public initWithPosition(x:Vec2|number, y?:number):boolean;
+
+        public update(dt:number):void;
+
+        public reverse():Place;
+        public clone():Place;
+    }
+
+    /**
+     * !#en Creates a Place action with a position.
+     * !#zh 放置在目标位置。
+     * @method place
+     * @param {Vec2|Number} pos
+     * @param {Number} [y]
+     * @return {ActionInstant}
+     * @example
+     * // example
+     * var placeAction = cc.place(cc.p(200, 200));
+     * var placeAction = cc.place(200, 200);
+     */
+    export function place(pos:Vec2|number, y?:number):Place;
+
+    export interface CallFuncSelector { (target?:Node, data?:any):void; }
+
+    /*
+    * Calls a 'callback'.
+    * @class CallFunc
+    * @extends ActionInstant
+    * @param {function} selector
+    * @param {object|null} [selectorTarget]
+    * @param {*|null} [data] data for function, it accepts all data types.
+    * @example
+    * // example
+    * // CallFunc without data
+    * var finish = new cc.CallFunc(this.removeSprite, this);
+    *
+    * // CallFunc with data
+    * var finish = new cc.CallFunc(this.removeFromParentAndCleanup, this,  true);
+    */
+    export class CallFunc extends ActionInstant {
+        /*
+        * Constructor function, override it to extend the construction behavior, remember to call "this._super()" in the extended "ctor" function. <br />
+        * Creates a CallFunc action with the callback.
+        * @param {function} selector
+        * @param {object|null} [selectorTarget]
+        * @param {*|null} [data] data for function, it accepts all data types.
+        */
+        public constructor(selector:CallFuncSelector, selectorTarget?:any, data?:any);
+
+        /*
+        * Initializes the action with a function or function and its target
+        * @param {function} selector
+        * @param {object|Null} selectorTarget
+        * @param {*|Null} [data] data for function, it accepts all data types.
+        * @return {Boolean}
+        */
+        public initWithFunction(selector:CallFuncSelector, selectorTarget?:any, data?:any):boolean;
+
+        /*
+        * execute the function.
+        */
+        public execute():void;
+
+        public update(dt:number):void;
+
+        /*
+        * Get selectorTarget.
+        * @return {object}
+        */
+        public getTargetCallback():any;
+
+        /*
+        * Set selectorTarget.
+        * @param {object} sel
+        */
+        public setTargetCallback(sel:CallFuncSelector):void;
+
+        public clone():CallFunc;
+    }
+
+    /**
+     * !#en Creates the action with the callback.
+     * !#zh 执行回调函数。
+     * @method callFunc
+     * @param {function} selector
+     * @param {object|null} [selectorTarget]
+     * @param {*|null} [data] data for function, it accepts all data types.
+     * @return {ActionInstant}
+     * @example
+     * // example
+     * // CallFunc without data
+     * var finish = cc.callFunc(this.removeSprite, this);
+     *
+     * // CallFunc with data
+     * var finish = cc.callFunc(this.removeFromParentAndCleanup, this._grossini,  true);
+     */
+    export function callFunc(selector:CallFuncSelector, selectorTarget?:any, data?:any):CallFunc;
+
+    //+--------------------------------------------------------------------------------
+    //  File: cocos2d/core/CCActionInterval.js
+    //+--------------------------------------------------------------------------------
+
+    /**
+     * !#en
+     * <p> An interval action is an action that takes place within a certain period of time. <br/>
+     * It has an start time, and a finish time. The finish time is the parameter<br/>
+     * duration plus the start time.</p>
+     *
+     * <p>These CCActionInterval actions have some interesting properties, like:<br/>
+     * - They can run normally (default)  <br/>
+     * - They can run reversed with the reverse method   <br/>
+     * - They can run with the time altered with the Accelerate, AccelDeccel and Speed actions. </p>
+     *
+     * <p>For example, you can simulate a Ping Pong effect running the action normally and<br/>
+     * then running it again in Reverse mode. </p>
+     * !#zh 时间间隔动作，这种动作在已定时间内完成，继承 FiniteTimeAction。
+     * @class ActionInterval
+     * @extends FiniteTimeAction
+     * @param {Number} d duration in seconds
+     */
+    export class ActionInterval extends FiniteTimeAction {
+
+        public constructor(duration:number);
+
+        /*
+        * How many seconds had elapsed since the actions started to run.
+        * @return {Number}
+        */
+        public getElapsed():number;
+
+        /*
+        * Initializes the action.
+        * @param {Number} d duration in seconds
+        * @return {Boolean}
+        */
+        public initWithDuration(duration:number):boolean;
+
+        // public isDone():boolean;
+
+        public clone():ActionInterval;
+
+        /**
+         * !#en Implementation of ease motion.
+         * !#zh 缓动运动。
+         * @example
+         * @method easing
+         * @param {Object} easeObj
+         * @returns {ActionInterval}
+         * @example
+         * action.easeing(cc.easeIn(3.0));
+         */
+        public easing(easeObj:Object):ActionInterval;
+
+        public reverse():ActionInterval;
+
+        /*
+        * Set amplitude rate.
+        * @warning It should be overridden in subclass.
+        * @param {Number} amp
+        */
+        public setAmplitudeRate(amp:number):void;
+
+        /*
+        * Get amplitude rate.
+        * @warning It should be overridden in subclass.
+        * @return {Number} 0
+        */
+        public getAmplitudeRate():number;
+
+        /**
+         * !#en
+         * Changes the speed of an action, making it take longer (speed>1)
+         * or less (speed<1) time. <br/>
+         * Useful to simulate 'slow motion' or 'fast forward' effect.
+         * !#zh
+         * 改变一个动作的速度，使它的执行使用更长的时间（speed > 1）<br/>
+         * 或更少（speed < 1）可以有效得模拟“慢动作”或“快进”的效果。
+         * @param speed
+         * @returns {Action}
+         */
+        public speed(speed:number):Action;
+
+        /**
+         * Get this action speed.
+         * @return {Number}
+         */
+        public getSpeed():number;
+
+        /**
+         * Set this action speed.
+         * @param {Number} speed
+         * @returns {ActionInterval}
+         */
+        public setSpeed(speed:number):ActionInterval;
+
+        /**
+         * !#en
+         * Repeats an action a number of times.
+         * To repeat an action forever use the CCRepeatForever action.
+         * !#zh 重复动作可以按一定次数重复一个动作，使用 RepeatForever 动作来永远重复一个动作。
+         * @method repeat
+         * @param times
+         * @returns {ActionInterval}
+         */
+        public repeat(times:number):ActionInterval;
+
+        /**
+         * !#en
+         * Repeats an action for ever.  <br/>
+         * To repeat the an action for a limited number of times use the Repeat action. <br/>
+         * !#zh 永远地重复一个动作，有限次数内重复一个动作请使用 Repeat 动作。
+         * @method repeatForever
+         * @returns {ActionInterval}
+         */
+        public repeatForever():ActionInterval;
+    }
+
+    export function actionInterval(duration:number):ActionInterval;
+
+    /**
+     * @module cc
+     */
+
+    /*
+    * Runs actions sequentially, one after another.
+    * @class Sequence
+    * @extends ActionInterval
+    * @param {Array|FiniteTimeAction} tempArray
+    * @example
+    * // create sequence with actions
+    * var seq = new cc.Sequence(act1, act2);
+    *
+    * // create sequence with array
+    * var seq = new cc.Sequence(actArray);
+    */
+    // cc.Sequence = cc.ActionInterval.extend({
+    export class Sequence extends ActionInterval {
+        public constructor(tempArray:FiniteTimeAction[]);
+        public constructor(...args:FiniteTimeAction[]);
+
+        /*
+        * Initializes the action <br/>
+        * @param {FiniteTimeAction} actionOne
+        * @param {FiniteTimeAction} actionTwo
+        * @return {Boolean}
+        */
+        // initWithTwoActions:function (actionOne, actionTwo) {
+        public initWithTwoActions(actionOne:FiniteTimeAction, actionTwo:FiniteTimeAction):boolean;
+
+        public clone():Sequence;
+
+        // public startWithTarget(target:Node):void;
+
+        // public stop():void;
+
+        public update(dt:number):void;
+
+        public reverse():Sequence;
+    }
+
+    /**
+     * !#en
+     * Helper constructor to create an array of sequenceable actions
+     * The created action will run actions sequentially, one after another.
+     * !#zh 顺序执行动作，创建的动作将按顺序依次运行。
+     * @method sequence
+     * @param {Array|FiniteTimeAction} tempArray
+     * @return {ActionInterval}
+     * @example
+     * // example
+     * // create sequence with actions
+     * var seq = cc.sequence(act1, act2);
+     *
+     * // create sequence with array
+     * var seq = cc.sequence(actArray);
+     */
+    // todo: It should be use new
+    export function sequence(tempArray:FiniteTimeAction[]):Sequence;
+    export function sequence(...args:FiniteTimeAction[]):Sequence;
+
+    /*
+    * Repeats an action a number of times.
+    * To repeat an action forever use the CCRepeatForever action.
+    * @class Repeat
+    * @extends ActionInterval
+    * @param {FiniteTimeAction} action
+    * @param {Number} times
+    * @example
+    * var rep = new cc.Repeat(cc.sequence(jump2, jump1), 5);
+    */
+    export class Repeat extends ActionInterval {
+        public constructor(action:FiniteTimeAction, times:number);
+
+        /*
+        * @param {FiniteTimeAction} action
+        * @param {Number} times
+        * @return {Boolean}
+        */
+        public initWithAction(action:FiniteTimeAction, times:number):boolean;
+
+        public clone():Repeat;
+
+        // public startWithTarget(target:Node):void;
+
+        // public stop():void;
+
+        // public update(dt:number):void;
+
+        // public isDone():boolean;
+
+        public reverse():Repeat;
+
+        /*
+        * Set inner Action.
+        * @param {FiniteTimeAction} action
+        */
+        public setInnerAction(action:FiniteTimeAction):void;
+
+        /*
+        * Get inner Action.
+        * @return {FiniteTimeAction}
+        */
+        public getInnerAction():FiniteTimeAction;
+    }
+
+    /**
+     * !#en Creates a Repeat action. Times is an unsigned integer between 1 and pow(2,30)
+     * !#zh 重复动作，可以按一定次数重复一个动，如果想永远重复一个动作请使用 repeatForever 动作来完成。
+     * @method repeat
+     * @param {FiniteTimeAction} action
+     * @param {Number} times
+     * @return {ActionInterval}
+     * @example
+     * // example
+     * var rep = cc.repeat(cc.sequence(jump2, jump1), 5);
+     */
+    export function repeat(action:FiniteTimeAction, times:number):Repeat;
+
+    /*
+    * Repeats an action for ever.  <br/>
+    * To repeat the an action for a limited number of times use the Repeat action. <br/>
+    * @warning This action can't be Sequenceable because it is not an IntervalAction
+    * @class RepeatForever
+    * @extends ActionInterval
+    * @param {FiniteTimeAction} action
+    * @example
+    * var rep = new cc.RepeatForever(cc.sequence(jump2, jump1), 5);
+    */
+    export class RepeatForever extends ActionInterval {
+        public constructor(action:ActionInterval);
+
+        /*
+        * @param {ActionInterval} action
+        * @return {Boolean}
+        */
+        public initWithAction(action:ActionInterval):boolean;
+
+        public clone():RepeatForever;
+
+        // public startWithTarget(target:Node):void;
+
+        // public step(dt:number):void;
+
+        // public isDone():boolean;
+
+        public reverse():RepeatForever;
+
+        /*
+        * Set inner action.
+        * @param {ActionInterval} action
+        */
+        public setInnerAction(action:ActionInterval):void;
+
+        /*
+        * Get inner action.
+        * @return {ActionInterval}
+        */
+        public getInnerAction():ActionInterval;
+    }
+
+    /**
+     * !#en Create a acton which repeat forever, as it runs forever, it can't be added into cc.sequence and cc.spawn.
+     * !#zh 永远地重复一个动作，有限次数内重复一个动作请使用 repeat 动作，由于这个动作不会停止，所以不能被添加到 cc.sequence 或 cc.spawn 中。
+     * @method repeatForever
+     * @param {FiniteTimeAction} action
+     * @return {ActionInterval}
+     * @example
+     * // example
+     * var repeat = cc.repeatForever(cc.rotateBy(1.0, 360));
+     */
+    export function repeatForever(action:ActionInterval):RepeatForever;
+
+
+    /* 
+    * Spawn a new action immediately
+    * @class Spawn
+    * @extends ActionInterval
+    */
+    export class Spawn extends FiniteTimeAction {
+        public constructor(actions:FiniteTimeAction[]);
+        public constructor(...actions:FiniteTimeAction[]);
+
+        /* initializes the Spawn action with the 2 actions to spawn
+        * @param {FiniteTimeAction} action1
+        * @param {FiniteTimeAction} action2
+        * @return {Boolean}
+        */
+        // initWithTwoActions:function (action1, action2) {
+        public initWithTwoActions(action1:FiniteTimeAction, action2:FiniteTimeAction);
+
+        public clone():Spawn;
+
+        // public startWithTarget(target:Node):void;
+
+        // public stop():void;
+
+        // public update(dt:number):void;
+
+        public reverse():Spawn;
+    }
+
+    /**
+     * !#en Create a spawn action which runs several actions in parallel.
+     * !#zh 同步执行动作，同步执行一组动作。
+     * @method spawn
+     * @param {Array|FiniteTimeAction}tempArray
+     * @return {FiniteTimeAction}
+     * @example
+     * // example
+     * var action = cc.spawn(cc.jumpBy(2, cc.p(300, 0), 50, 4), cc.rotateBy(2, 720));
+     * todo:It should be the direct use new
+     */
+    export function spawn(actions:FiniteTimeAction[]);
+    export function spawn(action1:FiniteTimeAction, action2:FiniteTimeAction);
+    export function spawn(...actions:FiniteTimeAction[]);
+
+    /*
+    * Rotates a Node object to a certain angle by modifying its rotation property. <br/>
+    * The direction will be decided by the shortest angle.
+    * @class RotateTo
+    * @extends ActionInterval
+    * @param {Number} duration duration in seconds
+    * @param {Number} deltaAngleX deltaAngleX in degrees.
+    * @param {Number} [deltaAngleY] deltaAngleY in degrees.
+    * @example
+    * var rotateTo = new cc.RotateTo(2, 61.0);
+    */
+    export class RotateTo extends ActionInterval {
+        public constructor(duration:number, deltaAngleX:number, deltaAngleY?:number);
+
+        /*
+        * Initializes the action.
+        * @param {Number} duration
+        * @param {Number} deltaAngleX
+        * @param {Number} deltaAngleY
+        * @return {Boolean}
+        */
+        public initWithDuration(duration:number, deltaAngleX:number, deltaAngleY?:number);
+        public initWithDuration(duration:number);
+
+        public clone():RotateTo;
+
+        // public startWithTarget(target:Node):void;
+
+        public reverse():RotateTo;
+
+        // public update(dt:number):void;
+    }
+
+    /**
+     * !#en
+     * Rotates a Node object to a certain angle by modifying its rotation property. <br/>
+     * The direction will be decided by the shortest angle.
+     * !#zh 旋转到目标角度，通过逐帧修改它的 rotation 属性，旋转方向将由最短的角度决定。
+     * @method rotateTo
+     * @param {Number} duration duration in seconds
+     * @param {Number} deltaAngleX deltaAngleX in degrees.
+     * @param {Number} [deltaAngleY] deltaAngleY in degrees.
+     * @return {ActionInterval}
+     * @example
+     * // example
+     * var rotateTo = cc.rotateTo(2, 61.0);
+     */
+    export function rotateTo(duration:number, deltaAngleX:number, deltaAngleY?:number):RotateTo;
+
+    /*
+    * Rotates a Node object clockwise a number of degrees by modifying its rotation property.
+    * Relative to its properties to modify.
+    * @class RotateBy
+    * @extends ActionInterval
+    * @param {Number} duration duration in seconds
+    * @param {Number} deltaAngleX deltaAngleX in degrees
+    * @param {Number} [deltaAngleY] deltaAngleY in degrees
+    * @example
+    * var actionBy = new cc.RotateBy(2, 360);
+    */
+    export class RotateBy extends ActionInterval {
+        public constructor(duration:number, deltaAngleX:number, deltaAngleY?:number);
+
+        /*
+        * Initializes the action.
+        * @param {Number} duration duration in seconds
+        * @param {Number} deltaAngleX deltaAngleX in degrees
+        * @param {Number} [deltaAngleY=] deltaAngleY in degrees
+        * @return {Boolean}
+        */
+        public initWithDuration(duration:number, deltaAngleX?:number, deltaAngleY?:number):boolean;
+        public initWithDuration(duration:number):boolean;
+
+        public clone():RotateBy;
+
+        // public startWithTarget(target:Node):void;
+
+        // public update(dt:number):void;
+
+        public reverse():RotateBy;
+    }
+
+    /**
+     * !#en
+     * Rotates a Node object clockwise a number of degrees by modifying its rotation property.
+     * Relative to its properties to modify.
+     * !#zh 旋转指定的角度。
+     * @method rotateBy
+     * @param {Number} duration duration in seconds
+     * @param {Number} deltaAngleX deltaAngleX in degrees
+     * @param {Number} [deltaAngleY] deltaAngleY in degrees
+     * @return {ActionInterval}
+     * @example
+     * // example
+     * var actionBy = cc.rotateBy(2, 360);
+     */
+    export function rotateBy(duration:number, deltaAngleX:number, deltaAngleY?:number):RotateTo;
+
+
+    /*
+    * <p>
+    * Moves a Node object x,y pixels by modifying its position property.                                  <br/>
+    * x and y are relative to the position of the object.                                                     <br/>
+    * Several MoveBy actions can be concurrently called, and the resulting                                  <br/>
+    * movement will be the sum of individual movements.
+    * </p>
+    * @class MoveBy
+    * @extends ActionInterval
+    * @param {Number} duration duration in seconds
+    * @param {Vec2|Number} deltaPos
+    * @param {Number} [deltaY]
+    * @example
+    * var actionTo = cc.moveBy(2, cc.p(windowSize.width - 40, windowSize.height - 40));
+    */
+    // cc.MoveBy = cc.ActionInterval.extend({
+    export class MoveBy extends ActionInterval {
+        public constructor(duration:number, deltaPos:Vec2|number, deltaY?:number);
+
+        /*
+        * Initializes the action.
+        * @param {Number} duration duration in seconds
+        * @param {Vec2} position
+        * @param {Number} [y]
+        * @return {Boolean}
+        */
+        public initWithDuration(duration:number, position:Vec2|number, y?:number):boolean;
+        public initWithDuration(duration:number):boolean;
+
+        public clone():MoveBy;
+
+        // public startWithTarget(target:Node):void;
+
+        // public update(dt:number):void;
+
+        public reverse():MoveBy;
+    }
+
+    /**
+     * !#en
+     * Moves a Node object x,y pixels by modifying its position property.                                  <br/>
+     * x and y are relative to the position of the object.                                                     <br/>
+     * Several MoveBy actions can be concurrently called, and the resulting                                  <br/>
+     * movement will be the sum of individual movements.
+     * !#zh 移动指定的距离。
+     * @method moveBy
+     * @param {Number} duration duration in seconds
+     * @param {Vec2|Number} deltaPos
+     * @param {Number} deltaY
+     * @return {ActionInterval}
+     * @example
+     * // example
+     * var actionTo = cc.moveBy(2, cc.p(windowSize.width - 40, windowSize.height - 40));
+     */
+    export function moveBy(duration:number, deltaAngleX:number, deltaAngleY?:number):MoveBy;
+
+
+    /*
+    * Moves a Node object to the position x,y. x and y are absolute coordinates by modifying its position property. <br/>
+    * Several MoveTo actions can be concurrently called, and the resulting                                            <br/>
+    * movement will be the sum of individual movements.
+    * @class MoveTo
+    * @extends MoveBy
+    * @param {Number} duration duration in seconds
+    * @param {Vec2|Number} position
+    * @param {Number} y
+    * @example
+    * var actionBy = new cc.MoveTo(2, cc.p(80, 80));
+    */
+    // cc.MoveTo = cc.MoveBy.extend({
+    export class MoveTo extends MoveBy {
+        public constructor(duration:number, position:Vec2|number, y?:number);
+
+        /*
+        * Initializes the action.
+        * @param {Number} duration  duration in seconds
+        * @param {Vec2} position
+        * @param {Number} y
+        * @return {Boolean}
+        */
+        public initWithDuration(duration:number, position:Vec2|number, y?:number):boolean;
+        public initWithDuration(duration:number):boolean;
+
+        public clone():MoveTo;
+
+        // public startWithTarget(target:Node):void;
+    }
+
+    /**
+     * !#en
+     * Moves a Node object to the position x,y. x and y are absolute coordinates by modifying its position property. <br/>
+     * Several MoveTo actions can be concurrently called, and the resulting                                            <br/>
+     * movement will be the sum of individual movements.
+     * !#zh 移动到目标位置。
+     * @method moveTo
+     * @param {Number} duration duration in seconds
+     * @param {Vec2} position
+     * @param {Number} y
+     * @return {ActionInterval}
+     * @example
+     * // example
+     * var actionBy = cc.moveTo(2, cc.p(80, 80));
+     */
+    export function moveTo(duration:number, deltaAngleX:number, deltaAngleY?:number):MoveTo;
+
+    /*
+    * Skews a Node object to given angles by modifying its skewX and skewY properties
+    * @class SkewTo
+    * @extends ActionInterval
+    * @param {Number} t time in seconds
+    * @param {Number} sx
+    * @param {Number} sy
+    * @example
+    * var actionTo = new cc.SkewTo(2, 37.2, -37.2);
+    */
+    // cc.SkewTo = cc.ActionInterval.extend({
+    export class SkewTo extends ActionInterval {
+        public constructor(t:number, sx:number, sy:number);
+
+        /*
+        * Initializes the action.
+        * @param {Number} t time in seconds
+        * @param {Number} sx
+        * @param {Number} sy
+        * @return {Boolean}
+        */
+        public initWithDuration(t:number, sx:number, sy:number):boolean;
+        public initWithDuration(t:number):boolean;
+
+        public clone():SkewTo;
+
+        // public startWithTarget(target:Node):void;
+
+        // public update(dt:number):void;
+        public reverse():SkewTo;
+    }
+
+    /**
+     * !#en
+     * Create a action which skews a Node object to given angles by modifying its skewX and skewY properties.
+     * Changes to the specified value.
+     * !#zh 偏斜到目标角度。
+     * @method skewTo
+     * @param {Number} t time in seconds
+     * @param {Number} sx
+     * @param {Number} sy
+     * @return {ActionInterval}
+     * @example
+     * // example
+     * var actionTo = cc.skewTo(2, 37.2, -37.2);
+     */
+    export function skewTo(t:number, sx:number, sy:number):SkewTo;
+
+    /*
+    * Skews a Node object by skewX and skewY degrees.
+    * Relative to its property modification.
+    * @class SkewBy
+    * @extends SkewTo
+    * @param {Number} t time in seconds
+    * @param {Number} sx  skew in degrees for X axis
+    * @param {Number} sy  skew in degrees for Y axis
+    */
+    export class SkewBy extends SkewTo {
+        public constructor(t:number, sx:number, sy:number);
+
+        /*
+        * Initializes the action.
+        * @param {Number} t time in seconds
+        * @param {Number} deltaSkewX  skew in degrees for X axis
+        * @param {Number} deltaSkewY  skew in degrees for Y axis
+        * @return {Boolean}
+        */
+        public initWithDuration(t:number, sx:number, sy:number):boolean;
+        public initWithDuration(t:number):boolean;
+
+        public clone():SkewBy;
+
+        // public startWithTarget(target:Node):void;
+        public reverse():SkewBy;
+    }
+
+    /**
+     * !#en
+     * Skews a Node object by skewX and skewY degrees. <br />
+     * Relative to its property modification.
+     * !#zh 偏斜指定的角度。
+     * @method skewBy
+     * @param {Number} t time in seconds
+     * @param {Number} sx sx skew in degrees for X axis
+     * @param {Number} sy sy skew in degrees for Y axis
+     * @return {ActionInterval}
+     * @example
+     * // example
+     * var actionBy = cc.skewBy(2, 0, -90);
+     */
+    export function skewBy(t:number, sx:number, sy:number):SkewBy;
+
+    /*
+    * Moves a Node object simulating a parabolic jump movement by modifying its position property.
+    * Relative to its movement.
+    * @class JumpBy
+    * @extends ActionInterval
+    * @param {Number} duration
+    * @param {Vec2|Number} position
+    * @param {Number} [y]
+    * @param {Number} height
+    * @param {Number} jumps
+    * @example
+    * var actionBy = new cc.JumpBy(2, cc.p(300, 0), 50, 4);
+    * var actionBy = new cc.JumpBy(2, 300, 0, 50, 4);
+    */
+    export class JumpBy extends ActionInterval {
+
+        public constructor(duration:number, position:Vec2|number, y?:number, height?:number, jumps?:number);
+
+        /*
+        * Initializes the action.
+        * @param {Number} duration
+        * @param {Vec2|Number} position
+        * @param {Number} [y]
+        * @param {Number} height
+        * @param {Number} jumps
+        * @return {Boolean}
+        * @example
+        * actionBy.initWithDuration(2, cc.p(300, 0), 50, 4);
+        * actionBy.initWithDuration(2, 300, 0, 50, 4);
+        */
+        public initWithDuration(duration:number, position:Vec2|number, y?:number, height?:number, jumps?:number);
+        public initWithDuration(duration:number);
+
+        public clone():JumpBy;
+
+        // public startWithTarget(target:Node):void;
+
+        // public update(dt:number):void;
+
+        public reverse():JumpBy;
+    }
+
+    /**
+     * !#en
+     * Moves a Node object simulating a parabolic jump movement by modifying it's position property.
+     * Relative to its movement.
+     * !#zh 用跳跃的方式移动指定的距离。
+     * @method jumpBy
+     * @param {Number} duration
+     * @param {Vec2|Number} position
+     * @param {Number} [y]
+     * @param {Number} height
+     * @param {Number} jumps
+     * @return {ActionInterval}
+     * @example
+     * // example
+     * var actionBy = cc.jumpBy(2, cc.p(300, 0), 50, 4);
+     * var actionBy = cc.jumpBy(2, 300, 0, 50, 4);
+     */
+    export function jumpBy(duration:number, position:Vec2|number, y?:number, height?:number, jumps?:number):JumpBy;
+
+    /*
+    * Moves a Node object to a parabolic position simulating a jump movement by modifying it's position property. <br />
+    * Jump to the specified location.
+    * @class JumpTo
+    * @extends JumpBy
+    * @param {Number} duration
+    * @param {Vec2|Number} position
+    * @param {Number} [y]
+    * @param {Number} height
+    * @param {Number} jumps
+    * @example
+    * var actionTo = new cc.JumpTo(2, cc.p(300, 0), 50, 4);
+    * var actionTo = new cc.JumpTo(2, 300, 0, 50, 4);
+    */
+    // cc.JumpTo = cc.JumpBy.extend({
+    export class JumpTo extends JumpBy {
+        public constructor(duration:number, position:Vec2|number, y?:number, height?:number, jumps?:number);
+
+        /*
+        * Initializes the action.
+        * @param {Number} duration
+        * @param {Vec2|Number} position
+        * @param {Number} [y]
+        * @param {Number} height
+        * @param {Number} jumps
+        * @return {Boolean}
+        * @example
+        * actionTo.initWithDuration(2, cc.p(300, 0), 50, 4);
+        * actionTo.initWithDuration(2, 300, 0, 50, 4);
+        */
+        public initWithDuration(duration:number, position:Vec2|number, y?:number, height?:number, jumps?:number):boolean;
+        public initWithDuration(duration:number):boolean;
+
+        // public startWithTarget(target:Node):void;
+
+        public clone():JumpTo;
+    }
+
+    /**
+     * !#en
+     * Moves a Node object to a parabolic position simulating a jump movement by modifying its position property. <br />
+     * Jump to the specified location.
+     * !#zh 用跳跃的方式移动到目标位置。
+     * @method jumpTo
+     * @param {Number} duration
+     * @param {Vec2|Number} position
+     * @param {Number} [y]
+     * @param {Number} height
+     * @param {Number} jumps
+     * @return {ActionInterval}
+     * @example
+     * // example
+     * var actionTo = cc.jumpTo(2, cc.p(300, 300), 50, 4);
+     * var actionTo = cc.jumpTo(2, 300, 300, 50, 4);
+     */
+    export function jumpTo(duration:number, position:Vec2|number, y?:number, height?:number, jumps?:number):JumpTo;
+
+    /*
+    * @method bezierAt
+    * @param {Number} a
+    * @param {Number} b
+    * @param {Number} c
+    * @param {Number} d
+    * @param {Number} t
+    * @return {Number}
+    */
+    export function bezierAt(a:number, b:number, c:number, d:number, t:number):number;
+
+    /* An action that moves the target with a cubic Bezier curve by a certain distance.
+    * Relative to its movement.
+    * @class BezierBy
+    * @extends ActionInterval
+    * @param {Number} t time in seconds
+    * @param {Array} c Array of points
+    * @example
+    * var bezier = [cc.p(0, windowSize.height / 2), cc.p(300, -windowSize.height / 2), cc.p(300, 100)];
+    * var bezierForward = new cc.BezierBy(3, bezier);
+    */
+    export class BezierBy extends ActionInterval {
+        public constructor(t:number, c:Vec2[]);
+
+        /*
+        * Initializes the action.
+        * @param {Number} t time in seconds
+        * @param {Array} c Array of points
+        * @return {Boolean}
+        */
+        public initWithDuration(t:number, c:Vec2[]):boolean;
+        public initWithDuration(t:number):boolean;
+
+        public clone():BezierBy;
+
+        // public startWithTarget(target:Node):void;
+
+        // public update(dt:number):void;
+
+        public reverse():BezierBy;
+    }
+
+    /**
+     * !#en
+     * An action that moves the target with a cubic Bezier curve by a certain distance.
+     * Relative to its movement.
+     * !#zh 按贝赛尔曲线轨迹移动指定的距离。
+     * @method bezierBy
+     * @param {Number} t time in seconds
+     * @param {Array} c Array of points
+     * @return {ActionInterval}
+     * @example
+     * // example
+     * var bezier = [cc.p(0, windowSize.height / 2), cc.p(300, -windowSize.height / 2), cc.p(300, 100)];
+     * var bezierForward = cc.bezierBy(3, bezier);
+     */
+    export function bezierBy(t:number, c:Vec2[]):BezierBy;
+
+
+    /* An action that moves the target with a cubic Bezier curve to a destination point.
+    * @class BezierTo
+    * @extends BezierBy
+    * @param {Number} t
+    * @param {Array} c array of points
+    * @example
+    * var bezier = [cc.p(0, windowSize.height / 2), cc.p(300, -windowSize.height / 2), cc.p(300, 100)];
+    * var bezierTo = new cc.BezierTo(2, bezier);
+    */
+    export class BezierTo extends BezierBy {
+        public constructor(t:number, c:Vec2[]);
+
+        /*
+        * Initializes the action.
+        * @param {Number} t time in seconds
+        * @param {Array} c Array of points
+        * @return {Boolean}
+        */
+        public initWithDuration(t:number, c:Vec2[]):boolean;
+        public initWithDuration(t:number):boolean;
+
+        public clone():BezierTo;
+
+        public startWithTarget(target:Node):void;
+    }
+
+    /**
+     * !#en An action that moves the target with a cubic Bezier curve to a destination point.
+     * !#zh 按贝赛尔曲线轨迹移动到目标位置。
+     * @method bezierTo
+     * @param {Number} t
+     * @param {Array} c array of points
+     * @return {ActionInterval}
+     * @example
+     * // example
+     * var bezier = [cc.p(0, windowSize.height / 2), cc.p(300, -windowSize.height / 2), cc.p(300, 100)];
+     * var bezierTo = cc.bezierTo(2, bezier);
+     */
+    export function bezierTo(t:number, c:Vec2[]):BezierTo;
+
+
+    /* Scales a Node object to a zoom factor by modifying it's scale property.
+    * @warning This action doesn't support "reverse"
+    * @class ScaleTo
+    * @extends ActionInterval
+    * @param {Number} duration
+    * @param {Number} sx  scale parameter in X
+    * @param {Number} [sy] scale parameter in Y, if Null equal to sx
+    * @example
+    * // It scales to 0.5 in both X and Y.
+    * var actionTo = new cc.ScaleTo(2, 0.5);
+    *
+    * // It scales to 0.5 in x and 2 in Y
+    * var actionTo = new cc.ScaleTo(2, 0.5, 2);
+    */
+    export class ScaleTo extends ActionInterval {
+        public constructor(duration:number, sx:number, sy?:number);
+
+        /*
+        * Initializes the action.
+        * @param {Number} duration
+        * @param {Number} sx
+        * @param {Number} [sy=]
+        * @return {Boolean}
+        */
+        public initWithDuration(duration:number, sx:number, sy?:number):boolean;
+        public initWithDuration(duration:number):boolean;
+
+        public clone():ScaleTo;
+
+        // public startWithTarget(target:Node):void;
+
+        // public update(dt:number):void;
+    }
+
+    /**
+     * !#en Scales a Node object to a zoom factor by modifying it's scale property.
+     * !#zh 将节点大小缩放到指定的倍数。
+     * @method scaleTo
+     * @param {Number} duration
+     * @param {Number} sx  scale parameter in X
+     * @param {Number} [sy] scale parameter in Y, if Null equal to sx
+     * @return {ActionInterval}
+     * @example
+     * // example
+     * // It scales to 0.5 in both X and Y.
+     * var actionTo = cc.scaleTo(2, 0.5);
+     *
+     * // It scales to 0.5 in x and 2 in Y
+     * var actionTo = cc.scaleTo(2, 0.5, 2);
+     */
+    export function scaleTo(duration:number, sx:number, sy?:number):ScaleTo;
+
+
+    /* Scales a Node object a zoom factor by modifying it's scale property.
+    * Relative to its changes.
+    * @class ScaleBy
+    * @extends ScaleTo
+    */
+    export class ScaleBy extends ScaleTo {
+        // public startWithTarget(target:Node):void;
+
+        public reverse():ScaleBy;
+
+        public clone():ScaleBy;
+    }
+
+    /**
+     * !#en
+     * Scales a Node object a zoom factor by modifying it's scale property.
+     * Relative to its changes.
+     * !#zh 按指定的倍数缩放节点大小。
+     * @method scaleBy
+     * @param {Number} duration duration in seconds
+     * @param {Number} sx sx  scale parameter in X
+     * @param {Number|Null} [sy=] sy scale parameter in Y, if Null equal to sx
+     * @return {ActionInterval}
+     * @example
+     * // example without sy, it scales by 2 both in X and Y
+     * var actionBy = cc.scaleBy(2, 2);
+     *
+     * //example with sy, it scales by 0.25 in X and 4.5 in Y
+     * var actionBy2 = cc.scaleBy(2, 0.25, 4.5);
+     */
+    export function scaleBy(duration:number, sx:number, sy?:number):ScaleBy;
+
+    /* Blinks a Node object by modifying it's visible property
+    * @class Blink
+    * @extends ActionInterval
+    * @param {Number} duration  duration in seconds
+    * @param {Number} blinks  blinks in times
+    * @example
+    * var action = new cc.Blink(2, 10);
+    */
+    export class Blink extends ActionInterval {
+        public constructor(duration:number, blinks:number);
+
+        /*
+        * Initializes the action.
+        * @param {Number} duration duration in seconds
+        * @param {Number} blinks blinks in times
+        * @return {Boolean}
+        */
+        public initWithDuration(duration:number, blinks:number):boolean;
+        public initWithDuration(duration:number):boolean;
+
+        public clone():Blink;
+
+        // public update(dt:number):void;
+
+        // public startWithTarget(target:Node):void;
+
+        // public stop():void;
+
+        public reverse():Blink;
+    }
+
+    /**
+     * !#en Blinks a Node object by modifying it's visible property.
+     * !#zh 闪烁（基于透明度）。
+     * @method blink
+     * @param {Number} duration  duration in seconds
+     * @param {Number} blinks blinks in times
+     * @return {ActionInterval}
+     * @example
+     * // example
+     * var action = cc.blink(2, 10);
+     */
+    export function blink(duration:number, blinks:number):Blink;
+
+    /* Fades an object that implements the cc.RGBAProtocol protocol. It modifies the opacity from the current value to a custom one.
+    * @warning This action doesn't support "reverse"
+    * @class FadeTo
+    * @extends ActionInterval
+    * @param {Number} duration
+    * @param {Number} opacity 0-255, 0 is transparent
+    * @example
+    * var action = new cc.FadeTo(1.0, 0);
+    */
+    export class FadeTo extends ActionInterval {
+        public constructor(duration:number, opacity:number);
+
+        /*
+        * Initializes the action.
+        * @param {Number} duration  duration in seconds
+        * @param {Number} opacity
+        * @return {Boolean}
+        */
+        public initWithDuration(duration:number, opacity:number):boolean;
+        public initWithDuration(duration:number):boolean;
+
+        public clone():FadeTo;
+
+        // public update(time:number):void;
+
+        // public startWithTarget(target:Node):void;
+    }
+
+    /**
+     * !#en
+     * Fades an object that implements the cc.RGBAProtocol protocol.
+     * It modifies the opacity from the current value to a custom one.
+     * !#zh 修改透明度到指定值。
+     * @method fadeTo
+     * @param {Number} duration
+     * @param {Number} opacity 0-255, 0 is transparent
+     * @return {ActionInterval}
+     * @example
+     * // example
+     * var action = cc.fadeTo(1.0, 0);
+     */
+    // cc.fadeTo = function (duration, opacity) {
+    export function fadeTo(duration:number, opacity:number):FadeTo;
+
+    /* Fades In an object that implements the cc.RGBAProtocol protocol. It modifies the opacity from 0 to 255.<br/>
+    * The "reverse" of this action is FadeOut
+    * @class FadeIn
+    * @extends FadeTo
+    * @param {Number} duration duration in seconds
+    */
+    export class FadeIn extends FadeTo {
+        public constructor(duration:number);
+
+        public reverse():FadeIn;
+
+        public clone():FadeIn;
+
+        // public startWithTarget(target:Node):void;
+    }
+
+    /**
+     * !#en Fades In an object that implements the cc.RGBAProtocol protocol. It modifies the opacity from 0 to 255.
+     * !#zh 渐显效果。
+     * @method fadeIn
+     * @param {Number} duration duration in seconds
+     * @return {ActionInterval}
+     * @example
+     * //example
+     * var action = cc.fadeIn(1.0);
+     */
+    export function fadeIn(duration:number):FadeIn;
+
+
+    /* Fades Out an object that implements the cc.RGBAProtocol protocol. It modifies the opacity from 255 to 0.
+    * The "reverse" of this action is FadeIn
+    * @class FadeOut
+    * @extends FadeTo
+    * @param {Number} duration duration in seconds
+    */
+    export class FadeOut extends FadeTo {
+        public constructor(duration:number);
+
+        public reverse():FadeOut;
+        public clone():FadeOut;
+    }
+
+    /**
+     * !#en Fades Out an object that implements the cc.RGBAProtocol protocol. It modifies the opacity from 255 to 0.
+     * !#zh 渐隐效果。
+     * @method fadeOut
+     * @param {Number} d  duration in seconds
+     * @return {ActionInterval}
+     * @example
+     * // example
+     * var action = cc.fadeOut(1.0);
+     */
+    export function fadeOut(duration:number):FadeOut;
+
+    /* Tints a Node that implements the cc.NodeRGB protocol from current tint to a custom one.
+    * @warning This action doesn't support "reverse"
+    * @class TintTo
+    * @extends ActionInterval
+    * @param {Number} duration
+    * @param {Number} red 0-255
+    * @param {Number} green  0-255
+    * @param {Number} blue 0-255
+    * @example
+    * var action = new cc.TintTo(2, 255, 0, 255);
+    */
+    // cc.TintTo = cc.ActionInterval.extend({
+    export class TintTo extends ActionInterval {
+
+        public constructor(duration:number, red:number, green:number, blue:number);
+
+        /*
+        * Initializes the action.
+        * @param {Number} duration
+        * @param {Number} red 0-255
+        * @param {Number} green 0-255
+        * @param {Number} blue 0-255
+        * @return {Boolean}
+        */
+        public initWithDuration(duration:number, red:number, green:number, blue:number):boolean;
+        public initWithDuration(duration:number):boolean;
+
+        public clone():TintTo;
+
+        // public startWithTarget(target:Node):void;
+
+        public update(dt:number):void;
+    }
+
+    /**
+     * !#en Tints a Node that implements the cc.NodeRGB protocol from current tint to a custom one.
+     * !#zh 修改颜色到指定值。
+     * @method tintTo
+     * @param {Number} duration
+     * @param {Number} red 0-255
+     * @param {Number} green  0-255
+     * @param {Number} blue 0-255
+     * @return {ActionInterval}
+     * @example
+     * // example
+     * var action = cc.tintTo(2, 255, 0, 255);
+     */
+    export function tintTo(duration:number, red:number, green:number, blue:number):TintTo;
+
+
+    /* Tints a Node that implements the cc.NodeRGB protocol from current tint to a custom one.
+    * Relative to their own color change.
+    * @class TintBy
+    * @extends ActionInterval
+    * @param {Number} duration  duration in seconds
+    * @param {Number} deltaRed
+    * @param {Number} deltaGreen
+    * @param {Number} deltaBlue
+    * @example
+    * var action = new cc.TintBy(2, -127, -255, -127);
+    */
+    export class TintBy extends ActionInterval {
+        public constructor(duration:number, deltaRed:number, deltaGreen:number, deltaBlue:number);
+
+        /*
+        * Initializes the action.
+        * @param {Number} duration
+        * @param {Number} deltaRed 0-255
+        * @param {Number} deltaGreen 0-255
+        * @param {Number} deltaBlue 0-255
+        * @return {Boolean}
+        */
+        public initWithDuration(duration:number, deltaRed:number, deltaGreen:number, deltaBlue:number):boolean;
+        public initWithDuration(duration:number):boolean;
+
+        public clone():TintBy;
+
+        // public startWithTarget(target:Node):void;
+
+        // public update(dt:number):void;
+
+        public reverse():TintBy;
+    }
+
+    /**
+     * !#en
+     * Tints a Node that implements the cc.NodeRGB protocol from current tint to a custom one.
+     * Relative to their own color change.
+     * !#zh 按照指定的增量修改颜色。
+     * @method tintBy
+     * @param {Number} duration  duration in seconds
+     * @param {Number} deltaRed
+     * @param {Number} deltaGreen
+     * @param {Number} deltaBlue
+     * @return {ActionInterval}
+     * @example
+     * // example
+     * var action = cc.tintBy(2, -127, -255, -127);
+     */
+    export function tintBy(duration:number, deltaRed:number, deltaGreen:number, deltaBlue:number):TintBy;
+
+    /* Delays the action a certain amount of seconds
+    * @class DelayTime
+    * @extends ActionInterval
+    */
+    export class DelayTime extends ActionInterval {
+        // public update(dt:number):void;
+
+        public reverse():DelayTime;
+
+        public clone():DelayTime;
+    }
+
+    /**
+     * !#en Delays the action a certain amount of seconds.
+     * !#en 延迟指定的时间量。
+     * @method delayTime
+     * @param {Number} d duration in seconds
+     * @return {ActionInterval}
+     * @example
+     * // example
+     * var delay = cc.delayTime(1);
+     */
+    export function delayTime(duration:number):DelayTime;
+
+    /*
+    * <p>
+    * Executes an action in reverse order, from time=duration to time=0                                     <br/>
+    * @warning Use this action carefully. This action is not sequenceable.                                 <br/>
+    * Use it as the default "reversed" method of your own actions, but using it outside the "reversed"      <br/>
+    * scope is not recommended.
+    * </p>
+    * @class ReverseTime
+    * @extends ActionInterval
+    * @param {FiniteTimeAction} action
+    * @example
+    *  var reverse = new cc.ReverseTime(this);
+    */
+    export class ReverseTime extends ActionInterval {
+        public constructor(action:FiniteTimeAction);
+
+        /*
+        * @param {FiniteTimeAction} action
+        * @return {Boolean}
+        */
+        public initWithAction(action:FiniteTimeAction):boolean;
+
+        public clone():ReverseTime;
+
+        // public startWithTarget(target:Node):void;
+
+        // public update(dt:number):void;
+
+        public reverse():ReverseTime;
+
+        public stop():void;
+    }
+
+    /**
+     * !#en Executes an action in reverse order, from time=duration to time=0.
+     * !#zh 反转目标动作的时间轴。
+     * @method reverseTime
+     * @param {FiniteTimeAction} action
+     * @return {ActionInterval}
+     * @example
+     * // example
+     *  var reverse = cc.reverseTime(this);
+     */
+    export function reverseTime(action:FiniteTimeAction):ReverseTime;
+
+    /*
+    * This API is deprecated, will be replaced by new API from {{#crossLink "Animation"}}cc.Animation{{/crossLink}}
+    * Animates a sprite given the name of an Animation
+    * @class Animate
+    * @extends ActionInterval
+    * @param {SpriteFrameAnimation} animation
+    * @example
+    * // create the animation with animation
+    * var anim = new cc.Animate(dance_grey);
+    */
+    export class Animate extends ActionInterval {
+        public constructor(animation:SpriteFrameAnimation);
+
+        /*
+        * @return {SpriteFrameAnimation}
+        */
+        public getAnimation():SpriteFrameAnimation;
+
+        /*
+        * @param {SpriteFrameAnimation} animation
+        */
+        public setAnimation(animation:SpriteFrameAnimation):void;
+
+        /*
+        * Gets the index of sprite frame currently displayed.
+        * @return {Number}
+        */
+        public getCurrentFrameIndex():number;
+
+        /*
+        * @param {SpriteFrameAnimation} animation
+        * @return {Boolean}
+        */
+        public initWithAnimation(animation:SpriteFrameAnimation):boolean;
+
+        public clone():Animate;
+
+        // public startWithTarget(target:Node):void;
+
+        // public update(dt:number):void;
+
+        public reverse():Animate;
+
+        // public stop():void;
+    }
+
+    /*
+    * create the animate with animation
+    * @method animate
+    * @param {SpriteFrameAnimation} animation
+    * @return {ActionInterval}
+    * @example
+    * // example
+    * // create the animation with animation
+    * var anim = cc.animate(dance_grey);
+    */
+    export function animate(animation:SpriteFrameAnimation):Animate;
+
+    /*
+    * <p>
+    * Overrides the target of an action so that it always runs on the target<br/>
+    * specified at action creation rather than the one specified by runAction.
+    * </p>
+    * @class TargetedAction
+    * @extends ActionInterval
+    * @param {Node} target
+    * @param {FiniteTimeAction} action
+    */
+    export class TargetedAction extends ActionInterval {
+        public constructor(target:Node, action:FiniteTimeAction);
+
+        /*
+        * Init an action with the specified action and forced target
+        * @param {Node} target
+        * @param {FiniteTimeAction} action
+        * @return {Boolean}
+        */
+        public initWithTarget(target:Node, action:FiniteTimeAction):boolean;
+
+        public clone():TargetedAction;
+
+        // public startWithTarget(target:Node):void;
+
+        // public stop():void;
+
+        // public update(dt:number):void;
+
+        /*
+        * return the target that the action will be forced to run with
+        * @return {Node}
+        */
+        public getForcedTarget():Node;
+
+        /*
+        * set the target that the action will be forced to run with
+        * @param {Node} forcedTarget
+        */
+        public setForcedTarget(forcedTarget:Node):void;
+    }
+
+    /**
+     * !#en Create an action with the specified action and forced target.
+     * !#zh 用已有动作和一个新的目标节点创建动作。
+     * @method targetedAction
+     * @param {Node} target
+     * @param {FiniteTimeAction} action
+     * @return {ActionInterval}
+     */
+    export function targetedAction(target:Node, action:FiniteTimeAction):TargetedAction;
 }
