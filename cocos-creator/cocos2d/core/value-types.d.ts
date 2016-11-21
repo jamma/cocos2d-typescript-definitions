@@ -965,7 +965,7 @@ declare namespace cc {
      * @example
      * cc.pCompOp(cc.p(-10, -10), Math.abs); // Vec2 {x: 10, y: 10};
      */
-    export function pCompOp(p:Vec2, opFunc:function):Vec2;
+    export function pCompOp(p:Vec2, opFunc:(arg:number)=>number):Vec2;
 
     /**
      * !#en
