@@ -3,7 +3,7 @@
 
 declare namespace cc {
     //+--------------------------------------------------------------------------------
-    //  File: cocos2d/core/CCAction.js
+    //  File: cocos2d/actions/CCAction.js
     //+--------------------------------------------------------------------------------
 
     /**
@@ -371,7 +371,7 @@ declare namespace cc {
 
 
     //+--------------------------------------------------------------------------------
-    //  File: cocos2d/core/CCActionCatmullRom.js
+    //  File: cocos2d/actions/CCActionCatmullRom.js
     //+--------------------------------------------------------------------------------
     /*
     * Returns the Cardinal Spline position for a given set of control points, tension and time. <br />
@@ -585,7 +585,7 @@ declare namespace cc {
 
 
     //+--------------------------------------------------------------------------------
-    //  File: cocos2d/core/ActionEase.js
+    //  File: cocos2d/actions/ActionEase.js
     //+--------------------------------------------------------------------------------
     /**
      * !#en Base class for Easing actions.
@@ -2002,7 +2002,7 @@ declare namespace cc {
 
 
     //+--------------------------------------------------------------------------------
-    //  File: cocos2d/core/CCActionInstant.js
+    //  File: cocos2d/actions/CCActionInstant.js
     //+--------------------------------------------------------------------------------
 
     /**
@@ -2316,7 +2316,7 @@ declare namespace cc {
     export function callFunc(selector:CallFuncSelector, selectorTarget?:any, data?:any):CallFunc;
 
     //+--------------------------------------------------------------------------------
-    //  File: cocos2d/core/CCActionInterval.js
+    //  File: cocos2d/actions/CCActionInterval.js
     //+--------------------------------------------------------------------------------
 
     /**

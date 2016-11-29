@@ -3,7 +3,7 @@
 
 declare namespace cc {
     //+--------------------------------------------------------------------------------
-    //  File: cocos2d/core/CCActionGrid.js
+    //  File: cocos2d/actions3d/CCActionGrid.js
     //+--------------------------------------------------------------------------------
 
     /**
@@ -264,7 +264,7 @@ declare namespace cc {
 
 
     //+--------------------------------------------------------------------------------
-    //  File: cocos2d/core/CCActionGrid3D.js
+    //  File: cocos2d/actions3d/CCActionGrid3D.js
     //+--------------------------------------------------------------------------------
     /**
      * cc.Waves3D action. <br />
@@ -838,7 +838,7 @@ declare namespace cc {
     export function twirl(duration:number, gridSize:Size, position:Vec2, twirls:number, amplitude:number):Twirl;
 
     //+--------------------------------------------------------------------------------
-    //  File: cocos2d/core/CCActionPageTurn3D.js
+    //  File: cocos2d/actions3d/CCActionPageTurn3D.js
     //+--------------------------------------------------------------------------------
     /**
      * <p>
@@ -868,7 +868,7 @@ declare namespace cc {
     export function pageTurn3D(duration:number, gridSize:Size):PageTurn3D;
 
     //+--------------------------------------------------------------------------------
-    //  File: cocos2d/core/CCActionTiledGrid.js
+    //  File: cocos2d/actions3d/CCActionTiledGrid.js
     //+--------------------------------------------------------------------------------
 
     /**
