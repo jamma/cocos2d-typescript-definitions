@@ -173,7 +173,7 @@ declare namespace cc {
 
         //+--------------------------------------------------------------------------------
         //  File: cocos2d/compression/zlib.js
-        //  TODO: The zlib file has been run through a minimizer, request a clean version.
+        //  TODO: The zlib file has been run through a minimizer, request a clean version from Chukong.
         //+--------------------------------------------------------------------------------
 
 
