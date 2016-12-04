@@ -5,6 +5,7 @@ declare namespace cc {
     // File: cocos2d/core/base-node/base-node.js
     //  NOTE: Added all properties directly to cocos2d/core/ccnode.d.ts
     //+--------------------------------------------------------------------------------
+
     //+--------------------------------------------------------------------------------
     //  File: cocos2d/core/CCAtlasNode.js
     //+--------------------------------------------------------------------------------
