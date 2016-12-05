@@ -1,4 +1,4 @@
-/// <reference path="../../cocos-creator-lib.d.ts" />
+/// <reference path="../../../cocos-creator-lib.d.ts" />
 
 declare namespace cc {
     //+--------------------------------------------------------------------------------
@@ -121,7 +121,6 @@ declare namespace cc {
      * @extends _BaseNode
      */
     export class Node extends BaseNode implements EventTarget {
-
         /**
          * !#en
          * The local active state of this node.<br/>

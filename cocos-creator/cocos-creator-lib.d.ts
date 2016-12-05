@@ -5,6 +5,7 @@
 /// <reference path="cocos2d/clipping-nodes.d.ts" />
 
 /// <reference path="cocos2d/core/standalone/action-manager.d.ts" />
+/// <reference path="cocos2d/core/standalone/configuration.d.ts" />
 /// <reference path="cocos2d/core/standalone/node.d.ts" />
 
 /// <reference path="cocos2d/core/assets.d.ts" />

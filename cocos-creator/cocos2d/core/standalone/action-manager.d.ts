@@ -3,7 +3,7 @@
 
 declare namespace cc {
     //+--------------------------------------------------------------------------------
-    //  File: cocos2d/actions/CCAction.js
+    //  File: cocos2d/actions/CCActionManager.js
     //+--------------------------------------------------------------------------------
 
     /*
@@ -14,7 +14,6 @@ declare namespace cc {
      * var element = new cc.HashElement();
      */
     export class HashElement extends Class {
-    // var HashElement = cc._Class.extend(/** @lends cc.HashElement# */{
         public actions:Action[];
         // public target:Node;
         public target:Object;
@@ -28,16 +27,6 @@ declare namespace cc {
          * @method HashElement
          */
         public constructor();
-    //     ctor:function () {
-    //         this.actions = [];
-    //         this.target = null;
-    //         this.actionIndex = 0;
-    //         this.currentAction = null; //CCAction
-    //         this.currentActionSalvaged = false;
-    //         this.paused = false;
-    //         this.hh = null; //ut hash handle
-    //     }
-    // });
     }
 
     /**
@@ -59,27 +48,7 @@ declare namespace cc {
      * @class ActionManager
      * @example {@link utils/api/engine/docs/cocos2d/core/CCActionManager/ActionManager.js}
      */
-    // cc.ActionManager = cc._Class.extend(/** @lends cc.ActionManager# */{
     export class ActionManager extends Class {
-        // _hashTargets:null,
-        // _arrayTargets:null,
-        // _currentTarget:null,
-        // _currentTargetSalvaged:false,
-
-        // _searchElementByTarget:function (arr, target) {
-        //     for (var k = 0; k < arr.length; k++) {
-        //         if (target === arr[k].target)
-        //             return arr[k];
-        //     }
-        //     return null;
-        // },
-
-        // ctor:function () {
-        //     this._hashTargets = {};
-        //     this._arrayTargets = [];
-        //     this._currentTarget = null;
-        //     this._currentTargetSalvaged = false;
-        // },
         public constructor();
 
         /**
@@ -149,7 +118,6 @@ declare namespace cc {
          * @return {Action|Null}  return the Action with the given tag on success
          */
         public getActionByTag(tag:number, target:Object):Action;
-
 
         /**
          * !#en
