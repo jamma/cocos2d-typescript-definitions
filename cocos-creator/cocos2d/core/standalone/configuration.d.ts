@@ -5,7 +5,7 @@ declare namespace cc {
     export type ConfigurationValueType = string|boolean|number|Object;
 
     //+--------------------------------------------------------------------------------
-    //  File: cocos2d/actions/CCConfiguration.js
+    //  File: cocos2d/core/CCConfiguration.js
     //+--------------------------------------------------------------------------------
     /**
      * cc.configuration is a singleton object which contains some openGL variables

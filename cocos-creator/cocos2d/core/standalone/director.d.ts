@@ -2,7 +2,7 @@
 
 declare namespace cc {
     //+--------------------------------------------------------------------------------
-    // File: cocos2d/core/standalone/CCDirector.js
+    // File: cocos2d/core/CCDirector.js
     //+--------------------------------------------------------------------------------
     // var EventTarget = require('./event/event-target');
     // var Class = require('./platform/_CCClass');
