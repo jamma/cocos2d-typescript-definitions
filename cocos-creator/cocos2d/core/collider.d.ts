@@ -3,7 +3,7 @@
 
 declare namespace cc {
     //+--------------------------------------------------------------------------------
-    //  File: cocos2d/core/CCBoxCollider.js
+    //  File: cocos2d/core/collider/CCBoxCollider.js
     //+--------------------------------------------------------------------------------
     /**
      * !#en Box Collider.
@@ -30,7 +30,7 @@ declare namespace cc {
     }
 
     //+--------------------------------------------------------------------------------
-    //  File: cocos2d/core/CCCircleCollider.js
+    //  File: cocos2d/core/collider/CCCircleCollider.js
     //+--------------------------------------------------------------------------------
     /**
      * !#en Circle Collider.
@@ -58,7 +58,7 @@ declare namespace cc {
     }
 
     //+--------------------------------------------------------------------------------
-    //  File: cocos2d/core/CCCollider.js
+    //  File: cocos2d/core/collider/CCCollider.js
     //+--------------------------------------------------------------------------------
 /****************************************************************************
      Copyright (c) 2013-2016 Chukong Technologies Inc.
@@ -114,7 +114,7 @@ declare namespace cc {
 
 
     //+--------------------------------------------------------------------------------
-    //  File: cocos2d/core/CCCollisionManager.js
+    //  File: cocos2d/core/collider/CCCollisionManager.js
     //  NOTE: There is a LOT of undefined stuff in here
     //+--------------------------------------------------------------------------------
     /**
@@ -225,7 +225,7 @@ declare namespace cc {
     }
 
     //+--------------------------------------------------------------------------------
-    //  File: cocos2d/core/CCContact.js
+    //  File: cocos2d/core/collider/CCContact.js
     //+--------------------------------------------------------------------------------
 
     export class Contact {
@@ -247,7 +247,7 @@ declare namespace cc {
     }
 
     //+--------------------------------------------------------------------------------
-    //  File: cocos2d/core/CCIntersection.js
+    //  File: cocos2d/core/collider/CCIntersection.js
     //+--------------------------------------------------------------------------------
     /**
      * !#en Intersection helper class
@@ -373,7 +373,7 @@ declare namespace cc {
 
 
     //+--------------------------------------------------------------------------------
-    //  File: cocos2d/core/CCPolygonCollider.js
+    //  File: cocos2d/core/collider/CCPolygonCollider.js
     //+--------------------------------------------------------------------------------
 /****************************************************************************
      Copyright (c) 2013-2016 Chukong Technologies Inc.
