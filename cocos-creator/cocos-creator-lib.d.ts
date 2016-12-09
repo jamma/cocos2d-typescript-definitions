@@ -15,6 +15,7 @@
 /// <reference path="cocos2d/core/assets.d.ts" />
 /// <reference path="cocos2d/core/base-nodes.d.ts" />
 /// <reference path="cocos2d/core/collider.d.ts" />
+/// <reference path="cocos2d/core/editbox.d.ts" />
 /// <reference path="cocos2d/core/platform.d.ts" />
 /// <reference path="cocos2d/core/utils.d.ts" />
 /// <reference path="cocos2d/core/value-types.d.ts" />
