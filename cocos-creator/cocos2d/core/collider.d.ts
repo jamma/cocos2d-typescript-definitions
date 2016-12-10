@@ -1,6 +1,5 @@
 /// <reference path="../../cocos-creator-lib.d.ts" />
 
-
 declare namespace cc {
     //+--------------------------------------------------------------------------------
     //  File: cocos2d/core/collider/CCBoxCollider.js
