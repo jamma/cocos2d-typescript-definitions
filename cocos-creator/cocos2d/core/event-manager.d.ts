@@ -2,7 +2,7 @@
 
 declare namespace cc {
     //+--------------------------------------------------------------------------------
-    //  File: cocos2d/core/event/CCEventListeners.js
+    //  File: cocos2d/core/event-manager/CCEventListeners.js
     //+--------------------------------------------------------------------------------
     /**
      * !#en
@@ -112,7 +112,7 @@ declare namespace cc {
          * @param {Object} argObj a json object
          * @returns {EventListener}
          * @static
-         * @example {@link utils/api/engine/docs/cocos2d/core/event-manager/CCEventListener/create.js}
+         * @example {@link utils/api/engine/docs/cocos2d/core/event-manager-manager/CCEventListener/create.js}
          */
         public static create(listener:EventListenerInterface):EventListener;
 
@@ -193,6 +193,8 @@ declare namespace cc {
         public release():void;
     }
 
+    // NOTE: These interfaces help guide the user on how to set up the different event listener objects,
+    //       but they will still have to specify everything, including explicitly setting the event property.
     export interface EventListenerInterface {
         event:number;
     }
@@ -241,7 +243,7 @@ declare namespace cc {
     }
 
     //+--------------------------------------------------------------------------------
-    //  File: cocos2d/core/event/CCEventManager.js
+    //  File: cocos2d/core/event-manager/CCEventManager.js
     //+--------------------------------------------------------------------------------
 
     /**
@@ -258,7 +260,7 @@ declare namespace cc {
      * 在 Creator 的设计中，鼠标，触摸和自定义事件的监听和派发请参考 http://cocos.com/docs/creator/scripting/events.html。
      *
      * @class eventManager
-     * @example {@link utils/api/engine/docs/cocos2d/core/event-manager/CCEventManager/addListener.js}
+     * @example {@link utils/api/engine/docs/cocos2d/core/event-manager-manager/CCEventManager/addListener.js}
      */
     export class EventManager {
         /**
@@ -320,7 +322,7 @@ declare namespace cc {
          * !#zh 移除一个已添加的监听器。
          * @method removeListener
          * @param {EventListener} listener - an event listener or a registered node target
-         * @example {@link utils/api/engine/docs/cocos2d/core/event-manager/CCEventManager/removeListener.js}
+         * @example {@link utils/api/engine/docs/cocos2d/core/event-manager-manager/CCEventManager/removeListener.js}
          */
         public removeListener(listener:EventListener):void;
 
@@ -403,7 +405,7 @@ declare namespace cc {
     }
 
     //+--------------------------------------------------------------------------------
-    //  File: cocos2d/core/event/CCSystemEvent.js
+    //  File: cocos2d/core/event-manager/CCSystemEvent.js
     //+--------------------------------------------------------------------------------
     /**
      * !#en The mouse event
@@ -824,7 +826,7 @@ declare namespace cc {
     }
 
     //+--------------------------------------------------------------------------------
-    //  File: cocos2d/core/event/CCTouch.js
+    //  File: cocos2d/core/event-manager/CCTouch.js
     //+--------------------------------------------------------------------------------
     /**
      * !#en The touch event class
