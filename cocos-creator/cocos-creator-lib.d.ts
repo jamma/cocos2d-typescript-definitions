@@ -17,6 +17,7 @@
 /// <reference path="cocos2d/core/collider.d.ts" />
 /// <reference path="cocos2d/core/editbox.d.ts" />
 /// <reference path="cocos2d/core/event.d.ts" />
+/// <reference path="cocos2d/core/event-manager.d.ts" />
 /// <reference path="cocos2d/core/platform.d.ts" />
 /// <reference path="cocos2d/core/utils.d.ts" />
 /// <reference path="cocos2d/core/value-types.d.ts" />

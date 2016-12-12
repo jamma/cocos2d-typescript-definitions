@@ -216,6 +216,42 @@ declare namespace cc {
          */
         public static readonly BUBBLING_PHASE:number;
 
+
+        // Static members defined in file: core/event-manager/CCSystemEvent.js
+        /**
+         * !#en The type code of Touch event.
+         * !#zh 触摸事件类型
+         * @constant
+         * @type {String}
+         */
+        public static readonly TOUCH:number;
+
+        /**
+         * !#en The type code of Mouse event.
+         * !#zh 鼠标事件类型
+         * @constant
+         * @type {String}
+         */
+        public static readonly MOUSE:number;
+
+        /**
+         * !#en The type code of Keyboard event.
+         * !#zh 键盘事件类型
+         * @constant
+         * @memberof cc.Event
+         * @type {String}
+         */
+        public static readonly KEYBOARD:number;
+
+        /**
+         * !#en The type code of Acceleration event.
+         * !#zh 加速器事件类型
+         * @constant
+         * @memberof cc.Event
+         * @type {String}
+         */
+        public static readonly ACCELERATION:number;
+
         /**
          * !#en The name of the event (case-sensitive), e.g. "click", "fire", or "submit".
          * !#zh 事件类型。
