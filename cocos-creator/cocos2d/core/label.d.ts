@@ -3,6 +3,7 @@
 declare namespace cc {
     //+--------------------------------------------------------------------------------
     //  File: cocos2d/core/label/CCSGLabel.js
+    //  NOTE: This file needs a lot of help, I'm not even sure if it should be included right now.
     //+--------------------------------------------------------------------------------
     export class FontLetterDefinition {
         public constructor();
