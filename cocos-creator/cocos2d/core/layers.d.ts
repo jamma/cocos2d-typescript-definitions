@@ -2,7 +2,7 @@
 
 declare namespace cc {
     //+--------------------------------------------------------------------------------
-    //  File: cocos2d/core/collider/CCLayer.js
+    //  File: cocos2d/core/layers/CCLayer.js
     //+--------------------------------------------------------------------------------
 
     /** cc.Layer is a subclass of ccsg.Node that implements the TouchEventsDelegate protocol.<br/>
@@ -343,9 +343,9 @@ declare namespace cc {
     }
 
     //+--------------------------------------------------------------------------------
-    //  File: cocos2d/core/collider/CCLayerCanvasRenderCmd.js
+    //  File: cocos2d/core/layers/CCLayerCanvasRenderCmd.js
     //+--------------------------------------------------------------------------------
 
     //+--------------------------------------------------------------------------------
-    //  File: cocos2d/core/collider/CCLayerWebGLRenderCmd.js
+    //  File: cocos2d/core/layers/CCLayerWebGLRenderCmd.js
     //+--------------------------------------------------------------------------------
