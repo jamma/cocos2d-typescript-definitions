@@ -1167,7 +1167,8 @@ declare namespace cc {
      * @param {Array} imgData
      * @returns {ImageFormat}
      */
-    export function getImageFormatByData(imgData:GLByte[]):ImageFormat;
+    // export function getImageFormatByData(imgData:GLByte[]):ImageFormat;
+    export function getImageFormatByData(imgData:number[]):ImageFormat;
 
     /**
      * Predefined constants
