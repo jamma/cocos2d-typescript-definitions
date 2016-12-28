@@ -299,16 +299,6 @@ declare namespace cc {
          */
         public color:Color;
 
-        public constructor();
-
-        /*
-        * Initializes the instance of cc.Node
-        * @method init
-        * @returns {Boolean} Whether the initialization was successful.
-        * @deprecated, no need anymore
-        */
-        public init:boolean;
-
         /**
          * !#en The local scale relative to the parent.
          * !#zh 节点相对父节点的缩放。
@@ -319,10 +309,18 @@ declare namespace cc {
          */
         public scale:number;
 
-
         ////////////////////////////////////////////////////////////
         // Instance methods
         ////////////////////////////////////////////////////////////
+        public constructor();
+
+        /*
+        * Initializes the instance of cc.Node
+        * @method init
+        * @returns {Boolean} Whether the initialization was successful.
+        * @deprecated, no need anymore
+        */
+        public init():boolean;
 
         /**
          * !#en

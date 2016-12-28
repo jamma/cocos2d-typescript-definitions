@@ -3,10 +3,8 @@
 declare namespace cc {
     //+--------------------------------------------------------------------------------
     // File: cocos2d/core/renderer/DirtyRegion.js
-    // NOTE: Ignoring this file.
     //+--------------------------------------------------------------------------------
-//Region is used to label a rect which world axis aligned.
-    // var Region = function () {
+
     export class Region {
 
     // var regionProto = Region.prototype;
