@@ -23,8 +23,9 @@
 /// <reference path="cocos2d/core/labelttf.d.ts" />
 /// <reference path="cocos2d/core/layers.d.ts" />
 /// <reference path="cocos2d/core/load-pipeline.d.ts" />
-/// <reference path="cocos2d/core/scene.d.ts" />
 /// <reference path="cocos2d/core/platform.d.ts" />
+/// <reference path="cocos2d/core/scene.d.ts" />
+/// <reference path="cocos2d/core/sprites.d.ts" />
 /// <reference path="cocos2d/core/utils.d.ts" />
 /// <reference path="cocos2d/core/value-types.d.ts" />
 
