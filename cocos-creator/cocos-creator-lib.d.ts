@@ -26,6 +26,7 @@
 /// <reference path="cocos2d/core/platform.d.ts" />
 /// <reference path="cocos2d/core/scene.d.ts" />
 /// <reference path="cocos2d/core/sprites.d.ts" />
+/// <reference path="cocos2d/core/support.d.ts" />
 /// <reference path="cocos2d/core/utils.d.ts" />
 /// <reference path="cocos2d/core/value-types.d.ts" />
 

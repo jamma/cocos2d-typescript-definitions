@@ -1,5 +1,8 @@
 /// <reference path="../../cocos-creator-lib.d.ts" />
 
+// NOTE: Still not sure what the CCSG classes are for, it looks like maybe they're Cococs Creator specific.
+//       Need to find out more before writing out these type definitions.
+
 declare namespace cc {
     //+--------------------------------------------------------------------------------
     // File: cocos2d/core/sprites/CCAnimation.js
@@ -1148,30 +1151,39 @@ declare namespace cc {
 
     //+--------------------------------------------------------------------------------
     // File: cocos2d/core/sprites/CCScale9SpriteCanvasRenderCmd.js
+    // NOTE: This file is ignored
     //+--------------------------------------------------------------------------------
     //+--------------------------------------------------------------------------------
     // File: cocos2d/core/sprites/CCScale9SpriteWebGLRenderCmd.js
+    // NOTE: This file is ignored
     //+--------------------------------------------------------------------------------
     //+--------------------------------------------------------------------------------
     // File: cocos2d/core/sprites/CCSGSprite.js
+    // NOTE: This file is ignored
     //+--------------------------------------------------------------------------------
     //+--------------------------------------------------------------------------------
     // File: cocos2d/core/sprites/CCSGSpriteCanvasRenderCmd.js
+    // NOTE: This file is ignored
     //+--------------------------------------------------------------------------------
     //+--------------------------------------------------------------------------------
     // File: cocos2d/core/sprites/CCSGSpriteWebGLRenderCmd.js
+    // NOTE: This file is ignored
     //+--------------------------------------------------------------------------------
     //+--------------------------------------------------------------------------------
     // File: cocos2d/core/sprites/CCSpriteBatchNode.js
+    // NOTE: This file is ignored
     //+--------------------------------------------------------------------------------
     //+--------------------------------------------------------------------------------
     // File: cocos2d/core/sprites/CCSpriteFrame.js
+    // NOTE: This file is ignored
     //+--------------------------------------------------------------------------------
     //+--------------------------------------------------------------------------------
     // File: cocos2d/core/sprites/CCSpriteFrameCache.js
+    // NOTE: This file is ignored
     //+--------------------------------------------------------------------------------
     //+--------------------------------------------------------------------------------
     // File: cocos2d/core/sprites/SpritesPropertyDefine.js
+    // NOTE: This file is ignored
     //+--------------------------------------------------------------------------------
 
 }
