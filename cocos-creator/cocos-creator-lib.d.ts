@@ -30,6 +30,10 @@
 /// <reference path="cocos2d/core/utils.d.ts" />
 /// <reference path="cocos2d/core/value-types.d.ts" />
 
+/// <reference path="cocos2d/effects.d.ts" />
+
+
+
 
 
 
