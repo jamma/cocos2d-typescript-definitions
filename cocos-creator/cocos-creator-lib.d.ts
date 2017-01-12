@@ -32,6 +32,8 @@
 
 /// <reference path="cocos2d/effects.d.ts" />
 
+/// <reference path="cocos2d/kazmath/standalone/aabb.d.ts" />
+
 
 
 
