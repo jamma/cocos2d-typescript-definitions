@@ -35,6 +35,15 @@
 /// <reference path="cocos2d/kazmath/standalone/aabb.d.ts" />
 /// <reference path="cocos2d/kazmath/standalone/mat3.d.ts" />
 /// <reference path="cocos2d/kazmath/standalone/mat4.d.ts" />
+/// <reference path="cocos2d/kazmath/standalone/plane.d.ts" />
+/// <reference path="cocos2d/kazmath/standalone/quaternion.d.ts" />
+/// <reference path="cocos2d/kazmath/standalone/ray2.d.ts" />
+/// <reference path="cocos2d/kazmath/standalone/utility.d.ts" />
+/// <reference path="cocos2d/kazmath/standalone/vec2.d.ts" />
+/// <reference path="cocos2d/kazmath/standalone/vec3.d.ts" />
+/// <reference path="cocos2d/kazmath/standalone/vec4.d.ts" />
+
+
 
 
 

@@ -3,6 +3,7 @@
 declare namespace cc.math {
     //+--------------------------------------------------------------------------------
     //  File: cocos2d/kazmath/standalone/mat4.js
+    //  NOTE: Includes definitions from: cocos2d/kazmath/standalone/mat4SIMD.js
     //+--------------------------------------------------------------------------------
     /**
      * Sets pOut to an identity matrix returns pOut
@@ -10,6 +11,8 @@ declare namespace cc.math {
      * @Return Returns pOut so that the call can be nested
      */
     export function mat4Identity(pOut:Matrix4):Matrix4;
+
+    export function mat4InverseSIMD(pOut:Matrix4, pM:Matrix4):Matrix4;
 
     /**
      * Calculates the inverse of pM and stores the result in pOut.
@@ -50,6 +53,14 @@ declare namespace cc.math {
      * the resulting matrix is stored in pOut. pOut is returned.
      */
     export function mat4LookAt(pOut:Matrix4, pEye:Vec3, pCenter:Vec3, pUp:Vec3):Matrix4;
+
+    export function mat4MultiplySIMD(pOut:Matrix4, pM1:Matrix4, pM2:Matrix4):Matrix4;
+
+    export function getMat4MultiplyValueSIMD(pM1:Matrix4, pM2:Matrix4):Matrix4;
+
+    export function mat4AssignSIMD(pOut:Matrix4, pIn:Matrix4):Matrix4;
+
+    export function mat4LookAtSIMD(pOut:Matrix4, pEye:Vec3, pCenter:Vec3, pUp:Vec3):Matrix4;
 
     /**
      * <p>
@@ -265,5 +276,15 @@ declare namespace cc.math {
          * @returns {*|{axis: cc.math.Vec3, angle: number}}
          */
         public toAxisAndAngle():???;
+
+        // SIMD methods
+        public inverseSIMD():Matrix4;
+        public isIdentitySIMD():Matrix4;
+        public transposeSIMD():Matrix4;
+        public multiplySIMD(mat4:Matrix4):Matrix4;
+        public assignFromSIMD(mat4:Matrix4):Matrix4;
+        public equalsSIMD(mat4:Matrix4):boolean;
+        public lookAtSIMD(eyeVec:Vec3, centerVec:Vec3, upVec:Vec3):Matrix4;
+
     }
 }

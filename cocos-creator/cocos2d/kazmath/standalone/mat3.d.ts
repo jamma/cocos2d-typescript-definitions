@@ -5,6 +5,8 @@ declare namespace cc.math {
     //  File: cocos2d/kazmath/standalone/mat3.js
     //+--------------------------------------------------------------------------------
     export class Matrix3 {
+        public mat:number[];
+
         public static rotationAxisAngle(axis:Vec3, radians:number):Matrix3;
 
         public static createByRotationX(radians:number):Matrix3;
