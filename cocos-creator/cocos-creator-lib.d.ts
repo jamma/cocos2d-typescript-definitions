@@ -43,7 +43,8 @@
 /// <reference path="cocos2d/kazmath/standalone/vec3.d.ts" />
 /// <reference path="cocos2d/kazmath/standalone/vec4.d.ts" />
 
-
+/// <reference path="cocos2d/labels.d.ts" />
+/// <reference path="cocos2d/menus.d.ts" />
 
 
 
