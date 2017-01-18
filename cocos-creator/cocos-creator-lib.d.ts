@@ -27,6 +27,7 @@
 /// <reference path="cocos2d/core/scene.d.ts" />
 /// <reference path="cocos2d/core/sprites.d.ts" />
 /// <reference path="cocos2d/core/support.d.ts" />
+/// <reference path="cocos2d/core/textures.d.ts" />
 /// <reference path="cocos2d/core/utils.d.ts" />
 /// <reference path="cocos2d/core/value-types.d.ts" />
 
@@ -45,6 +46,8 @@
 
 /// <reference path="cocos2d/labels.d.ts" />
 /// <reference path="cocos2d/menus.d.ts" />
+/// <reference path="cocos2d/motion-streak.d.ts" />
+/// <reference path="cocos2d/node-grid.d.ts" />
 
 
 
