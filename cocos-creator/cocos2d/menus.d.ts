@@ -680,6 +680,7 @@ declare namespace cc {
         /**
          * Constructor of cc.MenuItemToggle
         */
+        // NOTE: Unfortunately there's no good way to properly type this constructor. Unlike the C++ API, the callback and target are at the end of the variadic function's arguments.
         public constructor(...items:any[]);
 
         /**
