@@ -49,6 +49,7 @@
 /// <reference path="cocos2d/motion-streak.d.ts" />
 /// <reference path="cocos2d/node-grid.d.ts" />
 /// <reference path="cocos2d/parallax.d.ts" />
+/// <reference path="cocos2d/particle.d.ts" />
 
 
 

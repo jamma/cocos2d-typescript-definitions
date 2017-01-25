@@ -33,7 +33,7 @@ declare namespace cc {
      * @property {Number}           quadsToDraw     - Number of quads to draw
      */
     // cc.AtlasNode = _ccsg.Node.extend(/** @lends cc.AtlasNode# */{
-    export class AtlasNode extends Node {
+    export class AtlasNode extends _ccsg.Node {
         // TODO: Figure out if these are public properties or not
         // public textureAtlas:TextureAtlas;
         // public quadsToDraw:number;
