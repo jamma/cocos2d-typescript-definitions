@@ -184,8 +184,23 @@ declare namespace cc {
     rectForGID(gid: number): Rect
   }
 
+  /**
+   * A SAX Parser
+   * @class
+   * @name cc.saxParser
+   * @extends cc.Class
+   */
   class SAXParser {}
   
+  /**
+    *
+    * cc.plistParser is a singleton object for parsing plist files
+    * @class
+    * @name cc.plistParser
+    * @extends cc.SAXParser
+    */
+  class PlistParser extends SAXParser { }
+
   /**
    * <p>cc.TMXMapInfo contains the information about the map like: <br/>
    *- Map orientation (hexagonal, isometric or orthogonal)<br/>

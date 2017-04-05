@@ -154,6 +154,19 @@ declare namespace cc {
      */
     export function GLToClipTransform(xform: AffineTransform): void;
 
+
+    /**
+     * OpenGL projection protocol
+     * @class
+     * @extends cc.Class
+     */
+    export interface DirectorDelegate {
+        /**
+         * Called by CCDirector when the projection is updated, and "custom" projection is used
+         */
+        updateProjection(): void;
+    }
+    
     // Class Definitions
     /**
      * <p>
