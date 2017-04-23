@@ -1640,6 +1640,21 @@ declare namespace cc {
      * @extends cc.Class
      */
     export class ContainerStrategy extends Class {
+
+        /**
+         * Strategy that scale proportionally the container's size to frame's size
+         */
+        static PROPORTION_TO_FRAME: ContainerStrategy;
+
+        /**
+         * Strategy that makes the container's size equals to the frame's size
+         */
+        static EQUAL_TO_FRAME: ContainerStrategy;
+
+        /**
+         * Strategy that keeps the original container's size
+         */
+        static ORIGINAL_CONTAINER: ContainerStrategy;
         /**
          * Manipulation before appling the strategy
          * @param {cc.view} view The target view
@@ -1668,6 +1683,32 @@ declare namespace cc {
      * @extends cc.Class
      */
     export class ContentStrategy extends Class {
+
+        /**
+         * Strategy to scale the content's size to container's size, non proportional
+         */
+        static EXACT_FIT: ContentStrategy;
+
+        /**
+         * Strategy to scale the content's size proportionally to maximum size and keeps the whole content area to be visible
+         */
+        static SHOW_ALL: ContentStrategy;
+
+        /**
+         * Strategy to scale the content's size proportionally to fill the whole container area
+         */
+        static NO_BORDER: ContentStrategy;
+
+        /**
+         * Strategy to scale the content's height to container's height and proportionally scale its width
+         */
+        static FIXED_HEIGHT: ContentStrategy;
+
+        /**
+         * Strategy to scale the content's width to container's width and proportionally scale its height
+         */
+        static FIXED_WIDTH: ContentStrategy;
+
         /**
          * Manipulation before applying the strategy
          * @param {cc.view} view The target view

@@ -1066,6 +1066,11 @@ declare namespace cc {
     export const winSize:Size;
 
     // Parsers
+    /**
+     * @type {cc.SAXParser}
+     * @name cc.plistParser
+     * A SAX Parser
+     */
     export const saxParser:SAXParser;
 
     /**
@@ -1126,14 +1131,34 @@ declare namespace cc {
         export function setFrameRate(frameRate:number):void;
 
         /**
+         * Check whether the game is paused.
+         */
+        export function isPaused(): boolean;
+
+        /**
+         * Pause the game. 
+         */
+        export function pause(): void;
+
+        /**
          * Restart game.
          */
         export function restart():void;
 
         /**
+        * Resume the game from pause.
+        */
+        export function resume(): void;
+
+        /**
          * Run game.
          */
         export function run(id?:number):void;
+
+        /**
+         * End game, it will close the game window.
+         */
+        export function end(): void;
 
         /**
          * Prepare game.
